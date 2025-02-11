@@ -12,6 +12,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
   "description": "",
   "dependencies": {
     "phaser": "^3.87.0"
