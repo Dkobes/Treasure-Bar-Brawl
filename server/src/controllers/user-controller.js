@@ -1,6 +1,6 @@
 import express from 'express';
 import User from '../models/User.js';
-import { signToken } from '../middleware/auth.js';
+
 
 // get a single user by either their id or their username
 export const getSingleUser = async (req, res) => {
