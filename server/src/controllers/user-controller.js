@@ -1,5 +1,5 @@
-import express from 'express';
 import User from '../models/User.js';
+import { signToken } from '../middleware/auth.js';
 
 
 // get a single user by either their id or their username
@@ -31,7 +31,7 @@ export const createUser = async (req, res) => {
 // login a user, sign a token, and send it back (to client/src/components/LoginForm.js)
 // {body} is destructured req.body
 export const login = async (req, res) => {
-  const user = await User.findOne({ $or: { username: req.body.username } });
+  const user = await User.findOne({ username: req.body.username });
   if (!user) {
     res.status(400).json({ message: "Can't find this user" });
     return;

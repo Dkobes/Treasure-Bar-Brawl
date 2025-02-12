@@ -27,4 +27,11 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-export default authenticateToken;
+const signToken = (username, password, _id) => {
+  const payload = { username, password, _id };
+  const secretKey = process.env.JWT_SECRET_KEY;
+
+  return jwt.sign({ data: payload }, secretKey, { expiresIn: '2h' });
+}
+
+export { authenticateToken, signToken };
