@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import auth from '../../utils/auth';
+import "nes.css/css/nes.min.css";
 
 export const StartMenu = () => {
     const [username, setUsername] = useState('');
