@@ -1,7 +1,5 @@
-const forceDatabaseRefresh = false;
-
 import express from 'express';
-import sequelize from "./config/connection.js";
+import db from './config/connection.js';
 import routes from './routes/index.js';
 import Userroutes from './routes/api/userroutes.js';
 // import authMiddleware from './middleware/auth.js'; 
@@ -26,8 +24,8 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
   });
 
-sequelize.sync({ force: forceDatabaseRefresh }).then(() => {
+db.once('open', () => {
     app.listen(PORT, () => {
         console.log(`Server is listening on port ${PORT}`);
     });
-});
+})
