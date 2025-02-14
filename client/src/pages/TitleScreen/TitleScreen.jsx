@@ -1,6 +1,7 @@
 import "nes.css/css/nes.min.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import TitleScreenImage from "../../assets/images/title-screen.jpg";
 
 const TitleScreen = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const TitleScreen = () => {
       style={{
         width: "100vw",
         height: "100vh",
-        backgroundImage: "url(/assets/pixelTitle/titlescreen.png)",
+        backgroundImage: `url(${TitleScreenImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         display: "flex",
