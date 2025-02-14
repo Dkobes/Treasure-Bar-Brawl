@@ -2,7 +2,7 @@ import { useState } from 'react';
 import auth from '../../utils/auth';
 import "nes.css/css/nes.min.css";
 
-export const StartMenu = () => {
+const StartMenu = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showSignup, setShowSignup] = useState(false);
@@ -146,3 +146,5 @@ export const StartMenu = () => {
         </div>
     );
 };
+
+export default StartMenu;
