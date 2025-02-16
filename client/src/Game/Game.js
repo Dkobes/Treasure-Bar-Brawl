@@ -38,7 +38,7 @@ class Game extends Phaser.Game {
                   abilities: [
                     { name: "Sneak Attack", damage: 50, cooldown: 0.5, level: 1 }, 
                      { name: "Viper's Kiss", damage: 100, cooldown: 1, level: 3 },
-                    {}] 
+                    { name: "Shadow Strike", damage: 200, cooldown: 2, level: 5 }] 
                 },
             ],
             enemies: [], // Enemies will be set dynamically
