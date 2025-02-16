@@ -29,10 +29,16 @@ class Game extends Phaser.Game {
                      { name: "Meteor Swarm", damage: 200, cooldown: 2, level: 5 }] 
                 },
                 { name: "Baileigh", level: 1, xp: 0, hp: 100, mp: 140, stats: { Speed: 18, Attack: 14, Defense: 12, Resist: 16, Magic: 20 },
-                  abilities: [{ name: "Eldritch Blast", damage: 50, cooldown: 0.5, level: 1 }, { name: "Shatter", damage: 100, cooldown: 1, level: 3 }] 
+                  abilities: [
+                    { name: "Eldritch Blast", damage: 50, cooldown: 0.5, level: 1 }, 
+                     { name: "Shatter", damage: 100, cooldown: 1, level: 3 },
+                    { name: "Shadow Curse", damage: 200, cooldown: 2, level: 5 }] 
                 },
                 { name: "Danny", level: 1, xp: 0, hp: 140, mp: 100, stats: { Speed: 20, Attack: 18, Defense: 16, Resist: 14, Magic: 12 },
-                  abilities: [{ name: "Sneak Attack", damage: 50, cooldown: 0.5, level: 1 }, { name: "Viper's Kiss", damage: 100, cooldown: 1, level: 3 }] 
+                  abilities: [
+                    { name: "Sneak Attack", damage: 50, cooldown: 0.5, level: 1 }, 
+                     { name: "Viper's Kiss", damage: 100, cooldown: 1, level: 3 },
+                    {}] 
                 },
             ],
             enemies: [], // Enemies will be set dynamically
