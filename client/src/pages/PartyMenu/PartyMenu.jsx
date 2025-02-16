@@ -5,10 +5,10 @@ import { useHistory } from "react-router-dom";
 export const PartyMenu = () => {
     const history = useHistory();
     const [party, setParty] = useState([
-        { name: "Ty", level: 1, hp: 200, mp: 50, stats: { str: 10, mag: 10, def: 10, res: 10, spd: 10 } },
-        { name: "Colt", level: 1, hp: 120, mp: 120, stats: { str: 10, mag: 10, def: 10, res: 10, spd: 10 } },
-        { name: "Bailz", level: 1, hp: 150, mp: 120, stats: { str: 10, mag: 10, def: 10, res: 10, spd: 10 } },
-        { name: "Dany", level: 1, hp: 180, mp: 50, stats: { str: 10, mag: 10, def: 10, res: 10, spd: 10 } }
+        { name: "Tyler", level: 1, hp: 200, mp: 50, stats: { str: 10, mag: 10, def: 10, res: 10, spd: 10 } },
+        { name: "Colton", level: 1, hp: 120, mp: 120, stats: { str: 10, mag: 10, def: 10, res: 10, spd: 10 } },
+        { name: "Baileigh", level: 1, hp: 150, mp: 120, stats: { str: 10, mag: 10, def: 10, res: 10, spd: 10 } },
+        { name: "Danny", level: 1, hp: 180, mp: 50, stats: { str: 10, mag: 10, def: 10, res: 10, spd: 10 } }
     ]);
 
     return (

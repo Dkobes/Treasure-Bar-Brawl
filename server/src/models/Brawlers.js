@@ -31,15 +31,15 @@ const tyler = new Character({
     name: "Tyler",
     stats: {
         Speed: 12,
-        Attack: 20,
-        Defense: 18,
-        Resist: 14,
-        Magic: 16,
+        Attack: 16,
+        Defense: 20,
+        Resist: 18,
+        Magic: 14,
     },
     abilities: [
-        { name: "Punch", damage: 50, cooldown: 0.5 },
-        { name: "Kick", damage: 100, cooldown: 1 },
-        { name: "Slap", damage: 200, cooldown: 2 }
+        { name: "Prayer", heal: 50, cooldown: 0.5 },
+        { name: "Shield", damage: 100, cooldown: 1 },
+        { name: "Holy Blade", damage: 200, cooldown: 2 }
     ]
 });
 
@@ -56,9 +56,9 @@ const danny = new Character({
         Magic: 12,
     },
     abilities: [
-        { name: "Sneak attack", damage: 50, cooldown: 0.5 },
-        { name: "Attack2", damage: 100, cooldown: 1 },
-        { name: "Attack3", damage: 200, cooldown: 2 }
+        { name: "Sneak Attack", damage: 50, cooldown: 0.5 },
+        { name: "Viper's Kiss", damage: 100, cooldown: 1 },
+        { name: "Shadow Strike", damage: 200, cooldown: 2 }
     ]
 });
 
@@ -96,7 +96,7 @@ const colton = new Character({
     abilities: [
         { name: "Fire Bolt", damage: 50, cooldown: 0.5 },
         { name: "Fireball", damage: 100, cooldown: 1 },
-        { name: "Fire Meteor", damage: 200, cooldown: 2 }
+        { name: "Meteor Swarm", damage: 200, cooldown: 2 }
     ]
 });
 
