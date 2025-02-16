@@ -26,7 +26,7 @@ class Game extends Phaser.Game {
                   abilities: [
                     { name: "Fire Bolt", damage: 50, cooldown: 0.5, level: 1 },
                      { name: "Fireball", damage: 100, cooldown: 1, level: 3 },
-                     { name: "Inferno", damage: 200, cooldown: 2, level: 5 }] 
+                     { name: "Meteor Swarm", damage: 200, cooldown: 2, level: 5 }] 
                 },
                 { name: "Baileigh", level: 1, xp: 0, hp: 100, mp: 140, stats: { Speed: 18, Attack: 14, Defense: 12, Resist: 16, Magic: 20 },
                   abilities: [{ name: "Eldritch Blast", damage: 50, cooldown: 0.5, level: 1 }, { name: "Shatter", damage: 100, cooldown: 1, level: 3 }] 
