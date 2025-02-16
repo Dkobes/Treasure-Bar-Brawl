@@ -17,8 +17,18 @@ const BattleScene = class extends Phaser.Scene {
 
     preload() {
         this.load.image('battleBackground', '/assets/battle-bg.png');
-        this.load.image('playerSprite', '/assets/player.png');
-        this.load.image('enemySprite', '/assets/enemy.png');
+        this.load.image('playerSprite', '/assets/playerSprite/baileigh.png');
+        this.load.image('playerSprite', '/assets/playerSprite/colton.png');
+        this.load.image('playerSprite', '/assets/playerSprite/dany.png');
+        this.load.image('playerSprite', '/assets/playerSprite/tyler.png');
+        this.load.image('enemySprite', '/assets/enemySprite/enemy1.png');
+        this.load.image('enemySprite', '/assets/enemySprite/enemy2.png');
+        this.load.image('enemySprite', '/assets/enemySprite/enemy3.png');
+        this.load.image('enemySprite', '/assets/enemySprite/enemy4.png');
+        this.load.image('enemySprite', '/assets/enemySprite/enemy5.png');
+        this.load.image('enemySprite', '/assets/enemySprite/enemy6.png');
+        this.load.image('enemySprite', '/assets/enemySprite/enemy7.png');
+        this.load.image('enemySprite', '/assets/enemySprite/enemy8.png');
     }
 
     create() {
