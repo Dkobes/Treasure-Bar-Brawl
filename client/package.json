@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "grid-engine": "^2.46.2",
     "jwt-decode": "^4.0.0",
     "nes.css": "^2.2.1",
     "phaser": "^3.87.0",

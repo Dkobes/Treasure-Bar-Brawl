@@ -1,12 +1,23 @@
 import Phaser from 'phaser';
-//import BattleScene from './battleScreen';
+import { GridEngine } from 'grid-engine';
+import BattleScene from '../pages/BattleScreen/BattleScreen';
 
 class Game extends Phaser.Game {
     constructor() {
         const config = {
             type: Phaser.AUTO,
+            plugins: {
+              scene: [
+                  {
+                      key: "gridEngine",
+                      plugin: GridEngine,
+                      mapping: "gridEngine",
+                  },
+              ],
+            },
             width: 800,
             height: 600,
+            pixelArt: true,
             parent: 'phaser-container',
             scene: [BattleScene],
         };
