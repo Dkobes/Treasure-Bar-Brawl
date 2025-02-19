@@ -2,8 +2,10 @@ import { useState } from 'react';
 import auth from '../../utils/auth';
 import "nes.css/css/nes.min.css";
 import './StartMenu.css';
+import { useNavigate } from 'react-router-dom';
 
 const StartMenu = () => {
+    const Navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showSignup, setShowSignup] = useState(false);
@@ -34,6 +36,8 @@ const StartMenu = () => {
                 setUsername('');
                 setPassword('');
                 setStyle({visibility: 'hidden'});
+
+                Navigate('/world');
             } catch(err) {
                 console.error('Failed to create user: ', err);
             }
@@ -69,6 +73,8 @@ const StartMenu = () => {
                 setUsername('');
                 setPassword('');
                 setStyle({visibility: 'hidden'});
+
+                Navigate('/world');
             } catch (err) {
                 console.error('Failed to fetch user info: ', err);
             }

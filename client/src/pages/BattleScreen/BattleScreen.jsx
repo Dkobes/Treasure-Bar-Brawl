@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Game from '../../Game/Game.js';
 import './BattleScreen.css';
 
 const BattleScene = class extends Phaser.Scene {
