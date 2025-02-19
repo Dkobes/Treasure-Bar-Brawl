@@ -10,7 +10,7 @@ export const PartyMenu = () => {
     useEffect(() => {
         const fetchParty = async () => {
             try {
-                const response = await fetch('/server/src/models/Brawlers.js'); // Fetch party data from the server
+                const response = await fetch('/api/party'); // Fetch party data from the server
                 const data = await response.json();
                 setParty(data);
             } catch (error) {

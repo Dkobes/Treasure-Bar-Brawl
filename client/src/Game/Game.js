@@ -29,8 +29,8 @@ class Game extends Phaser.Game {
             party: [
                 { name: "Tyler", level: 1, xp: 0, hp: 200, mp: 50, stats: { Speed: 12, Attack: 16, Defense: 20, Resist: 18, Magic: 14 }, 
                   abilities: [
-                    { name: "Prayer", heal: 50, cooldown: 0.5, level: 1 },
-                     { name: "Shield", damage: 100, cooldown: 1, level: 3 },
+                    { name: "Holy Bolt", heal: 50, cooldown: 0.5, level: 1 },
+                     { name: "Holy Shock", damage: 100, cooldown: 1, level: 3 },
                      { name: "Holy Blade", damage: 200, cooldown: 2, level: 5 }] 
                 },
                 { name: "Colton", level: 1, xp: 0, hp: 120, mp: 120, stats: { Speed: 16, Attack: 18, Defense: 12, Resist: 14, Magic: 20 },
