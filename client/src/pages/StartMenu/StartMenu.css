@@ -1,0 +1,14 @@
+.nes-container.is-dark.with-title {
+    text-align: center;
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  .hidden {
+    visibility: hidden;
+  }
+  
+  .visible {
+    visibility: visible;
+  }

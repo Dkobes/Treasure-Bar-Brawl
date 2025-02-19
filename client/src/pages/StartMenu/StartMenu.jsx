@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import auth from '../../utils/auth';
 import "nes.css/css/nes.min.css";
+import './StartMenu.css';
 
 const StartMenu = () => {
     const [username, setUsername] = useState('');
@@ -84,7 +85,7 @@ const StartMenu = () => {
     }
 
     return (
-        <div className="nes-container is-dark with-title" style={{ textAlign: "center", padding: "20px", maxWidth: "400px", margin: "auto" }}>
+        <div className="nes-container is-dark with-title">
             <div>
                 {!showSignup && !showLogin && (
                     <>
