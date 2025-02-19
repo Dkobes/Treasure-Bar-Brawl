@@ -1,6 +1,7 @@
 import "nes.css/css/nes.min.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import './PartyMenu.css';
 
 export const PartyMenu = () => {
     const navigate = useNavigate();
