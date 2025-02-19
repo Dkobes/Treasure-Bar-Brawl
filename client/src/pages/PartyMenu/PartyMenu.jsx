@@ -20,11 +20,11 @@ export const PartyMenu = () => {
     }, []);
 
     return (
-        <div className="nes-container with-title is-dark" style={{ padding: "20px", maxWidth: "600px", margin: "auto" }}>
+        <div className="nes-container with-title is-dark">
             <p className="title">Party Menu</p>
             {party.length > 0 ? (
                 party.map((character, index) => (
-                    <div key={index} className="nes-container is-rounded is-light" style={{ marginBottom: "10px", padding: "10px" }}>
+                    <div key={index} className="nes-container is-rounded is-light character-container">
                         <p><strong>{character.name}</strong> (Level {character.stats.Level})</p>
                         <p>HP: {character.stats.HP} | MP: {character.stats.MP}</p>
                         <p>STR: {character.stats.Attack} | MAG: {character.stats.Magic} | DEF: {character.stats.Defense}</p>
@@ -34,7 +34,7 @@ export const PartyMenu = () => {
             ) : (
                 <p className="nes-text is-warning">Loading party data...</p>
             )}
-            <div className="button-container" style={{ display: "flex", justifyContent: "space-around", marginTop: "20px" }}>
+            <div className="button-container">
                 <button className="nes-btn is-primary">SAVE</button>
                 <button className="nes-btn is-primary" onClick={() => navigate(-1)}>BACK</button>
                 <button className="nes-btn is-error">QUIT</button>
