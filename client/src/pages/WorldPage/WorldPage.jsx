@@ -2,6 +2,7 @@ import "nes.css/css/nes.min.css";
 import Phaser from 'phaser';
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import './WorldPage.css';
 
 export const WorldScene = () => {
     const navigate = useNavigate();
