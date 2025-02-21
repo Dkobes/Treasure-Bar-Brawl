@@ -47,6 +47,11 @@ const WorldScene = class extends Phaser.Scene {
 
     preload () {
         // add in correct items to load
+        this.load.image('skeleton', '../src/assets/enemySprite/skeleton.png');
+        this.load.image('vampirate', '../src/assets/enemySprite/vampirate.png');
+        this.load.image('iceElf', '../src/assets/enemySprite/iceElf.png');
+        this.load.image('grandma', '../src/assets/enemySprite/grandma.png');
+        this.load.image('stan', '../src/assets/enemySprite/sorcererStan.png');
         this.load.image('colton', '../src/assets/playerSprite/colton.png');
         this.load.image('baseTiles', '../src/assets/images/bar-base-tileset.png');
         this.load.image('furnitureTiles', '../src/assets/images/bar-furniture-tileset.png');
@@ -57,13 +62,18 @@ const WorldScene = class extends Phaser.Scene {
         //bar
         this.cameras.main.setZoom(2);
         const tilemap = this.make.tilemap({ key: "tilemap" });
-        tilemap.addTilesetImage("bar-base-tileset", "baseTiles");
-        tilemap.addTilesetImage("bar-furniture-tileset", "furnitureTiles");
-        tilemap.createLayer(0, "bar-base-tileset", 0, 0);
-        tilemap.createLayer(1, "bar-furniture-tileset", 0, 0);
+        tilemap.addTilesetImage("base", "baseTiles");
+        tilemap.addTilesetImage("furniture", "furnitureTiles");
+        tilemap.createLayer(0, "base", 0, 0);
+        tilemap.createLayer(1, "furniture", 0, 0);
 
         //player sprite
         this.player = this.add.sprite(0, 0, 'colton').setScale(0.75); //add in correct name for player
+        this.skeleton = this.add.sprite(0, 0, 'skeleton').setScale(0.75);
+        this.vampirate = this.add.sprite(0, 0, 'vampirate').setScale(0.75);
+        this.elf = this.add.sprite(0, 0, 'iceElf').setScale(0.75);
+        this.grandma = this.add.sprite(0, 0, 'grandma').setScale(0.75);
+        this.stan = this.add.sprite(0, 0, 'stan').setScale(0.75);
         this.cameras.main.setScroll(-275, -175)
 
         //creates tilemap
@@ -73,6 +83,36 @@ const WorldScene = class extends Phaser.Scene {
                     id: "colton",
                     sprite: this.player,
                     startPosition: { x: 1, y: 7},
+                    offsetY: -4,
+                },
+                {
+                    id: "skeleton",
+                    sprite: this.skeleton,
+                    startPosition: { x: 1, y: 2},
+                    offsetY: -4,
+                },
+                {
+                    id: "vampirate",
+                    sprite: this.vampirate,
+                    startPosition: { x: 3, y: 2},
+                    offsetY: -4,
+                },
+                {
+                    id: "elf",
+                    sprite: this.elf,
+                    startPosition: { x: 6, y: 4},
+                    offsetY: -4,
+                },
+                {
+                    id: "grandma",
+                    sprite: this.grandma,
+                    startPosition: { x: 6, y: 6},
+                    offsetY: -4,
+                },
+                {
+                    id: "stan",
+                    sprite: this.stan,
+                    startPosition: { x: 3, y: 0},
                     offsetY: -4,
                 },
             ],
