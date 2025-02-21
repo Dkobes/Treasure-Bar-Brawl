@@ -4,50 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './BattleScreen.css';
 import { GridEngine } from 'grid-engine';
 
-const tilemapData = {
-    "height": 10,
-    "width": 10,
-    "tilewidth": 32,
-    "tileheight": 32,
-    "layers": [
-      {
-        "data": [
-          1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-          1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-        ],
-        "height": 10,
-        "name": "Tile Layer 1",
-        "opacity": 1,
-        "type": "tilelayer",
-        "visible": true,
-        "width": 10,
-        "x": 0,
-        "y": 0
-      }
-    ],
-    "tilesets": [
-      {
-        "firstgid": 1,
-        "image": "assets/images/dungeon-tileset.png",
-        "imageheight": 32,
-        "imagewidth": 32,
-        "margin": 0,
-        "name": "dungeon-tileset",
-        "spacing": 0,
-        "tilecount": 1,
-        "tileheight": 32,
-        "tilewidth": 32
-      }
-    ]
-  };
+
 
 export const BattleScreen = () => {
     const navigate = useNavigate();
@@ -93,13 +50,30 @@ const BattleScene = class extends Phaser.Scene {
         // add in correct items to load
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
         this.load.image('tiles', '../src/assets/images/dungeon-tileset.png');
+        this.load.json('dungeon', '../src/assets/maps/Dungeon.json');
     }
 
     create() {
-        //bar
-        const map = this.make.tilemap({ data: tilemapData, tileWidth: 32, tileHeight: 32 });
+        const dungeonData = this.cache.json.get('dungeon');
+        if (!dungeonData) {
+            console.error('Failed to load dungeon data');
+            return;
+        }
+    
+        const tilemapData = this.convertDungeonDataToTilemap(dungeonData);
+
+        console.log('Tilemap Data:', tilemapData);
+
+        const map = this.make.tilemap({ data: tilemapData, tileWidth: 16, tileHeight: 16 });
         const tileset = map.addTilesetImage('dungeon-tileset', 'tiles');
-        map.createLayer('Tile Layer 1', tileset, 0, 0);
+        const layer = map.createLayer('Floor', tileset, 0, 0);
+
+        if (!layer) {
+            console.error('Failed to create layer "Floor"');
+            return;
+        }
+
+        console.log('Layer:', layer);
        
 
         //player sprite
@@ -135,6 +109,25 @@ const BattleScene = class extends Phaser.Scene {
         } else if (this.cursors.down.isDown) {
             this.player.y += 3;
         }
+    }
+
+    convertDungeonDataToTilemap(dungeonData) {
+        console.log('Converting dungeon data to tilemap...');
+        const layer = dungeonData.layers.find(layer => layer.name === 'Floor');
+        if (!layer) {
+            console.error('Failed to find Floor layer in dungeon data');
+            return [];
+        }
+        const width = dungeonData.mapWidth;
+        const height = dungeonData.mapHeight;
+        const data = new Array(height).fill(0).map(() => new Array(width).fill(0));
+
+        layer.tiles.forEach(tile => {
+            data[tile.y][tile.x] = parseInt(tile.id, 10) + 1; // Phaser uses 1-based indexing for tiles
+        });
+
+        console.log('Converted tilemap data:', data);
+        return data;
     }
 };
 
