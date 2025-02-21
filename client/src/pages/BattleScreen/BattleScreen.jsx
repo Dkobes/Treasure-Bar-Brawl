@@ -105,6 +105,11 @@ const BattleScene = class extends Phaser.Scene {
     
         // Assuming you want to work with the "Floor" layer, which is the last layer in your case
         const floorLayer = layers.find(layer => layer.name === 'Floor');
+        const wallLayer = layers.find(layer => layer.name === 'Walls');
+        const wallsidesLayer = layers.find(layer => layer.name === 'Walls sides');
+        const wallpillarsLayer = layers.find(layer => layer.name === 'Walls pillars');
+        const miscLayer = layers.find(layer => layer.name === 'Miscs');
+        const doorLayer = layers.find(layer => layer.name === 'Doors');
         
         if (!floorLayer || !floorLayer.tiles) {
             console.error('Floor layer not found or has no tiles');
@@ -125,6 +130,31 @@ const BattleScene = class extends Phaser.Scene {
             const { x, y, id } = tile; // Assuming each tile has x, y, and id properties
             tilemapData[y][x] = id; // Set the tile ID at the correct position
         });
+        wallLayer.tiles.forEach(tile => {  
+            const { x, y, id } = tile; 
+            tilemapData[y][x] = id; 
+        }
+        );
+        wallsidesLayer.tiles.forEach(tile => {
+            const { x, y, id } = tile; 
+            tilemapData[y][x] = id; 
+        }
+        );
+        wallpillarsLayer.tiles.forEach(tile => {
+            const { x, y, id } = tile; 
+            tilemapData[y][x] = id; 
+        }
+        );
+        miscLayer.tiles.forEach(tile => {
+            const { x, y, id } = tile; 
+            tilemapData[y][x] = id; 
+        }
+        );
+        doorLayer.tiles.forEach(tile => {
+            const { x, y, id } = tile; 
+            tilemapData[y][x] = id; 
+        }
+        );
     
         return tilemapData;
     }
