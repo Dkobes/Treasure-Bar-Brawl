@@ -59,11 +59,12 @@ const WorldScene = class extends Phaser.Scene {
         const tilemap = this.make.tilemap({ key: "tilemap" });
         tilemap.addTilesetImage("bar-base-tileset", "baseTiles");
         tilemap.addTilesetImage("bar-furniture-tileset", "furnitureTiles");
-        tilemap.createLayer(0, "bar-base-tileset", 275, 175);
-        tilemap.createLayer(1, "bar-furniture-tileset", 275, 175);
+        tilemap.createLayer(0, "bar-base-tileset", 0, 0);
+        tilemap.createLayer(1, "bar-furniture-tileset", 0, 0);
 
         //player sprite
         this.player = this.add.sprite(0, 0, 'colton').setScale(0.75); //add in correct name for player
+        this.cameras.main.setScroll(-275, -175)
 
         //creates tilemap
         const gridEngineConfig = {
@@ -71,29 +72,28 @@ const WorldScene = class extends Phaser.Scene {
                 {
                     id: "colton",
                     sprite: this.player,
-                    startPosition: { x: 9.5, y: 12.5 },
+                    startPosition: { x: 1, y: 7},
                     offsetY: -4,
                 },
             ],
         };
 
         this.gridEngine.create(tilemap, gridEngineConfig);
-
-        //arrow key input for movement
-        this.cursors = this.input.keyboard.createCursorKeys();
     }
 
     update() {
+        //arrow key input for movement
+        this.cursors = this.input.keyboard?.createCursorKeys();
+        this.gridEngine.setSpeed("colton", 3);
+        
         if (this.cursors.left.isDown) {
-            this.player.x -= 3;
+            this.gridEngine.move("colton", "left");
         } else if (this.cursors.right.isDown) {
-            this.player.x += 3;
-        }
-
-        if (this.cursors.up.isDown) {
-            this.player.y -= 3;
+            this.gridEngine.move("colton", "right");
+        } else if (this.cursors.up.isDown) {
+            this.gridEngine.move("colton", "up");
         } else if (this.cursors.down.isDown) {
-            this.player.y += 3;
+            this.gridEngine.move("colton", "down");
         }
     }
 };
