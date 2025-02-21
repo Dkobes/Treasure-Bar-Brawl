@@ -6,7 +6,7 @@ body {
 .title-screen {
     width: 100vw;
     height: 100vh;
-    background-image: url(../../assets/images/title-Screen.jpg);
+    background-image: url(../../assets/images/titleScreen.png);
     background-size: contain;
     background-position: 150px;
     background-repeat: no-repeat;
