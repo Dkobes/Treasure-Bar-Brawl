@@ -18,7 +18,7 @@ body {
 .title-screen button {
     margin-bottom: 55px;
     padding: 15px 30px;
-    transform: translateX(-300px);
+    transition: transform 0.3s ease-in-out;
     font-size: 24px;
     font-weight: bold;
     background-color: #ffcc00;
@@ -26,4 +26,60 @@ body {
     border-radius: 10px;
     cursor: pointer;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    position: relative;
+    left: -300px;
+}
+
+/* Media Queries */
+
+@media (max-width: 1024px) and (min-width: 900px) {
+    .title-screen {
+        background-size: contain;
+    }
+
+    .title-screen button {
+        left: -150px;
+        font-size: 22px;
+        margin-bottom: 50px;
+        padding: 16px 32px;
+    }
+}
+
+@media (max-width: 900px) and (min-width: 768px) {
+    .title-screen {
+        background-size: cover;
+    }
+
+    .title-screen button {
+        left: -135px;
+        font-size: 21px;
+        margin-bottom: 42px;
+        padding: 14px 28px;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 480px) {
+    .title-screen {
+        background-size: cover;
+    }
+
+    .title-screen button {
+        left: -125px;
+        font-size: 19px;
+        margin-bottom: 40px;
+        padding: 14px 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-screen {
+        background-size: cover;
+    }
+
+    .title-screen button {
+        left: -100px;
+        font-size: 18px;
+        margin-bottom: 35px;
+        padding: 12px 25px;
+    }
 }
