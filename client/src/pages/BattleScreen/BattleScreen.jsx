@@ -4,6 +4,50 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './BattleScreen.css';
 import { GridEngine } from 'grid-engine';
 
+const tilemapData = {
+    "height": 10,
+    "width": 10,
+    "tilewidth": 32,
+    "tileheight": 32,
+    "layers": [
+      {
+        "data": [
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+          1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+        ],
+        "height": 10,
+        "name": "Tile Layer 1",
+        "opacity": 1,
+        "type": "tilelayer",
+        "visible": true,
+        "width": 10,
+        "x": 0,
+        "y": 0
+      }
+    ],
+    "tilesets": [
+      {
+        "firstgid": 1,
+        "image": "assets/images/dungeon-tileset.png",
+        "imageheight": 32,
+        "imagewidth": 32,
+        "margin": 0,
+        "name": "dungeon-tileset",
+        "spacing": 0,
+        "tilecount": 1,
+        "tileheight": 32,
+        "tilewidth": 32
+      }
+    ]
+  };
 
 export const BattleScreen = () => {
     const navigate = useNavigate();
@@ -42,22 +86,20 @@ export const BattleScreen = () => {
 
 const BattleScene = class extends Phaser.Scene {
     constructor() {
-        super ({ key: 'WorldScene' });
+        super ({ key: 'BattleScene' });
     }
 
     preload () {
         // add in correct items to load
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
-        this.load.image('baseTiles', '../src/assets/images/dungeon-tileset.png');
-        this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/Dungeon.json');
-        console.log('Assets are being loaded');
+        this.load.image('tiles', '../src/assets/images/dungeon-tileset.png');
     }
 
     create() {
         //bar
-        this.cameras.main.setZoom(2);
-        const tilemap = this.make.tilemap({ key: "tilemap" });
-        tilemap.addTilesetImage("dungeon-tileset", "baseTiles");
+        const map = this.make.tilemap({ data: tilemapData, tileWidth: 32, tileHeight: 32 });
+        const tileset = map.addTilesetImage('dungeon-tileset', 'tiles');
+        map.createLayer('Tile Layer 1', tileset, 0, 0);
        
 
         //player sprite
@@ -75,7 +117,7 @@ const BattleScene = class extends Phaser.Scene {
             ],
         };
 
-        this.gridEngine.create(tilemap, gridEngineConfig);
+        this.gridEngine.create(map, gridEngineConfig);
 
         //arrow key input for movement
         this.cursors = this.input.keyboard.createCursorKeys();
