@@ -2,11 +2,11 @@ import "nes.css/css/nes.min.css";
 import Phaser from 'phaser';
 import { GridEngine } from 'grid-engine';
 import { useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import './WorldPage.css';
 
 export const WorldScreen = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         const config = {
@@ -35,7 +35,6 @@ export const WorldScreen = () => {
     return (
         <div>
             <div id="phaser-game"></div>
-            <button onClick={() => navigate('/battle')}>Enter Battle</button>
         </div>
     );
 };
@@ -75,6 +74,8 @@ const WorldScene = class extends Phaser.Scene {
         this.grandma = this.add.sprite(0, 0, 'grandma').setScale(0.75);
         this.stan = this.add.sprite(0, 0, 'stan').setScale(0.75);
         this.cameras.main.setScroll(-275, -175)
+
+        this.txt = this.add.text(80, 257, 'Press space to battle', { font: '"Press Start 2P"', color: '#000000' });
 
         //creates tilemap
         const gridEngineConfig = {
@@ -125,6 +126,7 @@ const WorldScene = class extends Phaser.Scene {
         //arrow key input for movement
         this.cursors = this.input.keyboard?.createCursorKeys();
         this.gridEngine.setSpeed("colton", 3);
+        const pos = JSON.stringify(this.gridEngine.getPosition("colton"));
         
         if (this.cursors.left.isDown) {
             this.gridEngine.move("colton", "left");
@@ -135,6 +137,34 @@ const WorldScene = class extends Phaser.Scene {
         } else if (this.cursors.down.isDown) {
             this.gridEngine.move("colton", "down");
         }
+
+        if (pos === '{"x":1,"y":3}') {
+            this.txt.setColor('#ffffff');
+        } else if (pos === '{"x":3,"y":3}') {
+            this.txt.setColor('#ffffff');
+        } else if (pos === '{"x":4,"y":2}') {
+            this.txt.setColor('#ffffff');
+        } else if (pos === '{"x":6,"y":3}') {
+            this.txt.setColor('#ffffff');
+        } else if (pos === '{"x":7,"y":4}') {
+            this.txt.setColor('#ffffff');
+        } else if (pos === '{"x":7,"y":6}') {
+            this.txt.setColor('#ffffff');
+        } else if (pos === '{"x":6,"y":7}') {
+            this.txt.setColor('#ffffff');
+        } else if (pos === '{"x":5,"y":6}') {
+            this.txt.setColor('#ffffff');
+        } else if (pos === '{"x":4,"y":0}') {
+            this.txt.setColor('#ffffff');
+        } else {
+            this.txt.setColor('#000000');
+        }
+
+        this.cursors.space.once("down", () => {
+            if (this.txt.style.color === '#ffffff') {
+                window.location.assign('/battle');
+            }
+        })
     }
 };
 
