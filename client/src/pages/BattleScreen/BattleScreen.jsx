@@ -50,38 +50,40 @@ const BattleScene = class extends Phaser.Scene {
         // add in correct items to load
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
         this.load.image('tiles', '../src/assets/images/dungeon-tileset.png');
-        this.load.json('dungeon', '../src/assets/maps/Dungeon.json');
+        this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/dungeon.json');
     }
 
     create() {
-        const dungeonData = this.cache.json.get('dungeon');
-        if (!dungeonData) {
-            console.error('Failed to load dungeon data');
-            return;
-        }
+        this.cameras.main.setZoom(2);
+        const tilemap = this.make.tilemap({ key: "tilemap" });
+
+        console.log('Tilemap:', tilemap); // Check if the tilemap is loaded correctly
+    console.log('Tilemap layers:', tilemap.layers); 
+
+    const tileset = tilemap.addTilesetImage("32x32 Dungeon", "tiles");
+
+          // Create layers using layer names
+          const floorLayer = tilemap.createLayer('Floor', tileset, 0, 0);
+          const wallLayer = tilemap.createLayer('Walls', tileset, 0, 0);
+          const wallsidesLayer = tilemap.createLayer('Side Walls and Pillars', tileset, 0, 0);
+          
+  
+          // Check if any layer is null
+          if (!floorLayer) console.error('Failed to create layer "Floor"');
+          if (!wallLayer) console.error('Failed to create layer "Walls"');
+          if (!wallsidesLayer) console.error('Failed to create layer "Walls sides"');
+          
+  
+          // Set the depth of each layer to ensure correct stacking
+          if (floorLayer) floorLayer.setDepth(0);
+          if (wallLayer) wallLayer.setDepth(1);
+          if (wallsidesLayer) wallsidesLayer.setDepth(2);
+         
     
-        console.log('Dungeon Data:', dungeonData);
-
-        const tilemapData = this.convertDungeonDataToTilemap(dungeonData);
-
-        console.log('Tilemap Data:', tilemapData);
-
-        const map = this.make.tilemap({ data: tilemapData, tileWidth: 16, tileHeight: 16 });
-        const tileset = map.addTilesetImage('dungeon-tileset', 'tiles');
-        const layer = map.createLayer(0, tileset, 0, 0);
-
-        if (!layer) {
-            console.error('Failed to create layer "Floor"');
-            return;
-        }
-
-        console.log('Layer:', layer);
-       
-
-        //player sprite
-        this.player = this.add.sprite(0, 0, 'baileigh').setScale(0.75); //add in correct name for player
-
-        //creates tilemap
+        // Player sprite
+        this.player = this.add.sprite(0, 0, 'baileigh').setScale(0.75); // Add in correct name for player
+    
+        // Creates tilemap
         const gridEngineConfig = {
             characters: [
                 {
@@ -92,100 +94,15 @@ const BattleScene = class extends Phaser.Scene {
                 },
             ],
         };
-
-        this.gridEngine.create(map, gridEngineConfig);
-
-        //arrow key input for movement
-        this.cursors = this.input.keyboard.createCursorKeys();
-    }
-
-
-    convertDungeonDataToTilemap(dungeonData) {
-        const { layers, mapWidth, mapHeight } = dungeonData;
     
-        // Assuming you want to work with the "Floor" layer, which is the last layer in your case
-        const floorLayer = layers.find(layer => layer.name === 'Floor');
-        const wallLayer = layers.find(layer => layer.name === 'Walls');
-        const wallsidesLayer = layers.find(layer => layer.name === 'Walls sides');
-        const wallpillarsLayer = layers.find(layer => layer.name === 'Walls pillars');
-        const miscLayer = layers.find(layer => layer.name === 'Miscs');
-        const doorLayer = layers.find(layer => layer.name === 'Doors');
-        
-        if (!floorLayer || !floorLayer.tiles) {
-            console.error('Floor layer not found or has no tiles');
-            return [];
-        }
-    
-        // Create a 2D array for the tilemap
-        const tilemapData = [];
-    
-        // Initialize the tilemap data with zeros (or any default tile ID)
-        for (let y = 0; y < mapHeight; y++) {
-            const row = new Array(mapWidth).fill(0); // Fill with 0 or any default tile ID
-            tilemapData.push(row);
-        }
-    
-        // Populate the tilemap data with the actual tile IDs from the floor layer
-        floorLayer.tiles.forEach(tile => {
-            const { x, y, id } = tile; // Assuming each tile has x, y, and id properties
-            tilemapData[y][x] = id; // Set the tile ID at the correct position
-        });
-        wallLayer.tiles.forEach(tile => {  
-            const { x, y, id } = tile; 
-            tilemapData[y][x] = id; 
-        }
-        );
-        wallsidesLayer.tiles.forEach(tile => {
-            const { x, y, id } = tile; 
-            tilemapData[y][x] = id; 
-        }
-        );
-        wallpillarsLayer.tiles.forEach(tile => {
-            const { x, y, id } = tile; 
-            tilemapData[y][x] = id; 
-        }
-        );
-        miscLayer.tiles.forEach(tile => {
-            const { x, y, id } = tile; 
-            tilemapData[y][x] = id; 
-        }
-        );
-        doorLayer.tiles.forEach(tile => {
-            const { x, y, id } = tile; 
-            tilemapData[y][x] = id; 
-        }
-        );
-    
-        return tilemapData;
+        this.gridEngine.create(tilemap, gridEngineConfig);
     }
 };
-
+    
     export default BattleScreen;
 
-//     convertDungeonDataToTilemap(dungeonData) {
-//         console.log('Converting dungeon data to tilemap...');
-//         const layer = dungeonData.layers.find(layer => layer.name === 'Floor');
-//         if (!layer) {
-//             console.error('Failed to find Floor layer in dungeon data');
-//             return [];
-//         }
-//         const width = dungeonData.mapWidth;
-//         const height = dungeonData.mapHeight;
-//         const data = new Array(height).fill(0).map(() => new Array(width).fill(0));
 
-//         layer.tiles.forEach(tile => {
-//             console.log('Tile:', tile);
-//             if (tile.id) {
-//                 data[tile.y][tile.x] = parseInt(tile.id, 10) + 1; // Phaser uses 1-based indexing for tiles
-//             } else {
-//                 console.warn(`Tile at (${tile.x}, ${tile.y}) does not have a valid ID`);
-//             }
-//         });
 
-//         console.log('Converted tilemap data:', data);
-//         return data;
-//     }
-// };
 
 
 // const BattleScene = class extends Phaser.Scene {
