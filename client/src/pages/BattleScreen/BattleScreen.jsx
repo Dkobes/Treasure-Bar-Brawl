@@ -21,7 +21,7 @@ export const BattleScreen = () => {
                     },
                 ],
             },
-            width: 800,
+            width: 1000,
             height: 600,
             pixelArt: true,
             parent: 'phaser-game',
@@ -49,12 +49,15 @@ const BattleScene = class extends Phaser.Scene {
     preload () {
         // add in correct items to load
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
+        this.load.image('colton', '../src/assets/playerSprite/colton.png');
+        this.load.image('dany', '../src/assets/playerSprite/dany.png');
+        this.load.image('tyler', '../src/assets/playerSprite/tyler.png');
         this.load.image('tiles', '../src/assets/images/dungeon-tileset.png');
         this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/dungeon.json');
     }
 
     create() {
-        this.cameras.main.setZoom(2);
+        this.cameras.main.setZoom(.70);
         const tilemap = this.make.tilemap({ key: "tilemap" });
 
         console.log('Tilemap:', tilemap); // Check if the tilemap is loaded correctly
@@ -67,29 +70,38 @@ const BattleScene = class extends Phaser.Scene {
           const wallLayer = tilemap.createLayer('Walls', tileset, 0, 0);
           const wallsidesLayer = tilemap.createLayer('Side Walls and Pillars', tileset, 0, 0);
           
-  
-          // Check if any layer is null
-          if (!floorLayer) console.error('Failed to create layer "Floor"');
-          if (!wallLayer) console.error('Failed to create layer "Walls"');
-          if (!wallsidesLayer) console.error('Failed to create layer "Walls sides"');
-          
-  
-          // Set the depth of each layer to ensure correct stacking
-          if (floorLayer) floorLayer.setDepth(0);
-          if (wallLayer) wallLayer.setDepth(1);
-          if (wallsidesLayer) wallsidesLayer.setDepth(2);
-         
-    
+ 
         // Player sprite
-        this.player = this.add.sprite(0, 0, 'baileigh').setScale(0.75); // Add in correct name for player
+        const baileighSprite = this.add.sprite(0, 0, 'baileigh').setScale(1.5);
+        const coltonSprite = this.add.sprite(0, 0, 'colton').setScale(1.5);
+        const danySprite = this.add.sprite(0, 0, 'dany').setScale(1.5);
+        const tylerSprite = this.add.sprite(0, 0, 'tyler').setScale(1.5);
     
         // Creates tilemap
         const gridEngineConfig = {
             characters: [
                 {
                     id: "baileigh",
-                    sprite: this.player,
-                    startPosition: { x: 9.5, y: 12.5 },
+                    sprite: baileighSprite,
+                    startPosition: { x: 20, y: 7 },
+                    offsetY: -4,
+                },
+                {
+                    id: "colton",
+                    sprite: coltonSprite,
+                    startPosition: { x: 20, y: 9 },
+                    offsetY: -4,
+                },
+                {
+                    id: "dany",
+                    sprite: danySprite,
+                    startPosition: { x: 20, y: 11 },
+                    offsetY: -4,
+                },
+                {
+                    id: "tyler",
+                    sprite: tylerSprite,
+                    startPosition: { x: 20, y: 13 },
                     offsetY: -4,
                 },
             ],
