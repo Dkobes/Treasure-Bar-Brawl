@@ -1,13 +1,5 @@
 import { Schema, model } from 'mongoose';
 
-// Define the schema for each character
-const characterSchema = new Schema({
-    name: { type: String, required: true, unique: true },
-    stats: { type: statsSchema, required: true },
-    experience: { type: Number, default: 0 },
-    abilities: { type: [abilitySchema], required: true }
-});
-
 // Define the schema for stats
 const statsSchema = new Schema({
     Speed: { type: Number, required: true },
@@ -20,8 +12,18 @@ const statsSchema = new Schema({
 // Define the schema for abilities
 const abilitySchema = new Schema({
     name: { type: String, required: true },
-    damage: { type: Number, required: true },
+    damage: { type: Number },
+    heal: { type: Number },
     cooldown: { type: Number, required: true }
+});
+
+// Define the schema for each character
+const characterSchema = new Schema({
+    name: { type: String, required: true, unique: true },
+    level: { type: Number, required: true },
+    stats: { type: statsSchema, required: true },
+    experience: { type: Number, default: 0 },
+    abilities: { type: [abilitySchema], required: true }
 });
 
 // Create the model for characters
@@ -29,6 +31,7 @@ export const Character = model('Character', characterSchema);
 
 const tyler = new Character({
     name: "Tyler",
+    level: 1,
     stats: {
         Speed: 12,
         Attack: 16,
@@ -48,6 +51,7 @@ tyler.save();
 
 const danny = new Character({
     name: "Danny",
+    level: 1,
     stats: {
         Speed: 20,
         Attack: 18,
@@ -67,6 +71,7 @@ danny.save();
 
 const baileigh = new Character({
     name: "Baileigh",
+    level: 1,
     stats: {
         Speed: 18,
         Attack: 14,
@@ -86,6 +91,7 @@ baileigh.save();
 
 const colton = new Character({
     name: "Colton",
+    level: 1,
     stats: {
         Speed: 16,
         Attack: 18,

@@ -15,7 +15,6 @@ const PORT = process.env.PORT || 3002;
 
 app.use(express.static('../client/dist'));
 app.use(express.json());
-app.use('/api/users', Userroutes);
 // app.use(authMiddleware);
 app.use(routes);
 

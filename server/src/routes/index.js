@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
-import userRoutes from './api/userroutes.js';
+import apiRoutes from './api/index.js';
 
-router.use('/users', userRoutes);
+router.use('/api', apiRoutes);
 
 export default router;

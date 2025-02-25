@@ -1,17 +1,9 @@
 import express from "express";
-import { Character } from "../models/character.js";
-
 const router = express.Router();
+import { authenticateToken } from "../../middleware/auth.js";
+import { getParty, levelUpParty } from "../../controllers/party-controller.js";
 
 // Endpoint to get all party members
-router.get("/party", async (req, res) => {
-    try {
-        const party = await Character.find({}); // Fetch all characters
-        res.json(party);
-    } catch (error) {
-        console.error("Error fetching party members:", error);
-        res.status(500).json({ message: "Internal server error" });
-    }
-});
+router.route('/').get(authenticateToken, getParty).post(authenticateToken, levelUpParty);
 
 export default router;
