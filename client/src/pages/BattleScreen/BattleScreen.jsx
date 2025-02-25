@@ -7,7 +7,9 @@ import { GridEngine } from 'grid-engine';
 
 
 export const BattleScreen = () => {
-    const navigate = useNavigate();
+    const location = useLocation();
+const queryParams = new URLSearchParams(location.search);
+const enemyId = queryParams.get('enemyId');
 
     useEffect(() => {
         const config = {
@@ -30,8 +32,10 @@ export const BattleScreen = () => {
 
         const game = new Phaser.Game(config);
 
+        game.scene.start('BattleScene', { enemyId });
+
         return () => game.destroy(true);
-    }, []);
+    }, [enemyId]);
 
     return (
         <div>
@@ -41,13 +45,18 @@ export const BattleScreen = () => {
     );
 };
 
-const BattleScene = class extends Phaser.Scene {
+export const BattleScene = class extends Phaser.Scene {
     constructor() {
         super ({ key: 'BattleScene' });
     }
 
     preload () {
         // add in correct items to load
+        this.load.image('skeleton', '../src/assets/enemySprite/skeleton.png');
+        this.load.image('vampirate', '../src/assets/enemySprite/vampirate.png');
+        this.load.image('iceElf', '../src/assets/enemySprite/iceElf.png');
+        this.load.image('grandma', '../src/assets/enemySprite/grandma.png');
+        this.load.image('stan', '../src/assets/enemySprite/sorcererStan.png');
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
         this.load.image('colton', '../src/assets/playerSprite/colton.png');
         this.load.image('dany', '../src/assets/playerSprite/dany.png');
@@ -56,7 +65,7 @@ const BattleScene = class extends Phaser.Scene {
         this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/dungeon.json');
     }
 
-    create() {
+    create(data) {
         this.cameras.main.setZoom(.70);
         const tilemap = this.make.tilemap({ key: "tilemap" });
 
@@ -76,6 +85,15 @@ const BattleScene = class extends Phaser.Scene {
         const coltonSprite = this.add.sprite(0, 0, 'colton').setScale(1.5);
         const danySprite = this.add.sprite(0, 0, 'dany').setScale(1.5);
         const tylerSprite = this.add.sprite(0, 0, 'tyler').setScale(1.5);
+
+        const enemyId = data.enemyId; // Get the enemy ID passed from WorldScene
+        let enemySprite;
+        if (this.textures.exists(enemyId)) {
+             enemySprite = this.add.sprite(0, 0, enemyId).setScale(1.5); // Load the specific enemy sprite
+            enemySprite.setPosition(3, 10); // Set the enemy position on the map
+        } else {
+            console.error(`Enemy ID "${enemyId}" does not exist!`); // Handle invalid enemyId
+        }
     
         // Creates tilemap
         const gridEngineConfig = {
@@ -102,6 +120,12 @@ const BattleScene = class extends Phaser.Scene {
                     id: "tyler",
                     sprite: tylerSprite,
                     startPosition: { x: 20, y: 13 },
+                    offsetY: -4,
+                },
+                {
+                    id: "enemy",
+                    sprite: enemySprite,
+                    startPosition: { x: 5, y: 10 },
                     offsetY: -4,
                 },
             ],

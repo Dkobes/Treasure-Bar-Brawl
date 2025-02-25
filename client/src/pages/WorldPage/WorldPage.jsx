@@ -4,6 +4,7 @@ import { GridEngine } from 'grid-engine';
 import { useEffect } from 'react';
 // import { useNavigate } from "react-router-dom";
 import './WorldPage.css';
+import { BattleScene } from '../BattleScreen/BattleScreen.jsx';
 
 export const WorldScreen = () => {
     // const navigate = useNavigate();
@@ -24,7 +25,7 @@ export const WorldScreen = () => {
             height: 600,
             pixelArt: true,
             parent: 'phaser-game',
-            scene: [WorldScene],
+            scene: [WorldScene, BattleScene],
         };
 
         const game = new Phaser.Game(config);
@@ -173,12 +174,33 @@ const WorldScene = class extends Phaser.Scene {
             this.txt.setColor('#000000');
         }
 
-        this.cursors.space.once("down", () => {
-            if (this.txt.style.color === '#ffffff') {
-                window.location.assign('/battle');
+            this.cursors.space.once("down", () => {
+                const selectedEnemyId = this.getSelectedEnemy();
+                if (this.txt.style.color === '#ffffff' && selectedEnemyId) {
+                    window.location.assign(`/battle?enemyId=${selectedEnemyId}`);
+                }
+            });
+        }
+    
+        getSelectedEnemy() {
+            // Implement logic to determine which enemy is near the player
+            const playerPosition = this.gridEngine.getPosition("player");
+            
+            // Check each enemy's position
+            for (const enemy of ["skeleton", "vampirate", "elf", "grandma", "stan"]) {
+                const enemyPosition = this.gridEngine.getPosition(enemy);
+                if (this.isNear(playerPosition, enemyPosition)) {
+                    return enemy; // Return the ID of the selected enemy
+                }
             }
-        })
+            return null; // No enemy selected
+        }
+        
+        isNear(playerPosition, enemyPosition) {
+            // Define what "near" means, e.g., within one tile distance
+            return Math.abs(playerPosition.x - enemyPosition.x) <= 1 && Math.abs(playerPosition.y - enemyPosition.y) <= 1;
+        }
     }
-};
+
 
 export default WorldScreen;
