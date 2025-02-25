@@ -1,4 +1,4 @@
-import { Character } from "../models/Brawlers.js";
+import Character from "../models/Brawlers.js";
 
 export const getParty = async (_req, res) => {
     try {

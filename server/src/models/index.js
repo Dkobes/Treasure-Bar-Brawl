@@ -1,3 +1,5 @@
-import User from './User';
+import Character from './Brawlers.js';
+import Enemy from './Enemies.js';
+import User from './User.js';
 
-export { User };
+export { Character, Enemy, User };
