@@ -12,7 +12,7 @@ export const PartyMenu = () => {
     useEffect(() => {
         const fetchParty = async () => {
             try {
-                const response = await fetch('/api/party'); // Fetch party data from the server
+                const response = await fetch('/api/partyRoutes'); // Fetch party data from the server
                 if (!response.ok) throw new Error('Failed to fetch party data');
                 const data = await response.json();
                 setParty(data);
@@ -22,6 +22,27 @@ export const PartyMenu = () => {
         };
         fetchParty();
     }, []);
+
+    // const handleSave = async () => {
+    //     setSaving(true);
+    //     try {
+    //         const response = await fetch('/api/saveParty', {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify({ party })
+    //         });
+
+    //         if (!response.ok) throw new Error("Failed to save party data");
+
+    //         console.log("Party data saved successfully!");
+    //     } catch (error) {
+    //         console.error("Error saving party:", error);
+    //     } finally {
+    //         setSaving(false);
+    //     }
+    // };
    
     return (
         <div className="nes-container with-title is-dark">
@@ -41,7 +62,9 @@ export const PartyMenu = () => {
                 <p className="nes-text is-warning">Loading party data...</p>
             )}
             <div className="button-container">
-                <button className="nes-btn is-primary">SAVE</button>
+                {/* <button className="nes-btn is-primary" onClick={handleSave} disabled={saving}>
+                    {saving ? "Saving..." : "SAVE"}
+                </button> */}
                 <button className="nes-btn is-primary" onClick={() => navigate(-1)}>BACK</button>
                 <button className="nes-btn is-error" onClick={() => navigate("/")}>QUIT</button>
             </div>
