@@ -25,7 +25,7 @@ const abilitySchema = new Schema({
 });
 
 // Create the model for characters
-export const Enemy = model('Character', enemySchema);
+export const Enemy = model('Enemy', enemySchema);
 
 const skeleton = new Enemy({
     name: "Skeleton",
@@ -36,14 +36,15 @@ const skeleton = new Enemy({
         Resist: 10,
         Magic: 10,
     },
+    experience: 5,
     abilities: [
-        { name: "Attack", heal: 50, cooldown: 0.5 },
+        { name: "Attack", damage: 50, cooldown: 0.5 },
         { name: "Femur Fling", damage: 100, cooldown: 2 }
     ]
 });
 
 // Save the character to the database
-skeleton.save();
+skeleton.save().catch(console.error);
 
 const vampirate = new Enemy({
     name: "Vampirate",
@@ -54,6 +55,7 @@ const vampirate = new Enemy({
         Resist: 10,
         Magic: 10,
     },
+    experience: 10,
     abilities: [
         { name: "Attack", damage: 50, cooldown: 0.5 },
         { name: "Bite", damage: 100, cooldown: 1 },
@@ -62,7 +64,7 @@ const vampirate = new Enemy({
 });
 
 // Save the character to the database
-vampirate.save();
+vampirate.save().catch(console.error);
 
 const iceElf = new Enemy({
     name: "Ice Elf",
@@ -73,6 +75,7 @@ const iceElf = new Enemy({
         Resist: 10,
         Magic: 10,
     },
+    experience: 15,
     abilities: [
         { name: "Attack", damage: 50, cooldown: 0.5 },
         { name: "Ice Arrow", damage: 100, cooldown: 1 },
@@ -80,7 +83,7 @@ const iceElf = new Enemy({
 });
 
 // Save the character to the database
-iceElf.save();
+iceElf.save().catch(console.error);
 
 const iceBear = new Enemy({
     name: "Ice Bear",
@@ -91,6 +94,7 @@ const iceBear = new Enemy({
         Resist: 10,
         Magic: 10,
     },
+    experience: 15,
     abilities: [
         { name: "Attack", damage: 50, cooldown: 0.5 },
         { name: "Gouge", damage: 100, cooldown: 1 },
@@ -98,7 +102,7 @@ const iceBear = new Enemy({
 });
 
 // Save the character to the database
-iceBear.save();
+iceBear.save().catch(console.error);
 
 const grandma = new Enemy({
     name: "Grandma",
@@ -109,6 +113,7 @@ const grandma = new Enemy({
         Resist: 10,
         Magic: 10,
     },
+    experience: 20,
     abilities: [
         { name: "Attack", damage: 50, cooldown: 0.5 },
         { name: "Eat More", damage: 100, cooldown: 1 },
@@ -116,7 +121,7 @@ const grandma = new Enemy({
 });
 
 // Save the character to the database
-grandma.save();
+grandma.save().catch(console.error);
 
 const kitty = new Enemy({
     name: "Kitty",
@@ -127,6 +132,7 @@ const kitty = new Enemy({
         Resist: 10,
         Magic: 10,
     },
+    experience: 20,
     abilities: [
         { name: "Attack", damage: 50, cooldown: 0.5 },
         { name: "Feline Frenzy", damage: 100, cooldown: 2 },
@@ -134,7 +140,7 @@ const kitty = new Enemy({
 });
 
 // Save the character to the database
-kitty.save();
+kitty.save().catch(console.error);
 
 const stanTheSorcerer = new Enemy({
     name: "Stan the Sorcerer",
@@ -145,6 +151,7 @@ const stanTheSorcerer = new Enemy({
         Resist: 10,
         Magic: 10,
     },
+    experience: 30,
     abilities: [
         { name: "JavaScript Slash", damage: 50, cooldown: 0.5 },
         { name: "Typescript Typhoon", damage: 100, cooldown: 1 },
@@ -154,7 +161,7 @@ const stanTheSorcerer = new Enemy({
 });
 
 // Save the character to the database
-stanTheSorcerer.save();
+stanTheSorcerer.save().catch(console.error);
 
 const dragon = new Enemy({
     name: "Dragon",
@@ -165,6 +172,7 @@ const dragon = new Enemy({
         Resist: 10,
         Magic: 10,
     },
+    experience: 50,
     abilities: [
         { name: "Fire Breath", damage: 50, cooldown: 0.5 },
         { name: "Amlug Roar", damage: 100, cooldown: 1 },
@@ -174,4 +182,4 @@ const dragon = new Enemy({
 });
 
 // Save the character to the database
-dragon.save();
+dragon.save().catch(console.error);

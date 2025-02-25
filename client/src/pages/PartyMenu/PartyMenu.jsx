@@ -6,6 +6,7 @@ import './PartyMenu.css';
 export const PartyMenu = () => {
     const navigate = useNavigate();
     const [party, setParty] = useState([]);
+    const [saving, setSaving] = useState(false);
 
     const getSpriteUrl = (character) => character?.spriteUrl || '';
 
@@ -23,26 +24,26 @@ export const PartyMenu = () => {
         fetchParty();
     }, []);
 
-    // const handleSave = async () => {
-    //     setSaving(true);
-    //     try {
-    //         const response = await fetch('/api/saveParty', {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             },
-    //             body: JSON.stringify({ party })
-    //         });
+    const handleSave = async () => {
+        setSaving(true);
+        try {
+            const response = await fetch('/api/saveParty', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ party })
+            });
 
-    //         if (!response.ok) throw new Error("Failed to save party data");
+            if (!response.ok) throw new Error("Failed to save party data");
 
-    //         console.log("Party data saved successfully!");
-    //     } catch (error) {
-    //         console.error("Error saving party:", error);
-    //     } finally {
-    //         setSaving(false);
-    //     }
-    // };
+            console.log("Party data saved successfully!");
+        } catch (error) {
+            console.error("Error saving party:", error);
+        } finally {
+            setSaving(false);
+        }
+    };
    
     return (
         <div className="nes-container with-title is-dark">
@@ -62,9 +63,9 @@ export const PartyMenu = () => {
                 <p className="nes-text is-warning">Loading party data...</p>
             )}
             <div className="button-container">
-                {/* <button className="nes-btn is-primary" onClick={handleSave} disabled={saving}>
+                <button className="nes-btn is-primary" onClick={handleSave} disabled={saving}>
                     {saving ? "Saving..." : "SAVE"}
-                </button> */}
+                </button>
                 <button className="nes-btn is-primary" onClick={() => navigate(-1)}>BACK</button>
                 <button className="nes-btn is-error" onClick={() => navigate("/")}>QUIT</button>
             </div>

@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 
+// const xpThresholds = [0, 15, 30, 60, 120, 240, 480];
+
 // Define the schema for stats
 const statsSchema = new Schema({
     Speed: { type: Number, required: true },
@@ -26,6 +28,34 @@ const characterSchema = new Schema({
     abilities: { type: [abilitySchema], required: true }
 });
 
+// Level-up function
+// const checkLevelUp = (character) => {
+//     let currentLevel = character.level;
+//     let currentXP = character.experience;
+
+//     while (currentLevel < xpThresholds.length - 1 && currentXP >= xpThresholds[currentLevel]) {
+//         currentLevel++;
+//         increaseStats(character);
+//     }
+
+//     character.level = currentLevel;
+// };
+
+// // Function to increase stats upon leveling up
+// const increaseStats = (character) => {
+//     character.stats.Speed += 1;
+//     character.stats.Attack += 2;
+//     character.stats.Defense += 2;
+//     character.stats.Resist += 2;
+//     character.stats.Magic += 2;
+// };
+
+// // Method to add XP and check for level-up
+// characterSchema.methods.gainXP = function (xp) {
+//     this.experience += xp;
+//     checkLevelUp(this);
+// };
+
 // Create the model for characters
 export const Character = model('Character', characterSchema);
 
@@ -40,14 +70,14 @@ const tyler = new Character({
         Magic: 14,
     },
     abilities: [
-        { name: "Prayer", heal: 50, cooldown: 0.5 },
-        { name: "Shield", damage: 100, cooldown: 1 },
+        { name: "Prayer", heal: 100, cooldown: 0.5 },
+        { name: "Holy Shock", damage: 100, cooldown: 1 },
         { name: "Holy Blade", damage: 200, cooldown: 2 }
     ]
 });
 
 // Save the character to the database
-tyler.save();
+tyler.save().catch(console.error);
 
 const danny = new Character({
     name: "Danny",
@@ -67,7 +97,7 @@ const danny = new Character({
 });
 
 // Save the character to the database
-danny.save();
+danny.save().catch(console.error);
 
 const baileigh = new Character({
     name: "Baileigh",
@@ -87,7 +117,7 @@ const baileigh = new Character({
 });
 
 // Save the character to the database
-baileigh.save();
+baileigh.save().catch(console.error);
 
 const colton = new Character({
     name: "Colton",
@@ -107,4 +137,4 @@ const colton = new Character({
 });
 
 // Save the character to the database
-colton.save();
+colton.save().catch(console.error);
