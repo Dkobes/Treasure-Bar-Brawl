@@ -58,19 +58,23 @@ export const PartyMenu = () => {
     };
    
     return (
-        <div className="nes-container with-title is-dark">
+        <div className="party-menu-container with-title is-dark">
             <p className="title">Party Menu</p>
             {party.length > 0 ? (
-                party.map((character, index) => (
-                    <div key={character.id || character.name} className="nes-container is-rounded is-light character-container">
-                        <img src={getSpriteUrl(character)} alt={character?.name || "Unknown"} className="sprite" />
-                        <p className="nes-text is-primary">Character</p>
-                        <p><strong>{character?.name || "Unnamed"}</strong> (Level {character?.stats?.Level || 1})</p>
-                        <p>HP: {character?.stats?.HP || 0} | MP: {character?.stats?.MP || 0}</p>
-                        <p>STR: {character?.stats?.Attack || 0} | MAG: {character?.stats?.Magic || 0} | DEF: {character?.stats?.Defense || 0}</p>
-                        <p>RES: {character?.stats?.Resist || 0} | SPD: {character?.stats?.Speed || 0}</p>
-                    </div>
-                ))
+                <div className="character-grid">
+                    {party.map((character) => (
+                        <div key={character.id || character.name} className="nes-container is-rounded is-light character-container">
+                            <img src={getSpriteUrl(character)} alt={character?.name || "Unknown"} className="sprite" />
+                            <div className="character-info">
+                                <p className="nes-text is-primary">Character</p>
+                                <p><strong>{character?.name || "Unnamed"}</strong> (Level {character?.stats?.Level || 1})</p>
+                                <p>HP: {character?.stats?.HP || 0} | MP: {character?.stats?.MP || 0}</p>
+                                <p>STR: {character?.stats?.Attack || 0} | MAG: {character?.stats?.Magic || 0} | DEF: {character?.stats?.Defense || 0}</p>
+                                <p>RES: {character?.stats?.Resist || 0} | SPD: {character?.stats?.Speed || 0}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             ) : (
                 <p className="nes-text is-warning">Loading party data...</p>
             )}

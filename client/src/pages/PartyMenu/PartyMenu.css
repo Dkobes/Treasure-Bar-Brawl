@@ -2,13 +2,13 @@
 
 body {
     background-color: #1a1a1a;
-    font-family: 'Press Start 2P'
+    font-family: 'Press Start 2P';
 }
 
 /* Main Container */
-.nes-container {
-    width: 80%;
-    max-width: 600px;
+.party-menu-container {
+    width: 90%;
+    max-width: 800px;
     margin: 50px auto;
     padding: 20px;
     border: 4px solid #ffffff;
@@ -23,22 +23,32 @@ body {
     color: #ffcc00;
 }
 
+/* Character Grid Container */
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
 /* Character Container */
 .character-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    margin: 10px 0;
-    border: 2px solid #ffffff;
+    padding: 20px;
+    border: 4px solid #ffffff;
     background-color: #3b3b3b;
     color: #ffffff;
 }
 
 .sprite {
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
     image-rendering: pixelated;
+}
+
+.character-info {
+    flex: 1;
+    margin-left: 20px;
 }
 
 /* Stats Styling */
@@ -73,6 +83,6 @@ body {
 }
 
 /* Retro Pixel Effect */
-.nes-container, .nes-btn, .character-container {
+.party-menu-container, .nes-btn, .character-container {
     box-shadow: 4px 4px 0px #000;
 }
