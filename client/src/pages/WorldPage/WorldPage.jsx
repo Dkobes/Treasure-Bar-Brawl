@@ -2,12 +2,12 @@ import "nes.css/css/nes.min.css";
 import Phaser from 'phaser';
 import { GridEngine } from 'grid-engine';
 import { useEffect } from 'react';
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './WorldPage.css';
 import { BattleScene } from '../BattleScreen/BattleScreen.jsx';
 
 export const WorldScreen = () => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const config = {
@@ -36,6 +36,9 @@ export const WorldScreen = () => {
     return (
         <div>
             <div id="phaser-game"></div>
+            <button className="nes-btn is-primary" onClick={() => navigate('/party-menu')}>
+                Party Menu
+            </button>
         </div>
     );
 };
