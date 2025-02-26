@@ -13,7 +13,9 @@ export const PartyMenu = () => {
     useEffect(() => {
         const fetchParty = async () => {
             try {
-                const token = localStorage.getItem("token"); // Retrieve token from localStorage or state
+                const token = localStorage.getItem("id_token"); // Retrieve token from localStorage
+                if (!token) throw new Error("No token found");
+
                 const response = await fetch("/api/party", {
                     headers: {
                         Authorization: `Bearer ${token}`, // Send token in Authorization header
@@ -33,9 +35,11 @@ export const PartyMenu = () => {
     const handleSave = async () => {
         setSaving(true);
         try {
-            const token = localStorage.getItem("token");
-            const response = await fetch("/api/saveParty", {
-                method: "POST",
+            const token = localStorage.getItem("id_token");
+            if (!token) throw new Error("No token found");
+
+            const response = await fetch("/api/party", {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
