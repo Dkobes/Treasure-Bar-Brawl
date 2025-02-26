@@ -1,11 +1,22 @@
 import User from '../models/User.js';
 import { signToken } from '../middleware/auth.js';
 
+//get all users
+export const getUsers = async (req, res) => {
+  const users = await User.find({});
 
-// get a single user by either their id or their username
+  if (!users) {
+    res.status(400).json({ message: 'Cannot find any users!' });
+    return;
+  }
+
+  res.json(users);
+}
+
+// get a single user by their username
 export const getSingleUser = async (req, res) => {
   const foundUser = await User.findOne({
-    $or: [{ _id: req.user ? req.user._id : req.params.id }, { username: req.params.username }],
+    username: req.params.username,
   });
 
   if (!foundUser) {
@@ -16,7 +27,7 @@ export const getSingleUser = async (req, res) => {
   res.json(foundUser);
 };
 
-// create a user, sign a token, and send it back (to client/src/components/SignUpForm.js)
+// create a user, sign a token, and send it back (to StartMenu.jsx)
 export const createUser = async (req, res) => {
   const user = await User.create(req.body);
 
@@ -28,8 +39,7 @@ export const createUser = async (req, res) => {
   res.json({ token, user });
 };
 
-// login a user, sign a token, and send it back (to client/src/components/LoginForm.js)
-// {body} is destructured req.body
+// login a user, sign a token, and send it back (to StartMenu.jsx)
 export const login = async (req, res) => {
   const user = await User.findOne({ username: req.body.username });
   if (!user) {
