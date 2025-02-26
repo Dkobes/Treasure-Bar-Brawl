@@ -6,6 +6,7 @@ import StartMenu from './pages/StartMenu/StartMenu'
 import BattleScreen from './pages/BattleScreen/BattleScreen'
 import PartyMenu from './pages/PartyMenu/PartyMenu'
 import WorldScene from './pages/WorldPage/WorldPage'
+import DragonRoom from './pages/DragonRoom/DragonRoom'
 
 function App() {
 
