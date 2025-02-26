@@ -18,7 +18,7 @@ const abilitySchema = new Schema({
 
 // Define the schema for each character
 const enemySchema = new Schema({
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     stats: { type: statsSchema, required: true },
     experience: { type: Number, default: 0 },
     abilities: { type: [abilitySchema], required: true },

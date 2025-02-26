@@ -11,7 +11,19 @@ const userSchema = new Schema(
         password: {
             type: String,
             required: true
-        }
+        },
+        party: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Character',
+            }
+        ],
+        enemies: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Enemy',
+            }
+        ]
     },
     {
         id: false

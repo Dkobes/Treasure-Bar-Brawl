@@ -21,7 +21,7 @@ const abilitySchema = new Schema({
 
 // Define the schema for each character
 const characterSchema = new Schema({
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     level: { type: Number, required: true },
     stats: { type: statsSchema, required: true },
     experience: { type: Number, default: 0 },

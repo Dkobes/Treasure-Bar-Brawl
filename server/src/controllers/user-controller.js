@@ -1,4 +1,5 @@
-import User from '../models/User.js';
+import { Character, Enemy, User } from '../models/index.js';
+import { characters, enemies } from '../seeds/data.js';
 import { signToken } from '../middleware/auth.js';
 
 //get all users
@@ -29,7 +30,9 @@ export const getSingleUser = async (req, res) => {
 
 // create a user, sign a token, and send it back (to StartMenu.jsx)
 export const createUser = async (req, res) => {
-  const user = await User.create(req.body);
+  const party = await Character.insertMany(characters);
+  const enemy = await Enemy.insertMany(enemies);
+  const user = await User.create({ username: req.body.username, password: req.body.password, party: party, enemies: enemy });
 
   if (!user) {
     res.status(400).json({ message: 'Something is wrong!' });
