@@ -74,7 +74,14 @@ const StartMenu = () => {
                 setPassword('');
                 setStyle({visibility: 'hidden'});
 
-                Navigate('/world');
+                if (!response.ok) {
+                    setMessage('a valid username and password');
+                    setStyle({visibility: 'visible'})
+                }
+
+                if (response.ok) {
+                    Navigate('/world');
+                }
             } catch (err) {
                 console.error('Failed to fetch user info: ', err);
             }
