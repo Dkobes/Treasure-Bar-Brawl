@@ -4,6 +4,6 @@ import { authenticateToken } from "../../middleware/auth.js";
 import { getParty, levelUpParty } from "../../controllers/party-controller.js";
 
 // Endpoint to get all party members
-router.route('/').get(authenticateToken, getParty).post(authenticateToken, levelUpParty);
+router.route('/').get(authenticateToken, getParty).put(authenticateToken, levelUpParty);
 
 export default router;
