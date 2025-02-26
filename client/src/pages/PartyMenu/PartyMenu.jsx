@@ -13,8 +13,14 @@ export const PartyMenu = () => {
     useEffect(() => {
         const fetchParty = async () => {
             try {
-                const response = await fetch('/api/partyRoutes'); // Fetch party data from the server
-                if (!response.ok) throw new Error('Failed to fetch party data');
+                const token = localStorage.getItem("token"); // Retrieve token from localStorage or state
+                const response = await fetch("/api/party", {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Send token in Authorization header
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (!response.ok) throw new Error("Failed to fetch party data");
                 const data = await response.json();
                 setParty(data);
             } catch (error) {
@@ -27,16 +33,18 @@ export const PartyMenu = () => {
     const handleSave = async () => {
         setSaving(true);
         try {
-            const response = await fetch('/api/saveParty', {
+            const token = localStorage.getItem("token");
+            const response = await fetch("/api/saveParty", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ party })
+                body: JSON.stringify({ party }),
             });
-
+    
             if (!response.ok) throw new Error("Failed to save party data");
-
+    
             console.log("Party data saved successfully!");
         } catch (error) {
             console.error("Error saving party:", error);
