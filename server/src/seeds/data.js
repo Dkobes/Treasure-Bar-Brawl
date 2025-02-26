@@ -1,6 +1,7 @@
 const tyler = {
     name: "Tyler",
     level: 1,
+    spriteUrl: "/assets/playerSprite/tyler.png",
     stats: {
         Speed: 12,
         Attack: 16,
@@ -18,6 +19,7 @@ const tyler = {
 const danny = {
     name: "Danny",
     level: 1,
+    spriteUrl: "/assets/playerSprite/danny.png",
     stats: {
         Speed: 20,
         Attack: 18,
@@ -35,6 +37,7 @@ const danny = {
 const baileigh = {
     name: "Baileigh",
     level: 1,
+    spriteUrl: "/assets/playerSprite/baileigh.png",
     stats: {
         Speed: 18,
         Attack: 14,
@@ -52,6 +55,7 @@ const baileigh = {
 const colton = {
     name: "Colton",
     level: 1,
+    spriteUrl: "/assets/playerSprite/colton.png",
     stats: {
         Speed: 16,
         Attack: 18,

@@ -6,7 +6,7 @@ import StartMenu from './pages/StartMenu/StartMenu'
 import BattleScreen from './pages/BattleScreen/BattleScreen'
 import PartyMenu from './pages/PartyMenu/PartyMenu'
 import WorldScene from './pages/WorldPage/WorldPage'
-import DragonRoom from './pages/DragonRoom/DragonRoom'
+// import DragonRoom from './pages/DragonRoom/DragonRoom'
 
 function App() {
 
@@ -19,7 +19,7 @@ function App() {
         <Route path="/battle" element={<BattleScreen />} />
         <Route path="/party-menu" element={<PartyMenu />} />
         <Route path='/world' element={<WorldScene />} />
-        <Route path='/dragon-room' element={<DragonRoom />} />
+        {/* <Route path='/dragon-room' element={<DragonRoom />} /> */}
       </Routes>
     </Router>
   )

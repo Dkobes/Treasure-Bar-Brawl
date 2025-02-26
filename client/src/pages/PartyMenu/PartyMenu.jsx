@@ -2,13 +2,27 @@ import "nes.css/css/nes.min.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './PartyMenu.css';
+import baileighSprite from "../../assets/playerSprite/baileigh.png";
+import coltonSprite from "../../assets/playerSprite/colton.png";
+import dannySprite from "../../assets/playerSprite/danny.png";
+import tylerSprite from "../../assets/playerSprite/tyler.png";
+
 
 export const PartyMenu = () => {
     const navigate = useNavigate();
     const [party, setParty] = useState([]);
     const [saving, setSaving] = useState(false);
 
-    const getSpriteUrl = (character) => character?.spriteUrl || '';
+    const getSpriteUrl = (character) => {
+        const sprites = {
+            Baileigh: baileighSprite,
+            Colton: coltonSprite,
+            Danny: dannySprite,
+            Tyler: tylerSprite,
+        };
+    
+        return sprites[character?.name] || ""; // Default to an empty string if not found
+    };
 
     useEffect(() => {
         const fetchParty = async () => {
@@ -64,7 +78,7 @@ export const PartyMenu = () => {
                 <div className="character-grid">
                     {party.map((character) => (
                         <div key={character.id || character.name} className="nes-container is-rounded is-light character-container">
-                            <img src={getSpriteUrl(character)} alt={character?.name || "Unknown"} className="sprite" />
+                            <img src={getSpriteUrl(character)} alt={character.name} className="sprite" />
                             <div className="character-info">
                                 <p className="nes-text is-primary">Character</p>
                                 <p><strong>{character?.name || "Unnamed"}</strong> (Level {character?.stats?.Level || 1})</p>
