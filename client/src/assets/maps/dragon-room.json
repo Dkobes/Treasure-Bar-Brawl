@@ -1,0 +1,170 @@
+{ "compressionlevel":-1,
+ "height":8,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            2, 4, 4, 4, 4, 4, 4, 1,
+            2, 4, 4, 4, 4, 4, 4, 1,
+            2, 4, 4, 4, 4, 4, 4, 1,
+            2, 4, 4, 4, 4, 4, 4, 1,
+            2, 4, 4, 4, 4, 4, 4, 1,
+            5, 3, 3, 3, 3, 3, 3, 6],
+         "height":8,
+         "id":1,
+         "name":"concrete-floor",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":8,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0],
+         "height":8,
+         "id":2,
+         "name":"doorway",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":8,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[10, 8, 8, 8, 8, 8, 8, 12,
+            9, 13, 13, 13, 13, 13, 13, 11,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 7, 0, 0, 0],
+         "height":8,
+         "id":3,
+         "name":"backwall",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":8,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            14, 16, 16, 0, 0, 15, 16, 14,
+            18, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 19, 0, 0, 17,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            16, 16, 0, 0, 0, 0, 18, 16],
+         "height":8,
+         "id":4,
+         "name":"objects",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":8,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":5,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.11.2",
+ "tileheight":32,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"concrete-floor-right-border.tsx"
+        }, 
+        {
+         "firstgid":2,
+         "source":"concrete-floor-left-boarding.tsx"
+        }, 
+        {
+         "firstgid":3,
+         "source":"concrete-floor-bottom-border.tsx"
+        }, 
+        {
+         "firstgid":4,
+         "source":"concrete-floor.tsx"
+        }, 
+        {
+         "firstgid":5,
+         "source":"concrete-floor-left-corner.tsx"
+        }, 
+        {
+         "firstgid":6,
+         "source":"concrete-floor-right-corner.tsx"
+        }, 
+        {
+         "firstgid":7,
+         "source":"doorway.tsx"
+        }, 
+        {
+         "firstgid":8,
+         "source":"backwall-border.tsx"
+        },
+    
+        {
+         "firstgid":9,
+         "source":"backwall-left-border.tsx"
+        }, 
+        {
+         "firstgid":10,
+         "source":"backwall-left-corner.tsx"
+        }, 
+        {
+         "firstgid":11,
+         "source":"backwall-right-border.tsx"
+        }, 
+        {
+         "firstgid":12,
+         "source":"backwall-right-corner.tsx"
+        }, 
+        {
+         "firstgid":13,
+         "source":"backwall.tsx"
+        }, 
+        {
+         "firstgid":14,
+         "source":"barrel.tsx"
+        }, 
+        {
+         "firstgid":15,
+         "source":"chest.tsx"
+        }, 
+        {
+         "firstgid":16,
+         "source":"gold-pile.tsx"
+        },
+    
+        {
+         "firstgid":17,
+         "source":"vase.tsx"
+        }, 
+        {
+         "firstgid":18,
+         "source":"bottle.tsx"
+        }, 
+        {
+         "firstgid":19,
+         "source":"coin-purse.tsx"
+        }],
+ "tilewidth":32,
+ "type":"map",
+ "version":"1.10",
+ "width":8
+}
