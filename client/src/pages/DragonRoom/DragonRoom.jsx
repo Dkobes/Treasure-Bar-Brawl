@@ -4,3 +4,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './DragonRoom.css';
 
+
+export const DragonRoom = () => {   
+};
+
+export default DragonRoom;

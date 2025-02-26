@@ -55,7 +55,9 @@ export const BattleScene = class extends Phaser.Scene {
         this.load.image('skeleton', '../src/assets/enemySprite/skeleton.png');
         this.load.image('vampirate', '../src/assets/enemySprite/vampirate.png');
         this.load.image('iceElf', '../src/assets/enemySprite/iceElf.png');
+        this.load.image('iceBear', '../src/assets/enemySprite/iceBear.png');
         this.load.image('grandma', '../src/assets/enemySprite/grandma.png');
+        this.load.image('kitten', '../src/assets/enemySprite/kitten.png');
         this.load.image('stan', '../src/assets/enemySprite/sorcererStan.png');
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
         this.load.image('colton', '../src/assets/playerSprite/colton.png');
@@ -87,13 +89,52 @@ export const BattleScene = class extends Phaser.Scene {
         const tylerSprite = this.add.sprite(0, 0, 'tyler').setScale(1.5);
 
         const enemyId = data.enemyId; // Get the enemy ID passed from WorldScene
-        let enemySprite;
-        if (this.textures.exists(enemyId)) {
-             enemySprite = this.add.sprite(0, 0, enemyId).setScale(1.5); // Load the specific enemy sprite
-            enemySprite.setPosition(3, 10); // Set the enemy position on the map
+        let enemySprite = [];
+
+        if (enemyId === 'skeleton') {
+            // Create three skeleton sprites
+            for (let i = 0; i < 3; i++) {
+                const skeletonSprite = this.add.sprite(0, 0, 'skeleton').setScale(1.5);
+                skeletonSprite.setPosition(3, 10 + (i * 2)); // Adjust the x position for each skeleton
+                enemySprite.push(skeletonSprite);
+            }
+        } else if (enemyId === 'vampirate') {
+            // Create three vampirate sprites
+            for (let i = 0; i < 3; i++) {
+                const vampirateSprite = this.add.sprite(0, 0, 'vampirate').setScale(1.5);
+                vampirateSprite.setPosition(3, 10 + (i * 2)); // Adjust the position for each vampirate
+                enemySprite.push(vampirateSprite);
+            } 
+        }else if (enemyId === 'iceElf') {
+            // Create three vampirate sprites
+            for (let i = 0; i < 2; i++) {
+                const iceElfSprite = this.add.sprite(0, 0, 'iceElf').setScale(1.5);
+                iceElfSprite.setPosition(3, 10 + (i * 2)); // Adjust the position for each vampirate
+                enemySprite.push(iceElfSprite);
+            }
+            const iceBearSprite = this.add.sprite(0, 0, 'iceBear').setScale(1.5);
+            iceBearSprite.setPosition(3, 10 + (2 * 2)); // Adjust the position for the iceBear
+            enemySprite.push(iceBearSprite);
+            }else if (enemyId === 'grandma') {
+            // Create three vampirate sprites
+            for (let i = 0; i < 3; i++) {
+                const grandmaSprite = this.add.sprite(0, 0, 'grandma').setScale(1.5);
+                grandmaSprite.setPosition(3, 10 + (i * 2)); // Adjust the position for each vampirate
+                enemySprite.push(grandmaSprite);
+            }
+        } else if (this.textures.exists(enemyId)) {
+            const specificSprite = this.add.sprite(0, 0, enemyId).setScale(1.5); // Load the specific enemy sprite
+            specificSprite.setPosition(3, 10); // Set the enemy position on the map
+            enemySprite.push(specificSprite); // Push it into the enemySprite array
         } else {
             console.error(`Enemy ID "${enemyId}" does not exist!`); // Handle invalid enemyId
         }
+
+        const enemyPositions = [
+            { x: 5, y: 7 }, // Position for the first enemy
+            { x: 8, y: 10 }, // Position for the second enemy
+            { x: 5, y: 13 }, // Position for the third enemy
+        ];
     
         // Creates tilemap
         const gridEngineConfig = {
@@ -122,14 +163,18 @@ export const BattleScene = class extends Phaser.Scene {
                     startPosition: { x: 20, y: 13 },
                     offsetY: -4,
                 },
-                {
-                    id: "enemy",
-                    sprite: enemySprite,
-                    startPosition: { x: 5, y: 10 },
-                    offsetY: -4,
-                },
+                
             ],
         };
+            enemySprite.forEach((sprite, index) => {
+            gridEngineConfig.characters.push({
+                id: `enemy${index + 1}`, // Unique ID for each enemy
+                sprite: sprite,
+                startPosition: enemyPositions[index],
+                offsetY: -4,
+            });
+        });
+    
     
         this.gridEngine.create(tilemap, gridEngineConfig);
     }
