@@ -113,7 +113,7 @@ const WorldScene = class extends Phaser.Scene {
                     offsetY: -4,
                 },
                 {
-                    id: "elf",
+                    id: "iceElf",
                     sprite: this.elf,
                     startPosition: { x: 6, y: 4},
                     offsetY: -4,
@@ -187,7 +187,7 @@ const WorldScene = class extends Phaser.Scene {
             const playerPosition = this.gridEngine.getPosition("player");
             
             // Check each enemy's position
-            for (const enemy of ["skeleton", "vampirate", "elf", "grandma", "stan"]) {
+            for (const enemy of ["skeleton", "vampirate", "iceElf", "grandma", "stan"]) {
                 const enemyPosition = this.gridEngine.getPosition(enemy);
                 if (this.isNear(playerPosition, enemyPosition)) {
                     return enemy; // Return the ID of the selected enemy
