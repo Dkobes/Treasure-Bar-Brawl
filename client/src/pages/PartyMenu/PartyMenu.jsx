@@ -30,6 +30,7 @@ export const PartyMenu = () => {
                 const token = localStorage.getItem("id_token");
                 if (!token) throw new Error("No token found");
 
+                const username = localStorage.getItem("username");
                 const response = await fetch(`/api/party/${username}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -59,7 +60,8 @@ export const PartyMenu = () => {
             const token = localStorage.getItem("id_token");
             if (!token) throw new Error("No token found");
 
-            const response = await fetch("/api/party", {
+            const username = localStorage.getItem("username");
+            const response = await fetch(`/api/party/${username}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
