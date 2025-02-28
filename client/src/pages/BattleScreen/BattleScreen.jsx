@@ -92,41 +92,38 @@ export const BattleScene = class extends Phaser.Scene {
         let enemySprite = [];
 
         if (enemyId === 'skeleton') {
-            // Create three skeleton sprites
+            
             for (let i = 0; i < 3; i++) {
                 const skeletonSprite = this.add.sprite(0, 0, 'skeleton').setScale(1.5);
-                skeletonSprite.setPosition(3, 10 + (i * 2)); // Adjust the x position for each skeleton
                 enemySprite.push(skeletonSprite);
             }
         } else if (enemyId === 'vampirate') {
-            // Create three vampirate sprites
             for (let i = 0; i < 3; i++) {
-                const vampirateSprite = this.add.sprite(0, 0, 'vampirate').setScale(1.5);
-                vampirateSprite.setPosition(3, 10 + (i * 2)); // Adjust the position for each vampirate
+                const vampirateSprite = this.add.sprite(0, 0, 'vampirate').setScale(1.5); 
                 enemySprite.push(vampirateSprite);
             } 
         }else if (enemyId === 'iceElf') {
-            // Create three vampirate sprites
-            const iceElfPositions = [
-                { x: 5, y: 7 },
-                { x: 5, y: 13 },
-            ];
-            iceElfPositions.forEach(pos => {
-                const iceElfSprite = this.add.sprite(0, 0, 'iceElf').setScale(1.5);
-                iceElfSprite.setPosition(pos.x, pos.y);
-                enemySprite.push(iceElfSprite);
-            });
+            
             const iceBearSprite = this.add.sprite(0, 0, 'iceBear').setScale(1.5);
-            iceBearSprite.setPosition(8, 10); // Position for the ice bear
-            enemySprite.push(iceBearSprite);
+             enemySprite.push(iceBearSprite);
+
+            for (let i = 0; i < 2; i++) {
+                const iceElfSprite = this.add.sprite(0, 0, 'iceElf').setScale(1.5);
+                enemySprite.push(iceElfSprite);
+            }
+        
              
             }else if (enemyId === 'grandma') {
-            // Create three vampirate sprites
-            for (let i = 0; i < 3; i++) {
-                const grandmaSprite = this.add.sprite(0, 0, 'grandma').setScale(1.5);
-                grandmaSprite.setPosition(3, 10 + (i * 2)); // Adjust the position for each vampirate
-                enemySprite.push(grandmaSprite);
+            const grandmaSprite = this.add.sprite(0, 0, 'grandma').setScale(1.5);
+            enemySprite.push(grandmaSprite);
+            
+            for (let i = 0; i < 2; i++) {
+                const kittenSprite = this.add.sprite(0, 0, 'kitten').setScale(1.5);
+                kittenSprite.setPosition(3, 10 + (i * 2)); 
+                enemySprite.push(kittenSprite);
             }
+           
+
         } else if (this.textures.exists(enemyId)) {
             const specificSprite = this.add.sprite(0, 0, enemyId).setScale(1.5); // Load the specific enemy sprite
             specificSprite.setPosition(3, 10); // Set the enemy position on the map
@@ -136,9 +133,9 @@ export const BattleScene = class extends Phaser.Scene {
         }
 
         const enemyPositions = [
-            { x: 5, y: 7 }, // Position for the first enemy
-            { x: 8, y: 10 }, // Position for the second enemy
-            { x: 5, y: 13 }, // Position for the third enemy
+            { x: 8, y: 10 }, // Position for the first enemy
+            { x: 5, y: 13 }, // Position for the second enemy
+            { x: 5, y: 7 }, // Position for the third enemy
         ];
     
         // Creates tilemap
