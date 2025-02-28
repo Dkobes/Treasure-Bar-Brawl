@@ -129,7 +129,8 @@ const StartMenu = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button className="nes-btn is-warning" onClick={signUp}>Submit</button>
+                        <button className="nes-btn is-primary" onClick={login}>SUBMIT</button>
+                        <button className="nes-btn is-primary" onClick={() => setShowSignup(false)}>BACK</button>
                     </div>
                 )}
 
@@ -153,7 +154,8 @@ const StartMenu = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button className="nes-btn is-warning" onClick={login}>Submit</button>
+                        <button className="nes-btn is-primary" onClick={login}>SUBMIT</button>
+                        <button className="nes-btn is-primary" onClick={() => setShowLogin(false)}>BACK</button>
                     </div>
                 )}
             </div>
