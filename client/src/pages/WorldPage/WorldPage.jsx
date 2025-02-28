@@ -57,7 +57,7 @@ const WorldScene = class extends Phaser.Scene {
         this.load.image('stan', '../src/assets/enemySprite/sorcererStan.png');
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
         this.load.image('colton', '../src/assets/playerSprite/colton.png');
-        this.load.image('dany', '../src/assets/playerSprite/dany.png');
+        this.load.image('danny', '../src/assets/playerSprite/danny.png');
         this.load.image('tyler', '../src/assets/playerSprite/tyler.png');
         this.load.image('baseTiles', '../src/assets/images/bar-base-tileset.png');
         this.load.image('furnitureTiles', '../src/assets/images/bar-furniture-tileset.png');
@@ -78,7 +78,7 @@ const WorldScene = class extends Phaser.Scene {
         this.baileigh.setVisible(false);
         this.colton = this.add.sprite(0, 0, 'colton').setScale(0.75);
         this.colton.setVisible(true);
-        this.dany = this.add.sprite(0, 0, 'dany').setScale(0.75);
+        this.dany = this.add.sprite(0, 0, 'danny').setScale(0.75);
         this.dany.setVisible(false);
         this.tyler = this.add.sprite(0, 0, 'tyler').setScale(0.75);
         this.tyler.setVisible(false);

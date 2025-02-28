@@ -61,7 +61,7 @@ export const BattleScene = class extends Phaser.Scene {
         this.load.image('stan', '../src/assets/enemySprite/sorcererStan.png');
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
         this.load.image('colton', '../src/assets/playerSprite/colton.png');
-        this.load.image('dany', '../src/assets/playerSprite/dany.png');
+        this.load.image('danny', '../src/assets/playerSprite/danny.png');
         this.load.image('tyler', '../src/assets/playerSprite/tyler.png');
         this.load.image('tiles', '../src/assets/images/dungeon-tileset.png');
         this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/dungeon.json');
@@ -85,7 +85,7 @@ export const BattleScene = class extends Phaser.Scene {
         // Player sprite
         const baileighSprite = this.add.sprite(0, 0, 'baileigh').setScale(1.5);
         const coltonSprite = this.add.sprite(0, 0, 'colton').setScale(1.5);
-        const danySprite = this.add.sprite(0, 0, 'dany').setScale(1.5);
+        const danySprite = this.add.sprite(0, 0, 'danny').setScale(1.5);
         const tylerSprite = this.add.sprite(0, 0, 'tyler').setScale(1.5);
 
         const enemyId = data.enemyId; // Get the enemy ID passed from WorldScene
@@ -107,14 +107,19 @@ export const BattleScene = class extends Phaser.Scene {
             } 
         }else if (enemyId === 'iceElf') {
             // Create three vampirate sprites
-            for (let i = 0; i < 2; i++) {
+            const iceElfPositions = [
+                { x: 5, y: 7 },
+                { x: 5, y: 13 },
+            ];
+            iceElfPositions.forEach(pos => {
                 const iceElfSprite = this.add.sprite(0, 0, 'iceElf').setScale(1.5);
-                iceElfSprite.setPosition(3, 10 + (i * 2)); // Adjust the position for each vampirate
+                iceElfSprite.setPosition(pos.x, pos.y);
                 enemySprite.push(iceElfSprite);
-            }
+            });
             const iceBearSprite = this.add.sprite(0, 0, 'iceBear').setScale(1.5);
-            iceBearSprite.setPosition(3, 10 + (2 * 2)); // Adjust the position for the iceBear
+            iceBearSprite.setPosition(8, 10); // Position for the ice bear
             enemySprite.push(iceBearSprite);
+             
             }else if (enemyId === 'grandma') {
             // Create three vampirate sprites
             for (let i = 0; i < 3; i++) {
@@ -152,7 +157,7 @@ export const BattleScene = class extends Phaser.Scene {
                     offsetY: -4,
                 },
                 {
-                    id: "dany",
+                    id: "danny",
                     sprite: danySprite,
                     startPosition: { x: 20, y: 11 },
                     offsetY: -4,
