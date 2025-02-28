@@ -1,6 +1,7 @@
 import "nes.css/css/nes.min.css";
 import Phaser from 'phaser';
 import { GridEngine } from 'grid-engine';
+import auth from '../../utils/auth.js';
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import './WorldPage.css';
@@ -93,6 +94,40 @@ const WorldScene = class extends Phaser.Scene {
 
         this.cameras.main.setScroll(-275, -175);
         this.txt = this.add.text(80, 257, 'Press space to battle', { font: '"Press Start 2P"', color: '#000000' });
+        
+        // Fetches enemies and sets the enemy npcs' state
+        const username = localStorage.getItem("username");
+        const getEnemies = async () => {
+            try {
+                const response = await fetch(`/api/enemy/${username}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer: ${auth.getToken()}`
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data[0].alive === false) {
+                    this.skeleton.setState('DEAD');
+                }
+                if (data[1].alive === false) {
+                    this.vampirate.setState('DEAD');
+                }
+                if (data[2].alive === false) {
+                    this.elf.setState('DEAD');
+                }
+                if (data[4].alive === false) {
+                    this.grandma.setState('DEAD');
+                }
+                if (data[6].alive === false) {
+                    this.stan.setState('DEAD');
+                }
+            } catch (error) {
+                console.error('Error fetching enemies:', error);
+            }
+        }
+        getEnemies();
 
         //creates tilemap
         const gridEngineConfig = {
