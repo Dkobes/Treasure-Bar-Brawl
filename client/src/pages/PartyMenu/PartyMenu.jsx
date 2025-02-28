@@ -30,7 +30,7 @@ export const PartyMenu = () => {
                 const token = localStorage.getItem("id_token");
                 if (!token) throw new Error("No token found");
 
-                const response = await fetch("/api/party", {
+                const response = await fetch(`/api/party/${username}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
