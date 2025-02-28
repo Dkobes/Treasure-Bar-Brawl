@@ -1,8 +1,9 @@
-import Enemy from "../models/Enemies.js";
+import { Enemy, User } from "../models/index.js";
 
-export const getAllEnemies = async (_req, res) => {
+export const getAllEnemies = async (req, res) => {
     try {
-        const enemies = await Enemy.find({}); // Fetch all enemies
+        const user = await User.findOne({ username: req.params.username }); // Fetch all enemies
+        const enemies = await Enemy.find({ _id: { $in: user.enemies } });
         res.json(enemies);
     } catch (error) {
         console.error("Error fetching enemies:", error);
@@ -12,7 +13,8 @@ export const getAllEnemies = async (_req, res) => {
 
 export const getSingleEnemy = async (req, res) => {
     try {
-        const enemy = await Enemy.findOne({ name: req.params.name });
+        const user = await User.findOne({ username: req.params.username });
+        const enemy = await Enemy.findOne({ name: req.params.name, _id: { $in: user.enemies } });
         res.json(enemy);
     } catch (error) {
         console.error("Error fetching enemy:", error);
@@ -22,7 +24,8 @@ export const getSingleEnemy = async (req, res) => {
 
 export const updateEnemy = async (req, res) => {
     try {
-        const enemy = await Enemy.findOneAndUpdate({ name: req.params.name }, { $set: req.body }, { runValidators: true, new: true });
+        const user = await User.findOne({ username: req.params.username });
+        const enemy = await Enemy.findOneAndUpdate({ name: req.params.name, _id: { $in: user.enemies } }, { $set: req.body }, { runValidators: true, new: true });
         res.json(enemy);
     } catch (error) {
         console.error("Error updating enemy:", error);
