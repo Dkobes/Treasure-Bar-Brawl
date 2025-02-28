@@ -37,7 +37,11 @@ const StartMenu = () => {
                 setPassword('');
                 setStyle({visibility: 'hidden'});
 
-                Navigate('/world');
+                if (response.ok) {
+                    localStorage.setItem('username', username);
+                    console.log('Successfully logged in!');
+                    Navigate('/world');
+                }
             } catch(err) {
                 console.error('Failed to create user: ', err);
             }
@@ -67,8 +71,6 @@ const StartMenu = () => {
                 const data = await response.json();
     
                 auth.login(data.token);
-    
-                console.log('Successfully logged in!');
 
                 setUsername('');
                 setPassword('');
@@ -80,6 +82,8 @@ const StartMenu = () => {
                 }
 
                 if (response.ok) {
+                    localStorage.setItem('username', username);
+                    console.log('Successfully logged in!');
                     Navigate('/world');
                 }
             } catch (err) {
@@ -129,7 +133,7 @@ const StartMenu = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button className="nes-btn is-primary" onClick={login}>SUBMIT</button>
+                        <button className="nes-btn is-primary" onClick={signUp}>SUBMIT</button>
                         <button className="nes-btn is-primary" onClick={() => setShowSignup(false)}>BACK</button>
                     </div>
                 )}
