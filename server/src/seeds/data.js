@@ -11,7 +11,7 @@ const tyler = {
     },
     abilities: [
         { name: "Prayer", heal: 100, cooldown: 0.5 },
-        { name: "Holy Shock", damage: 100, cooldown: 1 },
+        { name: "Holy Bolt", damage: 100, cooldown: 1 },
         { name: "Holy Blade", damage: 200, cooldown: 2 }
     ]
 };
@@ -29,7 +29,7 @@ const danny = {
     },
     abilities: [
         { name: "Sneak Attack", damage: 50, cooldown: 0.5 },
-        { name: "Viper's Kiss", damage: 100, cooldown: 1 },
+        { name: "Poison", damage: 100, cooldown: 1 },
         { name: "Shadow Strike", damage: 200, cooldown: 2 }
     ]
 };
@@ -66,7 +66,7 @@ const colton = {
     abilities: [
         { name: "Fire Bolt", damage: 50, cooldown: 0.5 },
         { name: "Fireball", damage: 100, cooldown: 1 },
-        { name: "Meteor Swarm", damage: 200, cooldown: 2 }
+        { name: "Meteor Shower", damage: 200, cooldown: 2 }
     ]
 };
 
@@ -99,8 +99,8 @@ const vampirate = {
     experience: 10,
     abilities: [
         { name: "Attack", damage: 50, cooldown: 0.5 },
-        { name: "Bite", damage: 100, cooldown: 1 },
-        { name: "Hook Slash", damage: 150, cooldown: 2 }
+        { name: "Bite", damage: 100, heal: 25, cooldown: 1 },
+        { name: "Hook", damage: 150, cooldown: 2 }
     ],
     alive: true
 };
@@ -134,7 +134,7 @@ const iceBear = {
     experience: 15,
     abilities: [
         { name: "Attack", damage: 50, cooldown: 0.5 },
-        { name: "Gouge", damage: 100, cooldown: 1 },
+        { name: "Maul", damage: 100, cooldown: 1 },
     ],
     alive: true
 };
@@ -185,7 +185,7 @@ const stanTheSorcerer = {
     experience: 30,
     abilities: [
         { name: "JavaScript Slash", damage: 50, cooldown: 0.5 },
-        { name: "Typescript Typhoon", damage: 100, cooldown: 1 },
+        { name: "Typescript Tornado", damage: 100, cooldown: 1 },
         { name: "Energy Break", heal: 50, cooldown: 1 },
         { name: "MERNder", damage: 300, cooldown: 3 },
     ],
