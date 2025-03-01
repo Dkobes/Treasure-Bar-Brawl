@@ -179,7 +179,8 @@ const WorldScene = class extends Phaser.Scene {
         this.cursors = this.input.keyboard?.createCursorKeys();
         this.gridEngine.setSpeed("player", 3);
         const pos = JSON.stringify(this.gridEngine.getPosition("player"));
-        
+        const allEnemiesDead = this.getEnemyState();
+
         if (this.cursors.left.isDown) {
             this.gridEngine.move("player", "left");
         } else if (this.cursors.right.isDown) {
@@ -208,6 +209,9 @@ const WorldScene = class extends Phaser.Scene {
             this.txt.setColor('#ffffff');
         } else if (pos === '{"x":4,"y":0}' && this.stan.state === 'ALIVE') {
             this.txt.setColor('#ffffff');
+        } else if (pos === '{"x":7,"y":0}' && allEnemiesDead) {
+            this.txt.setText('Press space to enter?');
+            this.txt.setColor('#ffffff');
         } else {
             this.txt.setColor('#000000');
         }
@@ -216,6 +220,8 @@ const WorldScene = class extends Phaser.Scene {
                 const selectedEnemyId = this.getSelectedEnemy();
                 if (this.txt.style.color === '#ffffff' && selectedEnemyId) {
                     window.location.assign(`/battle?enemyId=${selectedEnemyId}`);
+                } else if (this.txt.style.color === '#ffffff' && allEnemiesDead) {
+                    window.location.assign('/dragon-room');
                 }
             });
         }
@@ -237,6 +243,14 @@ const WorldScene = class extends Phaser.Scene {
         isNear(playerPosition, enemyPosition) {
             // Define what "near" means, e.g., within one tile distance
             return Math.abs(playerPosition.x - enemyPosition.x) <= 1 && Math.abs(playerPosition.y - enemyPosition.y) <= 1;
+        }
+
+        getEnemyState() {
+            const enemies = [this.skeleton, this.vampirate, this.elf, this.grandma, this.stan];
+            if (!enemies.find((enemy) => enemy.state === 'ALIVE')) {
+                return true;
+            }
+            return false;
         }
     }
 
