@@ -186,7 +186,7 @@ const stanTheSorcerer = {
     abilities: [
         { name: "JavaScript Slash", damage: 50, cooldown: 0.5 },
         { name: "Typescript Typhoon", damage: 100, cooldown: 1 },
-        { name: "Energy Break", damage: 50, cooldown: 1 },
+        { name: "Energy Break", heal: 50, cooldown: 1 },
         { name: "MERNder", damage: 300, cooldown: 3 },
     ],
     alive: true
