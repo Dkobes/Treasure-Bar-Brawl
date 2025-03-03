@@ -12,7 +12,8 @@ const statsSchema = new Schema({
 // Define the schema for abilities
 const abilitySchema = new Schema({
     name: { type: String, required: true },
-    damage: { type: Number, required: true },
+    damage: { type: Number},
+    heal: { type: Number },
     cooldown: { type: Number, required: true }
 });
 
