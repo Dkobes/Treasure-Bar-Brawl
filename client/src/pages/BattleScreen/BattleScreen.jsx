@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './BattleScreen.css';
 import { GridEngine } from 'grid-engine';
-import { BattleInterface } from '../PlayerInfo/BattleInterface.jsx';
 
 
 
