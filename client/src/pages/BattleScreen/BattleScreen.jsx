@@ -138,7 +138,7 @@ export const BattleScene = class extends Phaser.Scene {
         this.load.image('iceBear', '../src/assets/enemySprite/iceBear.png');
         this.load.image('grandma', '../src/assets/enemySprite/grandma.png');
         this.load.image('kitten', '../src/assets/enemySprite/kitten.png');
-        this.load.image('stan', '../src/assets/enemySprite/sorcererStan.png');
+        this.load.image('stan', '../src/assets/enemySprite/battleStan.png');
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
         this.load.image('colton', '../src/assets/playerSprite/colton.png');
         this.load.image('danny', '../src/assets/playerSprite/danny.png');
