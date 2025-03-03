@@ -1,47 +1,38 @@
-//import attacks from '../server/src/seeds/data.js';
-// import React, { useEffect, useState } from 'react';
-// import './BattleInterface.css';
+import React from 'react';
+import './BattleInterface.css';
 
-// const BattleInterface = ({ characters, onAttack }) => {
-//     const [attacks, setAttacks] = useState({});
+const BattleInterface = ({ characters, onAttack, battleLog, currentTurn }) => {
+    const handleAttack = (characterName, attackName) => {
+        if (onAttack) {
+            onAttack(characterName, attackName); // Trigger attack event
+        }
+    };
 
-//     useEffect(() => {
-//         fetch('/attacks')
-//         .then(response => response.json())
-//         .then(data => {
-//             setAttacks(data);
-//         })
-//         .catch(error => console.error('Error fetching attacks:', error));
-//     }, []);
-// };
+    const currentCharacter = characters.find(character => character.name === currentTurn);
 
-//     const handleAttack = (characterName, attackName) => {
-//         if (onAttack) {
-//             onAttack(characterName, attackName); // Trigger attack event
-//         }
+    return (
+        <div className='battle-interface nes-container is-rounded'>
+            <div className='current-turn nes-text is-primary'>Current Turn: {currentTurn}</div>
+            {currentCharacter && (
+                <div className='character-info'>
+                    <div className='character-name nes-text is-success'>{currentCharacter.name}</div>
+                    <div className='attack-options'>
+                        {currentCharacter.abilities.map((ability) => (
+                            <button key={ability.name} className='nes-btn is-primary' onClick={() => handleAttack(currentCharacter.name, ability.name)}>
+                                {ability.name}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+            <div className='battle-log nes-container is-dark'>
+                <h3 className='nes-text is-warning'>Battle Log</h3>
+                {battleLog.map((log, index) => (
+                    <div key={index} className='nes-text'>{log}</div>
+                ))}
+            </div>
+        </div>
+    );
+};
 
-//     return (
-//         <div className='battle-interface'>
-//             {characters.map((character) => (
-//                 <div key={character.name} className='character-info'>
-//                     <div className='character-name'>{character.name}</div>
-//                     <div className='attack-options'>
-//                         {attacks[character.name.toLowerCase()] ? (
-//                     attacks[character.name.toLowerCase()].map((attack) => (
-//                             <button key={attack.name} 
-//                             onClick={() => handleAttack(character.name, attack.name)}>
-//                             {attack.name}
-//                             </button>
-//                             ))
-//                         ) : (
-//                             <div>No attacks available</div>
-//                         )}
-//                     </div>
-//                 </div>
-//             ))}
-//         </div>
-//     );
-// };
-           
-
-// export default BattleInterface;
+export default BattleInterface;

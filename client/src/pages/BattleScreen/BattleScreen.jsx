@@ -1,17 +1,17 @@
 import Phaser from 'phaser';
 import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import './BattleScreen.css';
+import { useLocation } from 'react-router-dom';
 import { GridEngine } from 'grid-engine';
-import { BattleInterface } from '../PlayerInfo/BattleInterface.jsx';
-
-
+import BattleInterface from './BattleInterface';
+import { characters, enemies } from '../../../../server/src/seeds/data'; // Adjust the import path as needed
 
 export const BattleScreen = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const enemyId = queryParams.get('enemyId');
-
+    const [battleLog, setBattleLog] = useState([]);
+    const [turnOrder, setTurnOrder] = useState([]);
+    const [currentTurn, setCurrentTurn] = useState(0);
 
     useEffect(() => {
         const config = {
@@ -39,10 +39,39 @@ export const BattleScreen = () => {
         return () => game.destroy(true);
     }, [enemyId]);
 
+    useEffect(() => {
+        // Determine turn order based on speed
+        const allCharacters = [...characters, ...enemies];
+        allCharacters.sort((a, b) => b.stats.Speed - a.stats.Speed);
+        setTurnOrder(allCharacters);
+    }, []);
+
+    const handleAttack = (characterName, attackName) => {
+        const attacker = turnOrder[currentTurn];
+        const target = turnOrder[(currentTurn + 1) % turnOrder.length]; // Simple target selection for demonstration
+        const ability = attacker.abilities.find(ability => ability.name === attackName);
+        const damage = ability.damage || 0;
+
+        setBattleLog(prevLog => [
+            ...prevLog,
+            `${attacker.name} used ${attackName} on ${target.name} for ${damage} damage`
+        ]);
+
+        // Implement attack logic here (e.g., reduce target's health)
+
+        // Move to the next turn
+        setCurrentTurn((currentTurn + 1) % turnOrder.length);
+    };
+
     return (
         <div>
             <div id="phaser-game"></div>
-
+            <BattleInterface
+                characters={characters}
+                onAttack={handleAttack}
+                battleLog={battleLog}
+                currentTurn={turnOrder[currentTurn]?.name}
+            />
         </div>
     );
 };
@@ -70,9 +99,7 @@ export const BattleScene = class extends Phaser.Scene {
     }
 
     create(data) {
-
         class HealthBar {
-
             constructor(scene, x, y, maxValue) {
                 this.bar = new Phaser.GameObjects.Graphics(scene);
 
@@ -108,14 +135,12 @@ export const BattleScene = class extends Phaser.Scene {
                 this.bar.fillRect(this.x, this.y, 80, 16);
 
                 //  Health
-
                 this.bar.fillStyle(0xffffff);
                 this.bar.fillRect(this.x + 2, this.y + 2, 76, 12);
 
                 if (this.value < this.maxValue * 0.3) {
                     this.bar.fillStyle(0xff0000);
-                }
-                else {
+                } else {
                     this.bar.fillStyle(0x00ff00);
                 }
 
@@ -123,8 +148,8 @@ export const BattleScene = class extends Phaser.Scene {
 
                 this.bar.fillRect(this.x + 2, this.y + 2, d, 12);
             }
-
         }
+
         this.cameras.main.setZoom(.70);
         const tilemap = this.make.tilemap({ key: "tilemap" });
 
@@ -137,7 +162,6 @@ export const BattleScene = class extends Phaser.Scene {
         const floorLayer = tilemap.createLayer('Floor', tileset, 0, 0);
         const wallLayer = tilemap.createLayer('Walls', tileset, 0, 0);
         const wallsidesLayer = tilemap.createLayer('Side Walls and Pillars', tileset, 0, 0);
-
 
         // Player sprite
         const sprites = {
@@ -189,18 +213,17 @@ export const BattleScene = class extends Phaser.Scene {
             Object.keys(characterLevels).forEach(characterId => {
                 const { maxHealth } = characterLevels[characterId][0]; // Get maxHealth for level 1
                 const characterSprite = sprites[characterId]; // Use the object to access the sprite
-                
+
                 // Create health bar for the character
                 const healthBar = new HealthBar(this, characterSprite.x, characterSprite.y - 20, maxHealth);
                 healthBars[characterId] = healthBar;
-        
+
                 // Update health bar position in the game loop
                 this.events.on('update', () => {
                     healthBar.bar.setPosition(characterSprite.x - 40, characterSprite.y - 20);
                 });
             });
         };
-
 
         createCharacterHealthBars();
 
@@ -272,7 +295,6 @@ export const BattleScene = class extends Phaser.Scene {
                     startPosition: { x: 19, y: 12 },
                     offsetY: -4,
                 },
-
             ],
         };
         enemySprite.forEach((sprite, index) => {
@@ -282,9 +304,7 @@ export const BattleScene = class extends Phaser.Scene {
                 startPosition: enemyPositions[index],
                 offsetY: -4,
             });
-
         });
-
 
         this.gridEngine.create(tilemap, gridEngineConfig);
     }

@@ -1,33 +1,62 @@
-/* .battle-interface {
-    padding: 10px;
+.battle-interface {
+    padding: 20px;
     background-color: #f0f0f0;
     border-top: 2px solid #ccc;
     font-family: 'Press Start 2P', cursive;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .character-info {
     margin-bottom: 15px;
+    text-align: center;
 }
 
 .character-name {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 24px;
+    margin-bottom: 10px;
 }
 
 .attack-options {
-    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
 .attack-options button {
-    margin-right: 5px;
-    padding: 5px 10px;
+    padding: 10px 20px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .attack-options button:hover {
     background-color: #0056b3;
-} */
+}
+
+.current-turn {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.battle-log {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
+    text-align: left;
+}
+
+.battle-log h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.battle-log div {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
