@@ -6,7 +6,8 @@ const statsSchema = new Schema({
     Attack: { type: Number, required: true },
     Defense: { type: Number, required: true },
     Resist: { type: Number, required: true },
-    Magic: { type: Number, required: true }
+    Magic: { type: Number, required: true },
+    HP: { type: Number, required: true },
 });
 
 // Define the schema for abilities
