@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './BattleScreen.css';
 import { GridEngine } from 'grid-engine';
-import { BattleInterface } from '../PlayerInfo/BattleInterface.jsx';
+// import { BattleInterface } from '../PlayerInfo/BattleInterface.jsx';
 
 
 
 export const BattleScreen = () => {
     const location = useLocation();
-const queryParams = new URLSearchParams(location.search);
-const enemyId = queryParams.get('enemyId');
+    const queryParams = new URLSearchParams(location.search);
+    const enemyId = queryParams.get('enemyId');
 
 
     useEffect(() => {
@@ -49,10 +49,10 @@ const enemyId = queryParams.get('enemyId');
 
 export const BattleScene = class extends Phaser.Scene {
     constructor() {
-        super ({ key: 'BattleScene' });
+        super({ key: 'BattleScene' });
     }
 
-    preload () {
+    preload() {
         // add in correct items to load
         this.load.image('skeleton', '../src/assets/enemySprite/skeleton.png');
         this.load.image('vampirate', '../src/assets/enemySprite/vampirate.png');
@@ -73,83 +73,136 @@ export const BattleScene = class extends Phaser.Scene {
 
         class HealthBar {
 
-            constructor (scene, x, y, maxValue)
-            {
+            constructor(scene, x, y, maxValue) {
                 this.bar = new Phaser.GameObjects.Graphics(scene);
-        
+
                 this.x = x;
                 this.y = y;
                 this.value = maxValue;
                 this.maxValue = maxValue;
                 this.p = 76 / maxValue;
-        
+
                 this.draw();
-        
+
                 scene.add.existing(this.bar);
                 this.bar.setDepth(1); // Set depth to ensure it is on top of the character
             }
-        
-            decrease (amount)
-            {
+
+            decrease(amount) {
                 this.value -= amount;
-        
-                if (this.value < 0)
-                {
+
+                if (this.value < 0) {
                     this.value = 0;
                 }
-        
+
                 this.draw();
-        
+
                 return (this.value === 0);
             }
-        
-            draw ()
-            {
+
+            draw() {
                 this.bar.clear();
-        
+
                 //  BG
                 this.bar.fillStyle(0x000000);
                 this.bar.fillRect(this.x, this.y, 80, 16);
-        
+
                 //  Health
-        
+
                 this.bar.fillStyle(0xffffff);
                 this.bar.fillRect(this.x + 2, this.y + 2, 76, 12);
-        
-                if (this.value < this.maxValue * 0.3)
-                {
+
+                if (this.value < this.maxValue * 0.3) {
                     this.bar.fillStyle(0xff0000);
                 }
-                else
-                {
+                else {
                     this.bar.fillStyle(0x00ff00);
                 }
-        
+
                 var d = Math.floor(this.p * this.value);
-        
+
                 this.bar.fillRect(this.x + 2, this.y + 2, d, 12);
             }
-        
+
         }
         this.cameras.main.setZoom(.70);
         const tilemap = this.make.tilemap({ key: "tilemap" });
 
         console.log('Tilemap:', tilemap); // Check if the tilemap is loaded correctly
-    console.log('Tilemap layers:', tilemap.layers); 
+        console.log('Tilemap layers:', tilemap.layers);
 
-    const tileset = tilemap.addTilesetImage("32x32 Dungeon", "tiles");
+        const tileset = tilemap.addTilesetImage("32x32 Dungeon", "tiles");
 
-          // Create layers using layer names
-          const floorLayer = tilemap.createLayer('Floor', tileset, 0, 0);
-          const wallLayer = tilemap.createLayer('Walls', tileset, 0, 0);
-          const wallsidesLayer = tilemap.createLayer('Side Walls and Pillars', tileset, 0, 0);
-          
- 
+        // Create layers using layer names
+        const floorLayer = tilemap.createLayer('Floor', tileset, 0, 0);
+        const wallLayer = tilemap.createLayer('Walls', tileset, 0, 0);
+        const wallsidesLayer = tilemap.createLayer('Side Walls and Pillars', tileset, 0, 0);
+
+
         // Player sprite
-        const baileighSprite = this.add.sprite(0, 0, 'baileigh').setScale(1.5);
-        const coltonSprite = this.add.sprite(0, 0, 'colton').setScale(1.5);
-        const danySprite = this.add.sprite(0, 0, 'danny').setScale(1.5);
-        const tylerSprite = this.add.sprite(0, 0, 'tyler').setScale(1.5);
+        const sprites = {
+            baileigh: this.add.sprite(0, 0, 'baileigh').setScale(1.5),
+            colton: this.add.sprite(0, 0, 'colton').setScale(1.5),
+            danny: this.add.sprite(0, 0, 'danny').setScale(1.5),
+            tyler: this.add.sprite(0, 0, 'tyler').setScale(1.5),
+        };
+
+        const characterLevels = {
+            // these are just placeholders for now, will be updated with actual values
+            baileigh: [
+                { level: 1, maxHealth: 100 },
+                { level: 2, maxHealth: 150 },
+                { level: 3, maxHealth: 200 },
+                { level: 4, maxHealth: 250 },
+                { level: 5, maxHealth: 300 },
+                { level: 6, maxHealth: 350 }
+            ],
+            colton: [
+                { level: 1, maxHealth: 150 },
+                { level: 2, maxHealth: 150 },
+                { level: 3, maxHealth: 200 },
+                { level: 4, maxHealth: 250 },
+                { level: 5, maxHealth: 300 },
+                { level: 6, maxHealth: 350 }
+            ],
+            danny: [
+                { level: 1, maxHealth: 150 },
+                { level: 2, maxHealth: 150 },
+                { level: 3, maxHealth: 200 },
+                { level: 4, maxHealth: 250 },
+                { level: 5, maxHealth: 300 },
+                { level: 6, maxHealth: 350 }
+            ],
+            tyler: [
+                { level: 1, maxHealth: 150 },
+                { level: 2, maxHealth: 150 },
+                { level: 3, maxHealth: 200 },
+                { level: 4, maxHealth: 250 },
+                { level: 5, maxHealth: 300 },
+                { level: 6, maxHealth: 350 }
+            ],
+        };
+
+        const healthBars = [];
+
+        const createCharacterHealthBars = () => {
+            Object.keys(characterLevels).forEach(characterId => {
+                const { maxHealth } = characterLevels[characterId][0]; // Get maxHealth for level 1
+                const characterSprite = sprites[characterId]; // Use the object to access the sprite
+                
+                // Create health bar for the character
+                const healthBar = new HealthBar(this, characterSprite.x, characterSprite.y - 20, maxHealth);
+                healthBars[characterId] = healthBar;
+        
+                // Update health bar position in the game loop
+                this.events.on('update', () => {
+                    healthBar.bar.setPosition(characterSprite.x - 40, characterSprite.y - 20);
+                });
+            });
+        };
+
+
+        createCharacterHealthBars();
 
         const enemyId = data.enemyId; // Get the enemy ID passed from WorldScene
         let enemySprite = [];
@@ -161,14 +214,14 @@ export const BattleScene = class extends Phaser.Scene {
                 enemySprite.push(sprite);
                 const healthBar = new HealthBar(this, sprite.x, sprite.y - 20, health);
                 enemyHealthBars.push(healthBar);
-    
+
                 // Update health bar position in the game loop
                 this.events.on('update', () => {
                     healthBar.bar.setPosition(sprite.x - 40, sprite.y - 20);
                 });
             }
         };
-    
+
         if (enemyId === 'skeleton') {
             createEnemy('skeleton', 100, 3);
         } else if (enemyId === 'vampirate') {
@@ -191,53 +244,53 @@ export const BattleScene = class extends Phaser.Scene {
             { x: 5, y: 13 }, // Position for the second enemy
             { x: 5, y: 7 }, // Position for the third enemy
         ];
-    
+
         // Creates tilemap
         const gridEngineConfig = {
             characters: [
                 {
                     id: "baileigh",
-                    sprite: baileighSprite,
-                    startPosition: { x: 20, y: 7 },
+                    sprite: sprites.baileigh,
+                    startPosition: { x: 23, y: 14 },
                     offsetY: -4,
                 },
                 {
                     id: "colton",
-                    sprite: coltonSprite,
-                    startPosition: { x: 20, y: 9 },
+                    sprite: sprites.colton,
+                    startPosition: { x: 23, y: 9 },
                     offsetY: -4,
                 },
                 {
                     id: "danny",
-                    sprite: danySprite,
-                    startPosition: { x: 20, y: 11 },
+                    sprite: sprites.danny,
+                    startPosition: { x: 19, y: 6 },
                     offsetY: -4,
                 },
                 {
                     id: "tyler",
-                    sprite: tylerSprite,
-                    startPosition: { x: 20, y: 13 },
+                    sprite: sprites.tyler,
+                    startPosition: { x: 19, y: 12 },
                     offsetY: -4,
                 },
-                
+
             ],
         };
-            enemySprite.forEach((sprite, index) => {
+        enemySprite.forEach((sprite, index) => {
             gridEngineConfig.characters.push({
                 id: `enemy${index + 1}`, // Unique ID for each enemy
                 sprite: sprite,
                 startPosition: enemyPositions[index],
                 offsetY: -4,
             });
-            
+
         });
-    
-    
+
+
         this.gridEngine.create(tilemap, gridEngineConfig);
     }
 };
-    
-    export default BattleScreen;
+
+export default BattleScreen;
 
 
 
