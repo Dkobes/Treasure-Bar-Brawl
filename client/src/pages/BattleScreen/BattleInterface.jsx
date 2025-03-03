@@ -31,7 +31,7 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
                 <div className='target-options'>
                     {enemies.map((enemy) => (
                         <button key={enemy.id} className={`nes-btn ${selectedTarget === enemy.id ? 'is-warning' : ''}`} onClick={() => setSelectedTarget(enemy.id)}>
-                            {enemy.name} ({enemy.id})
+                            {enemy.name} 
                         </button>
                     ))}
                 </div>
