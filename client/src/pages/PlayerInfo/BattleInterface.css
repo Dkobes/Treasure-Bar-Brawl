@@ -1,0 +1,33 @@
+.battle-interface {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-top: 2px solid #ccc;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.character-info {
+    margin-bottom: 15px;
+}
+
+.character-name {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.attack-options {
+    margin-top: 5px;
+}
+
+.attack-options button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.attack-options button:hover {
+    background-color: #0056b3;
+}
