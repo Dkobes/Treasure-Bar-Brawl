@@ -11,6 +11,7 @@ export const BattleScreen = () => {
 const queryParams = new URLSearchParams(location.search);
 const enemyId = queryParams.get('enemyId');
 
+
     useEffect(() => {
         const config = {
             type: Phaser.AUTO,
@@ -68,6 +69,67 @@ export const BattleScene = class extends Phaser.Scene {
     }
 
     create(data) {
+
+        class HealthBar {
+
+            constructor (scene, x, y, maxValue)
+            {
+                this.bar = new Phaser.GameObjects.Graphics(scene);
+        
+                this.x = x;
+                this.y = y;
+                this.value = maxValue;
+                this.maxValue = maxValue;
+                this.p = 76 / maxValue;
+        
+                this.draw();
+        
+                scene.add.existing(this.bar);
+                this.bar.setDepth(1); // Set depth to ensure it is on top of the character
+            }
+        
+            decrease (amount)
+            {
+                this.value -= amount;
+        
+                if (this.value < 0)
+                {
+                    this.value = 0;
+                }
+        
+                this.draw();
+        
+                return (this.value === 0);
+            }
+        
+            draw ()
+            {
+                this.bar.clear();
+        
+                //  BG
+                this.bar.fillStyle(0x000000);
+                this.bar.fillRect(this.x, this.y, 80, 16);
+        
+                //  Health
+        
+                this.bar.fillStyle(0xffffff);
+                this.bar.fillRect(this.x + 2, this.y + 2, 76, 12);
+        
+                if (this.value < this.maxValue * 0.3)
+                {
+                    this.bar.fillStyle(0xff0000);
+                }
+                else
+                {
+                    this.bar.fillStyle(0x00ff00);
+                }
+        
+                var d = Math.floor(this.p * this.value);
+        
+                this.bar.fillRect(this.x + 2, this.y + 2, d, 12);
+            }
+        
+        }
         this.cameras.main.setZoom(.70);
         const tilemap = this.make.tilemap({ key: "tilemap" });
 
@@ -90,48 +152,39 @@ export const BattleScene = class extends Phaser.Scene {
 
         const enemyId = data.enemyId; // Get the enemy ID passed from WorldScene
         let enemySprite = [];
+        let enemyHealthBars = [];
 
+        const createEnemy = (spriteKey, health, count = 1) => {
+            for (let i = 0; i < count; i++) {
+                const sprite = this.add.sprite(0, 0, spriteKey).setScale(1.5);
+                enemySprite.push(sprite);
+                const healthBar = new HealthBar(this, sprite.x, sprite.y - 20, health);
+                enemyHealthBars.push(healthBar);
+    
+                // Update health bar position in the game loop
+                this.events.on('update', () => {
+                    healthBar.bar.setPosition(sprite.x - 40, sprite.y - 20);
+                });
+            }
+        };
+    
         if (enemyId === 'skeleton') {
-            
-            for (let i = 0; i < 3; i++) {
-                const skeletonSprite = this.add.sprite(0, 0, 'skeleton').setScale(1.5);
-                enemySprite.push(skeletonSprite);
-            }
+            createEnemy('skeleton', 100, 3);
         } else if (enemyId === 'vampirate') {
-            for (let i = 0; i < 3; i++) {
-                const vampirateSprite = this.add.sprite(0, 0, 'vampirate').setScale(1.5); 
-                enemySprite.push(vampirateSprite);
-            } 
-        }else if (enemyId === 'iceElf') {
-            
-            const iceBearSprite = this.add.sprite(0, 0, 'iceBear').setScale(1.5);
-             enemySprite.push(iceBearSprite);
-
-            for (let i = 0; i < 2; i++) {
-                const iceElfSprite = this.add.sprite(0, 0, 'iceElf').setScale(1.5);
-                enemySprite.push(iceElfSprite);
-            }
-        
-             
-            }else if (enemyId === 'grandma') {
-            const grandmaSprite = this.add.sprite(0, 0, 'grandma').setScale(1.5);
-            enemySprite.push(grandmaSprite);
-            
-            for (let i = 0; i < 2; i++) {
-                const kittenSprite = this.add.sprite(0, 0, 'kitten').setScale(1.5);
-                kittenSprite.setPosition(3, 10 + (i * 2)); 
-                enemySprite.push(kittenSprite);
-            }
-           
-
+            createEnemy('vampirate', 200, 3);
+        } else if (enemyId === 'iceElf') {
+            createEnemy('iceBear', 300, 1);
+            createEnemy('iceElf', 300, 2);
+        } else if (enemyId === 'grandma') {
+            createEnemy('grandma', 500, 1);
+            createEnemy('kitten', 200, 2);
+        } else if (enemyId === 'stan') {
+            createEnemy('stan', 1000, 1);
         } else if (this.textures.exists(enemyId)) {
-            const specificSprite = this.add.sprite(0, 0, enemyId).setScale(1.5); // Load the specific enemy sprite
-            specificSprite.setPosition(3, 10); // Set the enemy position on the map
-            enemySprite.push(specificSprite); // Push it into the enemySprite array
+            createEnemy(enemyId, 100); // Default health for specific enemy
         } else {
             console.error(`Enemy ID "${enemyId}" does not exist!`); // Handle invalid enemyId
         }
-
         const enemyPositions = [
             { x: 8, y: 10 }, // Position for the first enemy
             { x: 5, y: 13 }, // Position for the second enemy
@@ -175,6 +228,7 @@ export const BattleScene = class extends Phaser.Scene {
                 startPosition: enemyPositions[index],
                 offsetY: -4,
             });
+            
         });
     
     
