@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './BattleInterface.css';
 
-const BattleInterface = ({ characters, onAttack, battleLog, currentTurn }) => {
+const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn }) => {
+    const [selectedTarget, setSelectedTarget] = useState(null);
+
     const handleAttack = (characterName, attackName) => {
-        if (onAttack) {
-            onAttack(characterName, attackName); // Trigger attack event
+        if (onAttack && selectedTarget) {
+            onAttack(characterName, attackName, selectedTarget); // Trigger attack event
         }
     };
 
@@ -12,7 +14,6 @@ const BattleInterface = ({ characters, onAttack, battleLog, currentTurn }) => {
 
     return (
         <div className='battle-interface nes-container is-rounded'>
-            <div className='current-turn nes-text is-primary'>Current Turn: {currentTurn}</div>
             {currentCharacter && (
                 <div className='character-info'>
                     <div className='character-name nes-text is-success'>{currentCharacter.name}</div>
@@ -25,11 +26,21 @@ const BattleInterface = ({ characters, onAttack, battleLog, currentTurn }) => {
                     </div>
                 </div>
             )}
+            <div className='target-selection'>
+                <h3 className='nes-text is-warning'>Select Target</h3>
+                <div className='target-options'>
+                    {enemies.map((enemy) => (
+                        <button key={enemy.id} className={`nes-btn ${selectedTarget === enemy.id ? 'is-warning' : ''}`} onClick={() => setSelectedTarget(enemy.id)}>
+                            {enemy.name} ({enemy.id})
+                        </button>
+                    ))}
+                </div>
+            </div>
             <div className='battle-log nes-container is-dark'>
                 <h3 className='nes-text is-warning'>Battle Log</h3>
-                {battleLog.map((log, index) => (
-                    <div key={index} className='nes-text'>{log}</div>
-                ))}
+                {battleLog.length > 0 && (
+                    <div className='nes-text'>{battleLog[battleLog.length - 1]}</div>
+                )}
             </div>
         </div>
     );

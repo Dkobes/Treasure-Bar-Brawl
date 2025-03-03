@@ -12,6 +12,8 @@ export const BattleScreen = () => {
     const [battleLog, setBattleLog] = useState([]);
     const [turnOrder, setTurnOrder] = useState([]);
     const [currentTurn, setCurrentTurn] = useState(0);
+    const [charactersState, setCharactersState] = useState(characters.map(character => ({ ...character, health: character.stats.Health })));
+    const [enemiesState, setEnemiesState] = useState([]);
 
     useEffect(() => {
         const config = {
@@ -41,14 +43,30 @@ export const BattleScreen = () => {
 
     useEffect(() => {
         // Determine turn order based on speed
-        const allCharacters = [...characters, ...enemies];
+        const allCharacters = [...charactersState, ...enemiesState];
         allCharacters.sort((a, b) => b.stats.Speed - a.stats.Speed);
         setTurnOrder(allCharacters);
-    }, []);
 
-    const handleAttack = (characterName, attackName) => {
-        const attacker = turnOrder[currentTurn];
-        const target = turnOrder[(currentTurn + 1) % turnOrder.length]; // Simple target selection for demonstration
+        // Set active enemies based on enemyId
+        const activeEnemies = enemies.filter(enemy => enemy.name.toLowerCase().includes(enemyId.toLowerCase()));
+        const enemiesWithIds = activeEnemies.flatMap((enemy, index) => {
+            return Array.from({ length: enemy.count || 1 }, (_, i) => ({
+                ...enemy,
+                id: `${enemy.name}-${index}-${i}`,
+                health: enemy.stats.Health
+            }));
+        });
+        setEnemiesState(enemiesWithIds);
+    }, [enemyId]);
+
+    const handleAttack = (attackerName, attackName, targetId) => {
+        console.log('handleAttack called with:', { attackerName, attackName, targetId });
+        const attacker = turnOrder.find(character => character.name === attackerName);
+        const target = turnOrder.find(character => character.id === targetId);
+        if (!attacker || !target) {
+            console.error('Invalid attacker or target', { attacker, target });
+            return;
+        }
         const ability = attacker.abilities.find(ability => ability.name === attackName);
         const damage = ability.damage || 0;
 
@@ -57,17 +75,48 @@ export const BattleScreen = () => {
             `${attacker.name} used ${attackName} on ${target.name} for ${damage} damage`
         ]);
 
-        // Implement attack logic here (e.g., reduce target's health)
+        // Reduce target's health
+        if (charactersState.some(character => character.id === targetId)) {
+            setCharactersState(prevState => prevState.map(character => 
+                character.id === targetId ? { ...character, health: character.health - damage } : character
+            ));
+        } else {
+            setEnemiesState(prevState => prevState.map(enemy => 
+                enemy.id === targetId ? { ...enemy, health: enemy.health - damage } : enemy
+            ));
+        }
+
+        // Check if the battle is over
+        const allCharactersDead = charactersState.every(character => character.health <= 0);
+        const allEnemiesDead = enemiesState.every(enemy => enemy.health <= 0);
+
+        if (allCharactersDead || allEnemiesDead) {
+            setBattleLog(prevLog => [
+                ...prevLog,
+                allCharactersDead ? "All characters are dead. Game Over." : "All enemies are dead. Victory!"
+            ]);
+            return;
+        }
 
         // Move to the next turn
-        setCurrentTurn((currentTurn + 1) % turnOrder.length);
+        const nextTurn = (currentTurn + 1) % turnOrder.length;
+        setCurrentTurn(nextTurn);
+
+        // If it's an enemy's turn, make them attack
+        if (turnOrder[nextTurn].stats.Speed <= 10) {
+            const enemy = turnOrder[nextTurn];
+            const randomAbility = enemy.abilities[Math.floor(Math.random() * enemy.abilities.length)];
+            const randomTarget = charactersState[Math.floor(Math.random() * charactersState.length)];
+            handleAttack(enemy.name, randomAbility.name, randomTarget.id);
+        }
     };
 
     return (
         <div>
             <div id="phaser-game"></div>
             <BattleInterface
-                characters={characters}
+                characters={charactersState}
+                enemies={enemiesState}
                 onAttack={handleAttack}
                 battleLog={battleLog}
                 currentTurn={turnOrder[currentTurn]?.name}
@@ -112,7 +161,7 @@ export const BattleScene = class extends Phaser.Scene {
                 this.draw();
 
                 scene.add.existing(this.bar);
-                this.bar.setDepth(1); // Set depth to ensure it is on top of the character
+                this.bar.setDepth(1); 
             }
 
             decrease(amount) {
@@ -150,10 +199,10 @@ export const BattleScene = class extends Phaser.Scene {
             }
         }
 
-        this.cameras.main.setZoom(.70);
+        this.cameras.main.setZoom(.80);
         const tilemap = this.make.tilemap({ key: "tilemap" });
 
-        console.log('Tilemap:', tilemap); // Check if the tilemap is loaded correctly
+        console.log('Tilemap:', tilemap); 
         console.log('Tilemap layers:', tilemap.layers);
 
         const tileset = tilemap.addTilesetImage("32x32 Dungeon", "tiles");
@@ -165,10 +214,10 @@ export const BattleScene = class extends Phaser.Scene {
 
         // Player sprite
         const sprites = {
-            baileigh: this.add.sprite(0, 0, 'baileigh').setScale(1.5),
-            colton: this.add.sprite(0, 0, 'colton').setScale(1.5),
-            danny: this.add.sprite(0, 0, 'danny').setScale(1.5),
-            tyler: this.add.sprite(0, 0, 'tyler').setScale(1.5),
+            baileigh: this.add.sprite(0, 0, 'baileigh').setScale(2),
+            colton: this.add.sprite(0, 0, 'colton').setScale(2),
+            danny: this.add.sprite(0, 0, 'danny').setScale(2),
+            tyler: this.add.sprite(0, 0, 'tyler').setScale(2),
         };
 
         const characterLevels = {
@@ -233,7 +282,7 @@ export const BattleScene = class extends Phaser.Scene {
 
         const createEnemy = (spriteKey, health, count = 1) => {
             for (let i = 0; i < count; i++) {
-                const sprite = this.add.sprite(0, 0, spriteKey).setScale(1.5);
+                const sprite = this.add.sprite(0, 0, spriteKey).setScale(2.5);
                 enemySprite.push(sprite);
                 const healthBar = new HealthBar(this, sprite.x, sprite.y - 20, health);
                 enemyHealthBars.push(healthBar);
@@ -286,7 +335,7 @@ export const BattleScene = class extends Phaser.Scene {
                 {
                     id: "danny",
                     sprite: sprites.danny,
-                    startPosition: { x: 19, y: 6 },
+                    startPosition: { x: 19, y: 7 },
                     offsetY: -4,
                 },
                 {
