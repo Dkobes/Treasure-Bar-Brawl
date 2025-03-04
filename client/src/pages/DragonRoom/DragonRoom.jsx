@@ -49,27 +49,69 @@ export const DragonRoom = () => {
             super ({ key: 'DragonScene' });
         }
 
-        preload () {
-            this.load.image('dragon', '../src/assets/enemySprite/dragon.png');
-            this.load.image('baileigh','../src/assets/playerSprite/baileigh.png');
-            this.load.image('colton', '../src/assets/playerSprite/colton.png');
-            this.load.image('danny', '../src/assets/playerSprite/danny.png');
-            this.load.image('tyler', '../src/assets/playerSprite/tyler.png');
-            this.load.image('basetile', '../src/assets/images/dragon-room-tilesets.png');
-            this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/dragon-room.json');
+        preload() {
+            this.load.image('dragon-room-tilesets', 'path/to/dragon-room-tilesets.png');
         }
-
-        create () {
+        
+        create() {
             const tilemap = this.make.tilemap({ key: "tilemap" });
-            tilemap.addTilesetImage("base", "basetile");
-            tilemap.createLayer(0, "base", 0 , 0);
-
+        
+            const tileset = tilemap.addTilesetImage("dragon-room-tilesets", "dragon-room-tilesets");
+        
+            const layerNames = [
+                "concrete-back-wall", "concrete-floor", "concrete-top-left-corner",
+                "concrete-top-right-corner", "concrete-border-back-wall", "concrete-left-border-wall",
+                "concrete-right-border-wall", "concrete-left-border-floor", "concrete-right-border-floor",
+                "concrete-left-corner-floor", "concrete-right-corner-floor", "doorway",
+                "barrel", "vase", "bottle", "coin-bag", "chest"
+            ];
+        
+            layerNames.forEach(layerName => {
+                try {
+                    console.log(`Creating layer: ${layerName}`);
+                    const tilemapLayer = tilemap.createLayer(layerName, tileset, 0, 0);
+                    if (!tilemapLayer) {
+                        throw new Error(`Layer '${layerName}' could not be created.`);
+                    }
+                } catch (e) {
+                    console.error(`Error initializing tilemap. ${e.message}`);
+                }
+            });
+        
             this.baileigh = this.add.sprite(0, 0, 'baileigh').setScale(0.75).setVisible(false);
             this.colton = this.add.sprite(0, 0, 'colton').setScale(0.75).setVisible(false);
             this.danny = this.add.sprite(0, 0, 'danny').setScale(0.75).setVisible(false);
             this.tyler = this.add.sprite(0, 0, 'tyler').setScale(0.75).setVisible(false);
-            this.dragon = this.add.sprite(0, 0, 'dragon').setScale(0.75).setVisible('ALIVE');
+            this.dragon = this.add.sprite(0, 0, 'dragon').setScale(0.75).setVisible(true); 
             this.player = this.colton;
+        
+        // create () {
+        //     const tilemap = this.make.tilemap({ key: "tilemap" });
+        //     tilemap.addTilesetImage("concrete-back-wall", "concrete-back-wall");
+        //     tilemap.addTilesetImage("concrete-floor", "concrete-floor");
+        //     tilemap.addTilesetImage("concrete-top-left-corner", "concrete-top-left-corner");
+        //     tilemap.addTilesetImage("concrete-top-right-corner", "concrete-top-right-corner");
+        //     tilemap.addTilesetImage("concrete-border-back-wall", "concrete-border-back-wall");
+        //     tilemap.addTilesetImage("concrete-left-border-wall", "concrete-left-border-wall");
+        //     tilemap.addTilesetImage("concrete-right-border-wall", "concrete-right-border-wall");
+        //     tilemap.addTilesetImage("concrete-left-border-floor", "concrete-left-border-floor");
+        //     tilemap.addTilesetImage("concrete-right-border-floor", "concrete-right-border-floor");
+        //     tilemap.addTilesetImage("concrete-left-corner-floor", "concrete-left-corner-floor");
+        //     tilemap.addTilesetImage("concrete-right-corner-floor", "concrete-right-corner-floor");
+        //     tilemap.addTilesetImage("doorway", "doorway");
+        //     tilemap.addTilesetImage("barrel", "barrel");
+        //     tilemap.addTilesetImage("vase", "vase");
+        //     tilemap.addTilesetImage("bottle", "bottle");
+        //     tilemap.addTilesetImage("coin-bag", "coin-bag");
+        //     tilemap.addTilesetImage("chest", "chest");
+        //     tilemap.createLayer(1, tilemap.getTileset("concrete-floor"), 0, 0);
+
+        //     this.baileigh = this.add.sprite(0, 0, 'baileigh').setScale(0.75).setVisible(false);
+        //     this.colton = this.add.sprite(0, 0, 'colton').setScale(0.75).setVisible(false);
+        //     this.danny = this.add.sprite(0, 0, 'danny').setScale(0.75).setVisible(false);
+        //     this.tyler = this.add.sprite(0, 0, 'tyler').setScale(0.75).setVisible(false);
+        //     this.dragon = this.add.sprite(0, 0, 'dragon').setScale(0.75).setVisible(true);
+        //     this.player = this.colton;
 
             const gridEngineConfig = {
                 characters: [
