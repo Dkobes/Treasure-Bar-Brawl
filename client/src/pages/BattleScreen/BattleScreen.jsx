@@ -62,12 +62,17 @@ export const BattleScreen = () => {
     }, [enemiesState]);
 
     useEffect(() => {
-        // If it's an enemy's turn, make them attack
-        if (turnOrder[currentTurn]?.stats.Speed <= 10) {
+        // If it's an enemy's turn, make them attack after a delay
+        if (enemiesState.some(enemy => enemy.name === turnOrder[currentTurn]?.name)) {
             const enemy = turnOrder[currentTurn];
             const randomAbility = enemy.abilities[Math.floor(Math.random() * enemy.abilities.length)];
             const randomTarget = charactersState[Math.floor(Math.random() * charactersState.length)];
-            handleAttack(enemy.name, randomAbility.name, randomTarget.id);
+            
+            const attackTimeout = setTimeout(() => {
+                handleAttack(enemy.name, randomAbility.name, randomTarget.id);
+            }, 2000); // 1 second delay
+
+            return () => clearTimeout(attackTimeout);
         }
     }, [currentTurn]);
 
