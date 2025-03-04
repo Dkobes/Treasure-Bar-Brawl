@@ -223,36 +223,36 @@ export const BattleScene = class extends Phaser.Scene {
         const characterLevels = {
             // these are just placeholders for now, will be updated with actual values
             baileigh: [
-                { level: 1, maxHealth: 100 },
-                { level: 2, maxHealth: 150 },
-                { level: 3, maxHealth: 200 },
-                { level: 4, maxHealth: 250 },
-                { level: 5, maxHealth: 300 },
-                { level: 6, maxHealth: 350 }
+                { level: 1, maxHealth: 150 },
+                { level: 2, maxHealth: 200 },
+                { level: 3, maxHealth: 250 },
+                { level: 4, maxHealth: 300 },
+                { level: 5, maxHealth: 350 },
+                { level: 6, maxHealth: 400 }
             ],
             colton: [
                 { level: 1, maxHealth: 150 },
-                { level: 2, maxHealth: 150 },
-                { level: 3, maxHealth: 200 },
-                { level: 4, maxHealth: 250 },
-                { level: 5, maxHealth: 300 },
-                { level: 6, maxHealth: 350 }
+                { level: 2, maxHealth: 200 },
+                { level: 3, maxHealth: 250 },
+                { level: 4, maxHealth: 300 },
+                { level: 5, maxHealth: 350 },
+                { level: 6, maxHealth: 400 }
             ],
             danny: [
                 { level: 1, maxHealth: 150 },
-                { level: 2, maxHealth: 150 },
-                { level: 3, maxHealth: 200 },
-                { level: 4, maxHealth: 250 },
-                { level: 5, maxHealth: 300 },
-                { level: 6, maxHealth: 350 }
+                { level: 2, maxHealth: 200 },
+                { level: 3, maxHealth: 250 },
+                { level: 4, maxHealth: 300 },
+                { level: 5, maxHealth: 350 },
+                { level: 6, maxHealth: 400 }
             ],
             tyler: [
                 { level: 1, maxHealth: 150 },
-                { level: 2, maxHealth: 150 },
-                { level: 3, maxHealth: 200 },
-                { level: 4, maxHealth: 250 },
-                { level: 5, maxHealth: 300 },
-                { level: 6, maxHealth: 350 }
+                { level: 2, maxHealth: 200 },
+                { level: 3, maxHealth: 250 },
+                { level: 4, maxHealth: 300 },
+                { level: 5, maxHealth: 350 },
+                { level: 6, maxHealth: 400 }
             ],
         };
 
