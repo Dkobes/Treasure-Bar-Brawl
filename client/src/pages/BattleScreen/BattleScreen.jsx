@@ -36,7 +36,7 @@ export const BattleScreen = () => {
 
         const game = new Phaser.Game(config);
 
-        game.scene.start('BattleScene', { enemyId });
+        game.scene.start('BattleScene', { enemyId, setEnemiesState });
 
         return () => game.destroy(true);
     }, [enemyId]);
@@ -44,6 +44,7 @@ export const BattleScreen = () => {
     useEffect(() => {
         // Set active enemies based on enemyId
         const activeEnemies = enemies.filter(enemy => enemy.name.toLowerCase().includes(enemyId.toLowerCase()));
+        console.log("Active Enemies:", activeEnemies); // Debugging
         const enemiesWithIds = activeEnemies.flatMap((enemy, index) => {
             return Array.from({ length: enemy.count || 1 }, (_, i) => ({
                 ...enemy,
@@ -51,6 +52,7 @@ export const BattleScreen = () => {
                 health: enemy.stats.HP
             }));
         });
+        console.log("Enemies with IDs:", enemiesWithIds); // Debugging
         setEnemiesState(enemiesWithIds);
     }, [enemyId]);
 
@@ -78,30 +80,32 @@ export const BattleScreen = () => {
 
     const handleAttack = (attackerName, attackName, targetId) => {
         console.log('handleAttack called with:', { attackerName, attackName, targetId });
+        // Find the attacker
         const attacker = turnOrder.find(character => character.name === attackerName);
-        const target = turnOrder.find(character => character.id === targetId);
-        if (!attacker || !target) {
-            console.error('Invalid attacker or target', { attacker, target });
+        if (!attacker) {
+            console.error('Invalid attacker:', attackerName);
             return;
         }
-        const ability = attacker.abilities.find(ability => ability.name === attackName);
-        const damage = ability.damage || 0;
 
+        // Find the target enemy using the targetId
+        const target = enemySprite.find(enemy => enemy.id === targetId);
+        if (!target) {
+            console.error('Invalid target:', targetId);
+            return;
+        }
+
+        // Get the ability used for the attack
+        const ability = attacker.abilities.find(ability => ability.name === attackName);
+        const damage = ability ? ability.damage : 0;
+
+        // Log the attack in the battle log
         setBattleLog(prevLog => [
             ...prevLog,
             `${attacker.name} used ${attackName} on ${target.name} for ${damage} damage`
         ]);
 
         // Reduce target's health
-        if (charactersState.some(character => character.id === targetId)) {
-            setCharactersState(prevState => prevState.map(character => 
-                character.id === targetId ? { ...character, health: character.health - damage } : character
-            ));
-        } else {
-            setEnemiesState(prevState => prevState.map(enemy => 
-                enemy.id === targetId ? { ...enemy, health: enemy.health - damage } : enemy
-            ));
-        }
+        target.health -= damage;
 
         // Check if the battle is over
         const allCharactersDead = charactersState.every(character => character.health <= 0);
@@ -157,6 +161,9 @@ export const BattleScene = class extends Phaser.Scene {
     }
 
     create(data) {
+
+        const { enemyId, setEnemiesState } = data;
+
         class HealthBar {
             constructor(scene, x, y, maxValue) {
                 this.bar = new Phaser.GameObjects.Graphics(scene);
@@ -170,7 +177,7 @@ export const BattleScene = class extends Phaser.Scene {
                 this.draw();
 
                 scene.add.existing(this.bar);
-                this.bar.setDepth(1); 
+                this.bar.setDepth(1);
             }
 
             decrease(amount) {
@@ -211,7 +218,7 @@ export const BattleScene = class extends Phaser.Scene {
         this.cameras.main.setZoom(.80);
         const tilemap = this.make.tilemap({ key: "tilemap" });
 
-        console.log('Tilemap:', tilemap); 
+        console.log('Tilemap:', tilemap);
         console.log('Tilemap layers:', tilemap.layers);
 
         const tileset = tilemap.addTilesetImage("32x32 Dungeon", "tiles");
@@ -285,12 +292,13 @@ export const BattleScene = class extends Phaser.Scene {
 
         createCharacterHealthBars();
 
-        const enemyId = data.enemyId; // Get the enemy ID passed from WorldScene
-        let enemySprite = [];
-        let enemyHealthBars = [];
+       
+        const enemySprite = [];
+        const enemyHealthBars = [];
 
         const createEnemy = (spriteKey, health, count = 1) => {
             for (let i = 0; i < count; i++) {
+                console.log(`Creating enemy: ${spriteKey} ${i + 1}`);
                 const sprite = this.add.sprite(0, 0, spriteKey).setScale(2.5);
                 enemySprite.push(sprite);
                 const healthBar = new HealthBar(this, sprite.x, sprite.y - 20, health);
@@ -300,6 +308,8 @@ export const BattleScene = class extends Phaser.Scene {
                 this.events.on('update', () => {
                     healthBar.bar.setPosition(sprite.x - 40, sprite.y - 20);
                 });
+                sprite.id = `${spriteKey}_${i}`; //for assigning a unique id to each enemy
+                sprite.name = `${spriteKey.charAt(0).toUpperCase() + spriteKey.slice(1)} ${i + 1}`; // Name like "Skeleton 1", "Skeleton 2", etc.
             }
         };
 
@@ -365,6 +375,15 @@ export const BattleScene = class extends Phaser.Scene {
         });
 
         this.gridEngine.create(tilemap, gridEngineConfig);
+
+        const createdEnemies = enemySprite.map((sprite, index) => ({
+            id: sprite.id,
+            name: sprite.name,
+            health: sprite.health,
+            stats: { Speed: 10 }, // Example stats, adjust as needed
+            abilities: [{ name: 'Attack', damage: 10 }], // Example abilities, adjust as needed
+        }));
+        setEnemiesState(createdEnemies);
     }
 };
 

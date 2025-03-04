@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import './BattleInterface.css';
 
 const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn }) => {
+    console.log("Enemies:", enemies);
     const [selectedTarget, setSelectedTarget] = useState(null);
 
     const handleAttack = (characterName, attackName) => {
         if (onAttack && selectedTarget) {
             onAttack(characterName, attackName, selectedTarget); // Trigger attack event
+            setSelectedTarget(null); // Reset target after attack
         }
     };
 
@@ -30,8 +32,12 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
                 <h3 className='nes-text is-error'>Select Target</h3>
                 <div className='target-options'>
                     {enemies.map((enemy) => (
-                        <button key={enemy.id} className={`nes-btn ${selectedTarget === enemy.id ? 'is-warning' : ''}`} onClick={() => setSelectedTarget(enemy.id)}>
-                            {enemy.name} 
+                        <button
+                            key={enemy.id}
+                            className='nes-btn is-error'
+                            onClick={() => setSelectedTarget(enemy.id)}
+                        >
+                            {enemy.name} (HP: {enemy.health})
                         </button>
                     ))}
                 </div>
