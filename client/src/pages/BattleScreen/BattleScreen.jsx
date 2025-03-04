@@ -59,7 +59,17 @@ export const BattleScreen = () => {
         const allCharacters = [...charactersState, ...enemiesState];
         allCharacters.sort((a, b) => b.stats.Speed - a.stats.Speed);
         setTurnOrder(allCharacters);
-    }, [enemiesState])
+    }, [enemiesState]);
+
+    useEffect(() => {
+        // If it's an enemy's turn, make them attack
+        if (turnOrder[currentTurn]?.stats.Speed <= 10) {
+            const enemy = turnOrder[currentTurn];
+            const randomAbility = enemy.abilities[Math.floor(Math.random() * enemy.abilities.length)];
+            const randomTarget = charactersState[Math.floor(Math.random() * charactersState.length)];
+            handleAttack(enemy.name, randomAbility.name, randomTarget.id);
+        }
+    }, [currentTurn]);
 
     const handleAttack = (attackerName, attackName, targetId) => {
         console.log('handleAttack called with:', { attackerName, attackName, targetId });
@@ -103,14 +113,6 @@ export const BattleScreen = () => {
         // Move to the next turn
         const nextTurn = (currentTurn + 1) % turnOrder.length;
         setCurrentTurn(nextTurn);
-
-        // If it's an enemy's turn, make them attack
-        if (turnOrder[nextTurn].stats.Speed <= 10) {
-            const enemy = turnOrder[nextTurn];
-            const randomAbility = enemy.abilities[Math.floor(Math.random() * enemy.abilities.length)];
-            const randomTarget = charactersState[Math.floor(Math.random() * charactersState.length)];
-            handleAttack(enemy.name, randomAbility.name, randomTarget.id);
-        }
     };
 
     return (
