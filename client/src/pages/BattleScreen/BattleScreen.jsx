@@ -44,7 +44,6 @@ export const BattleScreen = () => {
     useEffect(() => {
         // Set active enemies based on enemyId
         const activeEnemies = enemies.filter(enemy => enemy.name.toLowerCase().includes(enemyId.toLowerCase()));
-        console.log("Active Enemies:", activeEnemies); // Debugging
         const enemiesWithIds = activeEnemies.flatMap((enemy, index) => {
             return Array.from({ length: enemy.count || 1 }, (_, i) => ({
                 ...enemy,
@@ -52,7 +51,6 @@ export const BattleScreen = () => {
                 health: enemy.stats.HP
             }));
         });
-        console.log("Enemies with IDs:", enemiesWithIds); // Debugging
         setEnemiesState(enemiesWithIds);
     }, [enemyId]);
 
@@ -88,7 +86,7 @@ export const BattleScreen = () => {
         }
 
         // Find the target enemy using the targetId
-        const target = enemySprite.find(enemy => enemy.id === targetId);
+        const target = enemiesState.find(enemy => enemy.id === targetId);
         if (!target) {
             console.error('Invalid target:', targetId);
             return;
@@ -310,6 +308,7 @@ export const BattleScene = class extends Phaser.Scene {
                 });
                 sprite.id = `${spriteKey}_${i}`; //for assigning a unique id to each enemy
                 sprite.name = `${spriteKey.charAt(0).toUpperCase() + spriteKey.slice(1)} ${i + 1}`; // Name like "Skeleton 1", "Skeleton 2", etc.
+                sprite.health = health;
             }
         };
 
@@ -383,6 +382,7 @@ export const BattleScene = class extends Phaser.Scene {
             stats: { Speed: 10 }, // Example stats, adjust as needed
             abilities: [{ name: 'Attack', damage: 10 }], // Example abilities, adjust as needed
         }));
+        console.log('createdEnemies:', createdEnemies);
         setEnemiesState(createdEnemies);
     }
 };

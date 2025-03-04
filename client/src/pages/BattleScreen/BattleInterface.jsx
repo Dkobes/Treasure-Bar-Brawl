@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './BattleInterface.css';
 
 const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn }) => {
-    console.log("Enemies:", enemies);
     const [selectedTarget, setSelectedTarget] = useState(null);
 
     const handleAttack = (characterName, attackName) => {
