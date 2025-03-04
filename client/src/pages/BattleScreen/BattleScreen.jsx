@@ -12,7 +12,7 @@ export const BattleScreen = () => {
     const [battleLog, setBattleLog] = useState([]);
     const [turnOrder, setTurnOrder] = useState([]);
     const [currentTurn, setCurrentTurn] = useState(0);
-    const [charactersState, setCharactersState] = useState(characters.map(character => ({ ...character, health: character.stats.Health })));
+    const [charactersState, setCharactersState] = useState(characters.map(character => ({ ...character, health: character.stats.HP })));
     const [enemiesState, setEnemiesState] = useState([]);
 
     useEffect(() => {
@@ -42,22 +42,24 @@ export const BattleScreen = () => {
     }, [enemyId]);
 
     useEffect(() => {
-        // Determine turn order based on speed
-        const allCharacters = [...charactersState, ...enemiesState];
-        allCharacters.sort((a, b) => b.stats.Speed - a.stats.Speed);
-        setTurnOrder(allCharacters);
-
         // Set active enemies based on enemyId
         const activeEnemies = enemies.filter(enemy => enemy.name.toLowerCase().includes(enemyId.toLowerCase()));
         const enemiesWithIds = activeEnemies.flatMap((enemy, index) => {
             return Array.from({ length: enemy.count || 1 }, (_, i) => ({
                 ...enemy,
                 id: `${enemy.name}-${index}-${i}`,
-                health: enemy.stats.Health
+                health: enemy.stats.HP
             }));
         });
         setEnemiesState(enemiesWithIds);
     }, [enemyId]);
+
+    useEffect(() => {
+        // Determine turn order based on speed
+        const allCharacters = [...charactersState, ...enemiesState];
+        allCharacters.sort((a, b) => b.stats.Speed - a.stats.Speed);
+        setTurnOrder(allCharacters);
+    }, [enemiesState])
 
     const handleAttack = (attackerName, attackName, targetId) => {
         console.log('handleAttack called with:', { attackerName, attackName, targetId });
