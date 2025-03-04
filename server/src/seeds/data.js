@@ -8,6 +8,7 @@ const tyler = {
         Defense: 20,
         Resist: 18,
         Magic: 14,
+        HP: 150,
     },
     abilities: [
         { name: "Prayer", heal: 100, cooldown: 0.5 },
@@ -26,6 +27,7 @@ const danny = {
         Defense: 16,
         Resist: 14,
         Magic: 12,
+        HP: 150,
     },
     abilities: [
         { name: "Sneak Attack", damage: 50, cooldown: 0.5 },
@@ -44,6 +46,7 @@ const baileigh = {
         Defense: 12,
         Resist: 16,
         Magic: 20,
+        HP: 150,
     },
     abilities: [
         { name: "Eldritch Blast", damage: 50, cooldown: 0.5 },
@@ -62,6 +65,7 @@ const colton = {
         Defense: 12,
         Resist: 14,
         Magic: 20,
+        HP: 150,
     },
     abilities: [
         { name: "Fire Bolt", damage: 50, cooldown: 0.5 },
@@ -78,6 +82,7 @@ const skeleton = {
         Defense: 10,
         Resist: 10,
         Magic: 10,
+        HP: 100,
     },
     experience: 5,
     abilities: [
@@ -90,11 +95,12 @@ const skeleton = {
 const vampirate = {
     name: "Vampirate",
     stats: {
-        Speed: 10,
+        Speed: 18,
         Attack: 10,
         Defense: 10,
         Resist: 10,
         Magic: 10,
+        HP: 150,
     },
     experience: 10,
     abilities: [
@@ -108,11 +114,12 @@ const vampirate = {
 const iceElf = {
     name: "Ice Elf",
     stats: {
-        Speed: 10,
+        Speed: 25,
         Attack: 10,
         Defense: 10,
         Resist: 10,
         Magic: 10,
+        HP: 200
     },
     experience: 15,
     abilities: [
@@ -125,11 +132,12 @@ const iceElf = {
 const iceBear = {
     name: "Ice Bear",
     stats: {
-        Speed: 10,
+        Speed: 20,
         Attack: 10,
         Defense: 10,
         Resist: 10,
         Magic: 10,
+        HP: 250,
     },
     experience: 15,
     abilities: [
@@ -147,6 +155,7 @@ const grandma = {
         Defense: 10,
         Resist: 10,
         Magic: 10,
+        HP: 300,
     },
     experience: 20,
     abilities: [
@@ -159,11 +168,12 @@ const grandma = {
 const kitty = {
     name: "Kitty",
     stats: {
-        Speed: 10,
+        Speed: 30,
         Attack: 10,
         Defense: 10,
         Resist: 10,
         Magic: 10,
+        HP: 250,
     },
     experience: 20,
     abilities: [
@@ -176,11 +186,12 @@ const kitty = {
 const stanTheSorcerer = {
     name: "Stan the Sorcerer",
     stats: {
-        Speed: 10,
+        Speed: 15,
         Attack: 10,
         Defense: 10,
         Resist: 10,
         Magic: 10,
+        HP: 400,
     },
     experience: 30,
     abilities: [
@@ -195,11 +206,12 @@ const stanTheSorcerer = {
 const dragon = {
     name: "Dragon",
     stats: {
-        Speed: 10,
+        Speed: 20,
         Attack: 10,
         Defense: 10,
         Resist: 10,
         Magic: 10,
+        HP: 500,
     },
     experience: 50,
     abilities: [

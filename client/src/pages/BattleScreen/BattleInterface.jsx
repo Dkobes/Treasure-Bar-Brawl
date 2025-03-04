@@ -16,7 +16,7 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
         <div className='battle-interface nes-container is-rounded'>
             {currentCharacter && (
                 <div className='character-info'>
-                    <div className='character-name nes-text is-success'>{currentCharacter.name}</div>
+                    <div className='character-name nes-text is-primary'>{currentCharacter.name}</div>
                     <div className='attack-options'>
                         {currentCharacter.abilities.map((ability) => (
                             <button key={ability.name} className='nes-btn is-primary' onClick={() => handleAttack(currentCharacter.name, ability.name)}>
@@ -27,11 +27,11 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
                 </div>
             )}
             <div className='target-selection'>
-                <h3 className='nes-text is-warning'>Select Target</h3>
+                <h3 className='nes-text is-error'>Select Target</h3>
                 <div className='target-options'>
                     {enemies.map((enemy) => (
                         <button key={enemy.id} className={`nes-btn ${selectedTarget === enemy.id ? 'is-warning' : ''}`} onClick={() => setSelectedTarget(enemy.id)}>
-                            {enemy.name} ({enemy.id})
+                            {enemy.name} 
                         </button>
                     ))}
                 </div>

@@ -12,7 +12,7 @@ export const BattleScreen = () => {
     const [battleLog, setBattleLog] = useState([]);
     const [turnOrder, setTurnOrder] = useState([]);
     const [currentTurn, setCurrentTurn] = useState(0);
-    const [charactersState, setCharactersState] = useState(characters.map(character => ({ ...character, health: character.stats.Health })));
+    const [charactersState, setCharactersState] = useState(characters.map(character => ({ ...character, health: character.stats.HP })));
     const [enemiesState, setEnemiesState] = useState([]);
 
     useEffect(() => {
@@ -42,22 +42,24 @@ export const BattleScreen = () => {
     }, [enemyId]);
 
     useEffect(() => {
-        // Determine turn order based on speed
-        const allCharacters = [...charactersState, ...enemiesState];
-        allCharacters.sort((a, b) => b.stats.Speed - a.stats.Speed);
-        setTurnOrder(allCharacters);
-
         // Set active enemies based on enemyId
         const activeEnemies = enemies.filter(enemy => enemy.name.toLowerCase().includes(enemyId.toLowerCase()));
         const enemiesWithIds = activeEnemies.flatMap((enemy, index) => {
             return Array.from({ length: enemy.count || 1 }, (_, i) => ({
                 ...enemy,
                 id: `${enemy.name}-${index}-${i}`,
-                health: enemy.stats.Health
+                health: enemy.stats.HP
             }));
         });
         setEnemiesState(enemiesWithIds);
     }, [enemyId]);
+
+    useEffect(() => {
+        // Determine turn order based on speed
+        const allCharacters = [...charactersState, ...enemiesState];
+        allCharacters.sort((a, b) => b.stats.Speed - a.stats.Speed);
+        setTurnOrder(allCharacters);
+    }, [enemiesState])
 
     const handleAttack = (attackerName, attackName, targetId) => {
         console.log('handleAttack called with:', { attackerName, attackName, targetId });
@@ -138,7 +140,7 @@ export const BattleScene = class extends Phaser.Scene {
         this.load.image('iceBear', '../src/assets/enemySprite/iceBear.png');
         this.load.image('grandma', '../src/assets/enemySprite/grandma.png');
         this.load.image('kitten', '../src/assets/enemySprite/kitten.png');
-        this.load.image('stan', '../src/assets/enemySprite/sorcererStan.png');
+        this.load.image('stan', '../src/assets/enemySprite/battleStan.png');
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
         this.load.image('colton', '../src/assets/playerSprite/colton.png');
         this.load.image('danny', '../src/assets/playerSprite/danny.png');
@@ -223,36 +225,36 @@ export const BattleScene = class extends Phaser.Scene {
         const characterLevels = {
             // these are just placeholders for now, will be updated with actual values
             baileigh: [
-                { level: 1, maxHealth: 100 },
-                { level: 2, maxHealth: 150 },
-                { level: 3, maxHealth: 200 },
-                { level: 4, maxHealth: 250 },
-                { level: 5, maxHealth: 300 },
-                { level: 6, maxHealth: 350 }
+                { level: 1, maxHealth: 150 },
+                { level: 2, maxHealth: 200 },
+                { level: 3, maxHealth: 250 },
+                { level: 4, maxHealth: 300 },
+                { level: 5, maxHealth: 350 },
+                { level: 6, maxHealth: 400 }
             ],
             colton: [
                 { level: 1, maxHealth: 150 },
-                { level: 2, maxHealth: 150 },
-                { level: 3, maxHealth: 200 },
-                { level: 4, maxHealth: 250 },
-                { level: 5, maxHealth: 300 },
-                { level: 6, maxHealth: 350 }
+                { level: 2, maxHealth: 200 },
+                { level: 3, maxHealth: 250 },
+                { level: 4, maxHealth: 300 },
+                { level: 5, maxHealth: 350 },
+                { level: 6, maxHealth: 400 }
             ],
             danny: [
                 { level: 1, maxHealth: 150 },
-                { level: 2, maxHealth: 150 },
-                { level: 3, maxHealth: 200 },
-                { level: 4, maxHealth: 250 },
-                { level: 5, maxHealth: 300 },
-                { level: 6, maxHealth: 350 }
+                { level: 2, maxHealth: 200 },
+                { level: 3, maxHealth: 250 },
+                { level: 4, maxHealth: 300 },
+                { level: 5, maxHealth: 350 },
+                { level: 6, maxHealth: 400 }
             ],
             tyler: [
                 { level: 1, maxHealth: 150 },
-                { level: 2, maxHealth: 150 },
-                { level: 3, maxHealth: 200 },
-                { level: 4, maxHealth: 250 },
-                { level: 5, maxHealth: 300 },
-                { level: 6, maxHealth: 350 }
+                { level: 2, maxHealth: 200 },
+                { level: 3, maxHealth: 250 },
+                { level: 4, maxHealth: 300 },
+                { level: 5, maxHealth: 350 },
+                { level: 6, maxHealth: 400 }
             ],
         };
 
