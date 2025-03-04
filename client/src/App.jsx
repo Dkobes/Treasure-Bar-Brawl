@@ -23,7 +23,7 @@ function App() {
           <Route path="/battle" element={<BattleScreen />} />
           <Route path="/party-menu" element={<PartyMenu />} />
           <Route path='/world' element={<WorldScene />} />
-          <Route path='/dragon-room' element={<DragonRoom />} /> 
+          <Route path='/dragonRoom' element={<DragonRoom />} /> 
         </Routes>
       </Suspense>
     </Router>
