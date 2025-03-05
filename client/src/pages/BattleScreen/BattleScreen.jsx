@@ -2,8 +2,8 @@ import Phaser from 'phaser';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { GridEngine } from 'grid-engine';
+import auth from '../../utils/auth.js';
 import BattleInterface from './BattleInterface';
-import { characters, enemies } from '../../../../server/src/seeds/data'; // Adjust the import path as needed
 
 export const BattleScreen = () => {
     const location = useLocation();
@@ -12,8 +12,49 @@ export const BattleScreen = () => {
     const [battleLog, setBattleLog] = useState([]);
     const [turnOrder, setTurnOrder] = useState([]);
     const [currentTurn, setCurrentTurn] = useState(0);
-    const [charactersState, setCharactersState] = useState(characters.map(character => ({ ...character, health: character.stats.HP })));
+    const [charactersState, setCharactersState] = useState([]);
+    const [enemies, setEnemies] = useState([]);
     const [enemiesState, setEnemiesState] = useState([]);
+    const username = localStorage.getItem("username");
+
+    useEffect(() => {
+        const getParty = async () => {
+            try {
+                const response = await fetch(`/api/party/${username}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer: ${auth.getToken()}`,
+                        "Content-Type": "application/json",
+                    }
+                });
+    
+                const data = await response.json();
+                const party = data.map(character => ({ ...character, health: character.stats.HP }));
+                setCharactersState(party);
+            } catch (error) {
+                console.error('Failed to fetch party:', error);
+            }
+        };
+        getParty();
+
+        const getEnemies = async () => {
+            try {
+                const response = await fetch(`/api/enemy/${username}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer: ${auth.getToken()}`,
+                        "Content-Type": "application/json",
+                    }
+                });
+    
+                const data = await response.json();
+                setEnemies(data);
+            } catch (error) {
+                console.error('Failed to fetch enemies:', error);
+            }
+        };
+        getEnemies();
+    }, []);
 
     useEffect(() => {
         const config = {
@@ -78,6 +119,7 @@ export const BattleScreen = () => {
 
     const handleAttack = (attackerName, attackName, targetId) => {
         console.log('handleAttack called with:', { attackerName, attackName, targetId });
+        console.log(enemiesState)
         // Find the attacker
         const attacker = turnOrder.find(character => character.name === attackerName);
         if (!attacker) {
@@ -86,7 +128,7 @@ export const BattleScreen = () => {
         }
 
         // Find the target enemy using the targetId
-        const target = enemiesState.find(enemy => enemy.id === targetId);
+        const target = turnOrder.find(enemy => enemy.id === targetId);
         if (!target) {
             console.error('Invalid target:', targetId);
             return;
@@ -114,12 +156,57 @@ export const BattleScreen = () => {
                 ...prevLog,
                 allCharactersDead ? "All characters are dead. Game Over." : "All enemies are dead. Victory!"
             ]);
+
+            if (allEnemiesDead) {
+                handleLevelUp(charactersState, enemiesState);
+            }
             return;
         }
 
         // Move to the next turn
         const nextTurn = (currentTurn + 1) % turnOrder.length;
         setCurrentTurn(nextTurn);
+    };
+
+    const handleLevelUp = (characters, enemies) => {
+        const xpThresholds = [15, 30, 45, 60, 90, 140];
+        let enemyXP = enemies[0].xp + enemies[1].xp + enemies[2].xp;
+
+        const levelUp = (character) => {
+            character.level++;
+            character.stats.HP += 50;
+            character.stats.Speed += character.level;
+            character.stats.Attack += character.level;
+            character.stats.Defense += character.level;
+            character.stats.Magic += character.level;
+            character.stats.Resist += character.level;
+        };
+    
+        const party = characters.forEach((character) => {
+            character.experience += enemyXP;
+            while (character.experience >= xpThresholds[character.level - 1]) {
+                levelUp(character);
+            }
+        });
+        console.log(charactersState)
+        console.log(characters)
+        console.log(party)
+        
+        const updateParty = async () => {
+            try {
+                await fetch(`/api/party/${username}`, {
+                    method: "PUT",
+                    headers: {
+                        Authorization: `Bearer: ${auth.getToken()}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(party),
+                });
+            } catch (error) {
+                console.error('Failed to update party:', error);
+            }
+        };
+        updateParty();
     };
 
     return (
@@ -294,7 +381,7 @@ export const BattleScene = class extends Phaser.Scene {
         const enemySprite = [];
         const enemyHealthBars = [];
 
-        const createEnemy = (spriteKey, health, count = 1) => {
+        const createEnemy = (spriteKey, health, xp, count = 1) => {
             for (let i = 0; i < count; i++) {
                 console.log(`Creating enemy: ${spriteKey} ${i + 1}`);
                 const sprite = this.add.sprite(0, 0, spriteKey).setScale(2.5);
@@ -309,21 +396,22 @@ export const BattleScene = class extends Phaser.Scene {
                 sprite.id = `${spriteKey}_${i}`; //for assigning a unique id to each enemy
                 sprite.name = `${spriteKey.charAt(0).toUpperCase() + spriteKey.slice(1)} ${i + 1}`; // Name like "Skeleton 1", "Skeleton 2", etc.
                 sprite.health = health;
+                sprite.xp = xp;
             }
         };
 
         if (enemyId === 'skeleton') {
-            createEnemy('skeleton', 100, 3);
+            createEnemy('skeleton', 100, 5, 3);
         } else if (enemyId === 'vampirate') {
-            createEnemy('vampirate', 200, 3);
+            createEnemy('vampirate', 200, 10, 3);
         } else if (enemyId === 'iceElf') {
-            createEnemy('iceBear', 300, 1);
-            createEnemy('iceElf', 300, 2);
+            createEnemy('iceBear', 300, 15, 1);
+            createEnemy('iceElf', 300, 15, 2);
         } else if (enemyId === 'grandma') {
-            createEnemy('grandma', 500, 1);
-            createEnemy('kitten', 200, 2);
+            createEnemy('grandma', 500, 20, 1);
+            createEnemy('kitten', 200, 20, 2);
         } else if (enemyId === 'stan') {
-            createEnemy('stan', 1000, 1);
+            createEnemy('stan', 1000, 30, 1);
         } else if (this.textures.exists(enemyId)) {
             createEnemy(enemyId, 100); // Default health for specific enemy
         } else {
@@ -379,6 +467,7 @@ export const BattleScene = class extends Phaser.Scene {
             id: sprite.id,
             name: sprite.name,
             health: sprite.health,
+            xp: sprite.xp,
             stats: { Speed: 10 }, // Example stats, adjust as needed
             abilities: [{ name: 'Attack', damage: 10 }], // Example abilities, adjust as needed
         }));
