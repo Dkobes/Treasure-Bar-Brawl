@@ -1,12 +1,13 @@
 import Phaser from 'phaser';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { GridEngine } from 'grid-engine';
 import auth from '../../utils/auth.js';
 import BattleInterface from './BattleInterface';
 
 export const BattleScreen = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const enemyId = queryParams.get('enemyId');
     const [battleLog, setBattleLog] = useState([]);
@@ -15,6 +16,8 @@ export const BattleScreen = () => {
     const [charactersState, setCharactersState] = useState([]);
     const [enemies, setEnemies] = useState([]);
     const [enemiesState, setEnemiesState] = useState([]);
+    const [battleCompleted, setBattleCompleted] = useState(false);
+    const [xpGain, setXpGain] = useState(0);
     const username = localStorage.getItem("username");
 
     useEffect(() => {
@@ -159,6 +162,7 @@ export const BattleScreen = () => {
             if (allEnemiesDead) {
                 handleLevelUp(charactersState, enemiesState);
             }
+            setBattleCompleted(true);
             return;
         }
 
@@ -169,11 +173,8 @@ export const BattleScreen = () => {
 
     const handleLevelUp = (characters, enemies) => {
         const xpThresholds = [15, 45, 90, 150, 180, 230];
-        let enemyXP = enemies[0].xp + enemies[1].xp + enemies[2].xp;
-
-        if (enemies.length === 1) {
-            enemyXP = enemies[0].xp;
-        }
+        let enemyXP = enemies.reduce((acc, enemy) => acc + enemy.xp, 0);
+        setXpGain(enemyXP);
 
         const levelUp = (character) => {
             character.level++;
@@ -208,6 +209,10 @@ export const BattleScreen = () => {
         });
     };
 
+    const handleLeaveBattle = () => {
+        navigate('/world');
+    };
+
     return (
         <div>
             <div id="phaser-game"></div>
@@ -218,6 +223,13 @@ export const BattleScreen = () => {
                 battleLog={battleLog}
                 currentTurn={turnOrder[currentTurn]?.name}
             />
+            {battleCompleted && (
+                <div className="battle-completion">
+                    <h3>Battle Completed!</h3>
+                    <p>XP Gained: {xpGain}</p>
+                    <button onClick={handleLeaveBattle}>Leave Battle</button>
+                </div>
+            )}
         </div>
     );
 };
@@ -245,59 +257,7 @@ export const BattleScene = class extends Phaser.Scene {
     }
 
     create(data) {
-
         const { enemyId, setEnemiesState } = data;
-
-        class HealthBar {
-            constructor(scene, x, y, maxValue) {
-                this.bar = new Phaser.GameObjects.Graphics(scene);
-
-                this.x = x;
-                this.y = y;
-                this.value = maxValue;
-                this.maxValue = maxValue;
-                this.p = 76 / maxValue;
-
-                this.draw();
-
-                scene.add.existing(this.bar);
-                this.bar.setDepth(1);
-            }
-
-            decrease(amount) {
-                this.value -= amount;
-
-                if (this.value < 0) {
-                    this.value = 0;
-                }
-
-                this.draw();
-
-                return (this.value === 0);
-            }
-
-            draw() {
-                this.bar.clear();
-
-                //  BG
-                this.bar.fillStyle(0x000000);
-                this.bar.fillRect(this.x, this.y, 80, 16);
-
-                //  Health
-                this.bar.fillStyle(0xffffff);
-                this.bar.fillRect(this.x + 2, this.y + 2, 76, 12);
-
-                if (this.value < this.maxValue * 0.3) {
-                    this.bar.fillStyle(0xff0000);
-                } else {
-                    this.bar.fillStyle(0x00ff00);
-                }
-
-                var d = Math.floor(this.p * this.value);
-
-                this.bar.fillRect(this.x + 2, this.y + 2, d, 12);
-            }
-        }
 
         this.cameras.main.setZoom(.80);
         const tilemap = this.make.tilemap({ key: "tilemap" });
@@ -356,42 +316,13 @@ export const BattleScene = class extends Phaser.Scene {
             ],
         };
 
-        const healthBars = [];
-
-        const createCharacterHealthBars = () => {
-            Object.keys(characterLevels).forEach(characterId => {
-                const { maxHealth } = characterLevels[characterId][0]; // Get maxHealth for level 1
-                const characterSprite = sprites[characterId]; // Use the object to access the sprite
-
-                // Create health bar for the character
-                const healthBar = new HealthBar(this, characterSprite.x, characterSprite.y - 20, maxHealth);
-                healthBars[characterId] = healthBar;
-
-                // Update health bar position in the game loop
-                this.events.on('update', () => {
-                    healthBar.bar.setPosition(characterSprite.x - 40, characterSprite.y - 20);
-                });
-            });
-        };
-
-        createCharacterHealthBars();
-
-       
         const enemySprite = [];
-        const enemyHealthBars = [];
 
         const createEnemy = (spriteKey, health, xp, count = 1) => {
             for (let i = 0; i < count; i++) {
                 console.log(`Creating enemy: ${spriteKey} ${i + 1}`);
                 const sprite = this.add.sprite(0, 0, spriteKey).setScale(2.5);
                 enemySprite.push(sprite);
-                const healthBar = new HealthBar(this, sprite.x, sprite.y - 20, health);
-                enemyHealthBars.push(healthBar);
-
-                // Update health bar position in the game loop
-                this.events.on('update', () => {
-                    healthBar.bar.setPosition(sprite.x - 40, sprite.y - 20);
-                });
                 sprite.id = `${spriteKey}_${i}`; //for assigning a unique id to each enemy
                 sprite.name = `${spriteKey.charAt(0).toUpperCase() + spriteKey.slice(1)} ${i + 1}`; // Name like "Skeleton 1", "Skeleton 2", etc.
                 sprite.health = health;
