@@ -13,10 +13,6 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
         }
     };
 
-    const handleAbilitySelect = (ability) => {
-        setSelectedAbility(ability);
-        setSelectedTarget(null); // Reset target when a new ability is selected
-    };
 
     return (
         <div className='battle-interface nes-container is-rounded'>
