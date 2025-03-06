@@ -40,13 +40,17 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
                         {character.name === currentTurn && (
                             <div className='attack-options'>
                                 {character.abilities.map((ability) => (
-                                    <button
-                                        key={ability.name}
-                                        className='nes-btn is-primary'
-                                        onClick={() => handleAttack(character.name, ability.name)}
-                                    >
-                                        {ability.name}
-                                    </button>
+                                    character.level >= ability.level ? (
+                                        <button
+                                            key={ability.name}
+                                            className='nes-btn is-primary'
+                                            onClick={() => handleAttack(character.name, ability.name)}
+                                        >
+                                            {ability.name}
+                                        </button>
+                                    ) : (
+                                        null
+                                    )
                                 ))}
                             </div>
                         )}

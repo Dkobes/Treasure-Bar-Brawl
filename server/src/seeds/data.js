@@ -11,9 +11,9 @@ const tyler = {
         HP: 150,
     },
     abilities: [
-        { name: "Prayer", heal: 100, cooldown: 0.5 },
-        { name: "Holy Bolt", damage: 100, cooldown: 1 },
-        { name: "Holy Blade", damage: 200, cooldown: 2 }
+        { name: "Prayer", heal: 100, cooldown: 0.5, level: 1 },
+        { name: "Holy Bolt", damage: 100, cooldown: 1, level: 3 },
+        { name: "Holy Blade", damage: 200, cooldown: 2, level: 5 }
     ]
 };
 
@@ -30,9 +30,9 @@ const danny = {
         HP: 150,
     },
     abilities: [
-        { name: "Sneak Attack", damage: 50, cooldown: 0.5 },
-        { name: "Poison", damage: 100, cooldown: 1 },
-        { name: "Shadow Strike", damage: 200, cooldown: 2 }
+        { name: "Sneak Attack", damage: 50, cooldown: 0.5, level: 1 },
+        { name: "Poison", damage: 100, cooldown: 1, level: 3 },
+        { name: "Shadow Strike", damage: 200, cooldown: 2, level: 5 }
     ]
 };
 
@@ -49,9 +49,9 @@ const baileigh = {
         HP: 150,
     },
     abilities: [
-        { name: "Eldritch Blast", damage: 50, cooldown: 0.5 },
-        { name: "Shatter", damage: 100, cooldown: 1 },
-        { name: "Shadow Curse", damage: 200, cooldown: 2 }
+        { name: "Eldritch Blast", damage: 50, cooldown: 0.5, level: 1 },
+        { name: "Shatter", damage: 100, cooldown: 1, level: 3 },
+        { name: "Shadow Curse", damage: 200, cooldown: 2, level: 5 }
     ]
 };
 
@@ -68,9 +68,9 @@ const colton = {
         HP: 150,
     },
     abilities: [
-        { name: "Fire Bolt", damage: 50, cooldown: 0.5 },
-        { name: "Fireball", damage: 100, cooldown: 1 },
-        { name: "Meteor Shower", damage: 200, cooldown: 2 }
+        { name: "Fire Bolt", damage: 50, cooldown: 0.5, level: 1 },
+        { name: "Fireball", damage: 100, cooldown: 1, level: 3 },
+        { name: "Meteor Shower", damage: 200, cooldown: 2, level: 5 }
     ]
 };
 
