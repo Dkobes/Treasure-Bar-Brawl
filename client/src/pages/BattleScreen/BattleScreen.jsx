@@ -241,7 +241,7 @@ export const BattleScene = class extends Phaser.Scene {
 
     preload() {
         // add in correct items to load
-        this.load.image('skeleton', '/assets/enemySprite/skeleton.png');
+        this.load.image('skeleton', '../src/assets/enemySprite/skeleton.png');
         this.load.image('vampirate', '../src/assets/enemySprite/vampirate.png');
         this.load.image('iceElf', '../src/assets/enemySprite/iceElf.png');
         this.load.image('iceBear', '../src/assets/enemySprite/iceBear.png');

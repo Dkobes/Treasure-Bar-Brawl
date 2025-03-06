@@ -52,6 +52,33 @@ export const PartyMenu = () => {
         fetchParty();
     }, []);
 
+    useEffect(() => {
+        // This effect will run whenever the party state changes
+        const updatePartyData = async () => {
+            try {
+                const token = localStorage.getItem("id_token");
+                if (!token) throw new Error("No token found");
+
+                const username = localStorage.getItem("username");
+                const response = await fetch(`/api/party/${username}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (!response.ok) throw new Error("Failed to fetch updated party data");
+
+                const data = await response.json();
+                setParty(data);
+            } catch (error) {
+                console.error("Error updating party data:", error);
+                setError(error.message);
+            }
+        };
+
+        updatePartyData();
+    }, [party]);
+
     const handleSave = async () => {
         setSaving(true);
         setSaveMessage("");
