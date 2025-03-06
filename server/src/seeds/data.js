@@ -76,6 +76,7 @@ const colton = {
 
 const skeleton = {
     name: "Skeleton",
+    alias: 'skeleton',
     stats: {
         Speed: 10,
         Attack: 10,
@@ -94,6 +95,7 @@ const skeleton = {
 
 const vampirate = {
     name: "Vampirate",
+    alias: 'vampirate',
     stats: {
         Speed: 18,
         Attack: 10,
@@ -113,6 +115,7 @@ const vampirate = {
 
 const iceElf = {
     name: "Ice Elf",
+    alias: 'iceElf',
     stats: {
         Speed: 25,
         Attack: 10,
@@ -131,6 +134,7 @@ const iceElf = {
 
 const iceBear = {
     name: "Ice Bear",
+    alias: 'iceBear',
     stats: {
         Speed: 20,
         Attack: 10,
@@ -149,6 +153,7 @@ const iceBear = {
 
 const grandma = {
     name: "Grandma",
+    alias: 'grandma',
     stats: {
         Speed: 10,
         Attack: 10,
@@ -167,6 +172,7 @@ const grandma = {
 
 const kitty = {
     name: "Kitty",
+    alias: 'kitty',
     stats: {
         Speed: 30,
         Attack: 10,
@@ -185,6 +191,7 @@ const kitty = {
 
 const stanTheSorcerer = {
     name: "Stan the Sorcerer",
+    alias: 'stan',
     stats: {
         Speed: 15,
         Attack: 10,
@@ -205,6 +212,7 @@ const stanTheSorcerer = {
 
 const dragon = {
     name: "Dragon",
+    alias: 'dragon',
     stats: {
         Speed: 20,
         Attack: 10,

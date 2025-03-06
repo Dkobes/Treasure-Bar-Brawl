@@ -178,6 +178,16 @@ export const BattleScreen = () => {
     
             if (allEnemiesDead) {
                 handleLevelUp(charactersState, enemiesState);
+
+                fetch(`/api/enemy/${username}/${enemyId}`, {
+                    method: 'PUT',
+                    headers: {
+                        Authorization: `Bearer: ${auth.getToken()}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({alive: false}),
+                })
+                .catch(error => console.log(error));
             }
             setBattleCompleted(true);
             return;
