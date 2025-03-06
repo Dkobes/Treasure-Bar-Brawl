@@ -18,6 +18,7 @@ export const BattleScreen = () => {
     const [enemiesState, setEnemiesState] = useState([]);
     const [battleCompleted, setBattleCompleted] = useState(false);
     const [xpGain, setXpGain] = useState(0);
+    const [attackAnimation, setAttackAnimation] = useState(null);
     const username = localStorage.getItem("username");
 
     useEffect(() => {
@@ -58,6 +59,38 @@ export const BattleScreen = () => {
         };
         getEnemies();
     }, []);
+
+    const attackImages = {
+        "Amlug Roar": "amlugRoar",
+        "Attack": "attack",
+        "Bite": "bite",
+        "Coin Fling": "coinFling",
+        "Dragon's Fury": "dragonsFury",
+        "Eat More": "eatMore",
+        "Energy Break": "energyBreak",
+        "Feline Frenzy": "felineFrenzy",
+        "Femur Fling": "femurFling",
+        "Fire Breath": "fireBreath",
+        "Hook": "hook",
+        "Ice Arrow": "iceArrow",
+        "JavaScript Slash": "javaScriptSlash",
+        "Maul": "maul",
+        "MERNder": "MERNder",
+        "Scratch": "scratch",
+        "TypeScript Tornado": "typescriptTornado",
+        "Eldritch Blast": "eldritchBlast",
+        "Fireball": "fireball",
+        "Fire Bolt": "fireBolt",
+        "Holy Blade": "holyBlade",
+        "Holy Bolt": "holyBolt",
+        "Meteor Shower": "meteorShower",
+        "Poison": "poison",
+        "Prayer": "prayer",
+        "Shadow Curse": "shadowCurse",
+        "Shadow Strike": "shadowStrike",
+        "Shatter": "shatter",
+        "Sneak Attack": "sneakAttack"
+    };
 
     useEffect(() => {
         const config = {
@@ -150,6 +183,15 @@ export const BattleScreen = () => {
                 `${attacker.name} used ${attackName} on ${target.name} for ${ability.damage} damage`
             ]);
     
+
+            const attackImageKey = attackImages[attackName];
+        if (attackImageKey) {
+            setAttackAnimation({ attackName: attackImageKey, x: target.x, y: target.y });
+        } else {
+            console.error('No image found for attack:', attackName);
+        }
+
+
             // Reduce target's health
             target.health -= ability.damage;
         } else if (ability.heal) {
@@ -250,6 +292,11 @@ export const BattleScreen = () => {
                 battleLog={battleLog}
                 currentTurn={turnOrder[currentTurn]?.name}
             />
+            {attackAnimation && (
+                <div className="attack-animation">
+                    <img src={`/assets/attackAnimation/${attackAnimation.attackName}.png`} alt={attackAnimation.attackName} style={{ position: 'absolute', left: attackAnimation.x, top: attackAnimation.y }} />
+                </div>
+            )}
             {battleCompleted && (
                 <div className="battle-completion">
                     <h3>Battle Completed!</h3>
@@ -281,6 +328,35 @@ export const BattleScene = class extends Phaser.Scene {
         this.load.image('tyler', '../src/assets/playerSprite/tyler.png');
         this.load.image('tiles', '../src/assets/images/dungeon-tileset.png');
         this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/dungeon.json');
+        this.load.image('amlugRoar', '../src/assets/attackAnimation/enemy/amlugRoar.png');
+        this.load.image('attack', '../src/assets/attackAnimation/enemy/attack.png');
+        this.load.image('bite', '../src/assets/attackAnimation/enemy/bite.png');
+        this.load.image('coinFling', '../src/assets/attackAnimation/enemy/coinFling.png');
+        this.load.image('dragonsFury', '../src/assets/attackAnimation/enemy/dragonsFury.png');
+        this.load.image('eatMore', '../src/assets/attackAnimation/enemy/eatMore.png');
+        this.load.image('energyBreak', '../src/assets/attackAnimation/enemy/energyBreak.png');
+        this.load.image('felineFrenzy', '../src/assets/attackAnimation/enemy/felineFrenzy.png');
+        this.load.image('femurFling', '../src/assets/attackAnimation/enemy/femurFling.png');
+        this.load.image('fireBreath', '../src/assets/attackAnimation/enemy/fireBreath.png');
+        this.load.image('hook', '../src/assets/attackAnimation/enemy/hook.png');
+        this.load.image('iceArrow', '../src/assets/attackAnimation/enemy/iceArrow.png');
+        this.load.image('javaScriptSlash', '../src/assets/attackAnimation/enemy/javaScriptSlash.png');
+        this.load.image('maul', '../src/assets/attackAnimation/enemy/maul.png');
+        this.load.image('MERNder', '../src/assets/attackAnimation/enemy/MERNder.png');
+        this.load.image('scratch', '../src/assets/attackAnimation/enemy/scratch.png');
+        this.load.image('typescriptTornado', '../src/assets/attackAnimation/enemy/typescriptTornado.png');
+        this.load.image('eldritchBlast', '../src/assets/attackAnimation/player/eldritchBlast.png');
+        this.load.image('fireball', '../src/assets/attackAnimation/player/fireball.png');
+        this.load.image('fireBolt', '../src/assets/attackAnimation/player/fireBolt.png');
+        this.load.image('holyBlade', '../src/assets/attackAnimation/player/holyBlade.png');
+        this.load.image('holyBolt', '../src/assets/attackAnimation/player/holyBolt.png');
+        this.load.image('meteorShower', '../src/assets/attackAnimation/player/meteorShower.png');
+        this.load.image('poison', '../src/assets/attackAnimation/player/poison.png');
+        this.load.image('prayer', '../src/assets/attackAnimation/player/prayer.png');
+        this.load.image('shadowCurse', '../src/assets/attackAnimation/player/shadowCurse.png');
+        this.load.image('shadowStrike', '../src/assets/attackAnimation/player/shadowStrike.png');
+        this.load.image('shatter', '../src/assets/attackAnimation/player/shatter.png');
+        this.load.image('sneakAttack', '../src/assets/attackAnimation/player/sneakAttack.png');
     }
 
     create(data) {
@@ -298,6 +374,10 @@ export const BattleScene = class extends Phaser.Scene {
         const floorLayer = tilemap.createLayer('Floor', tileset, 0, 0);
         const wallLayer = tilemap.createLayer('Walls', tileset, 0, 0);
         const wallsidesLayer = tilemap.createLayer('Side Walls and Pillars', tileset, 0, 0);
+
+        this.attackAnimation = data.attackAnimation;
+
+        
 
         // Player sprite
         const sprites = {
@@ -345,6 +425,12 @@ export const BattleScene = class extends Phaser.Scene {
 
         const enemySprite = [];
 
+        const enemyPositions = [
+            { x: 8, y: 10 }, // Position for the first enemy
+            { x: 5, y: 13 }, // Position for the second enemy
+            { x: 5, y: 7 }, // Position for the third enemy
+        ];
+
         const createEnemy = (spriteKey, health, xp, count = 1) => {
             for (let i = 0; i < count; i++) {
                 console.log(`Creating enemy: ${spriteKey} ${i + 1}`);
@@ -354,6 +440,8 @@ export const BattleScene = class extends Phaser.Scene {
                 sprite.name = `${spriteKey.charAt(0).toUpperCase() + spriteKey.slice(1)} ${i + 1}`; // Name like "Skeleton 1", "Skeleton 2", etc.
                 sprite.health = health;
                 sprite.xp = xp;
+                sprite.x = enemyPositions[i].x;
+                sprite.y = enemyPositions[i].y;
             }
         };
 
@@ -374,11 +462,7 @@ export const BattleScene = class extends Phaser.Scene {
         } else {
             console.error(`Enemy ID "${enemyId}" does not exist!`); // Handle invalid enemyId
         }
-        const enemyPositions = [
-            { x: 8, y: 10 }, // Position for the first enemy
-            { x: 5, y: 13 }, // Position for the second enemy
-            { x: 5, y: 7 }, // Position for the third enemy
-        ];
+        
 
         // Creates tilemap
         const gridEngineConfig = {
