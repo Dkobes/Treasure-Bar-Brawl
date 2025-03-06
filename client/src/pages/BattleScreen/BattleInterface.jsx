@@ -3,12 +3,19 @@ import './BattleInterface.css';
 
 const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn }) => {
     const [selectedTarget, setSelectedTarget] = useState(null);
+    const [selectedAbility, setSelectedAbility] = useState(null);
 
     const handleAttack = (characterName, attackName) => {
         if (onAttack && selectedTarget) {
             onAttack(characterName, attackName, selectedTarget); // Trigger attack event
             setSelectedTarget(null); // Reset target after attack
+            setSelectedAbility(null); // Reset ability after attack
         }
+    };
+
+    const handleAbilitySelect = (ability) => {
+        setSelectedAbility(ability);
+        setSelectedTarget(null); // Reset target when a new ability is selected
     };
 
     return (
@@ -16,15 +23,25 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
             <div className='target-selection'>
                 <h5 className='nes-text is-error'>Select Target</h5>
                 <div className='target-options'>
-                    {enemies.map((enemy) => (
-                        <button
-                            key={enemy.id}
-                            className='nes-btn is-error'
-                            onClick={() => setSelectedTarget(enemy.id)}
-                        >
-                            {enemy.name} (HP: {enemy.health})
-                        </button>
-                    ))}
+                    {selectedAbility && selectedAbility.heal
+                        ? characters.map((character) => (
+                            <button
+                                key={character.id}
+                                className='nes-btn is-success'
+                                onClick={() => setSelectedTarget(character.id)}
+                            >
+                                {character.name} (HP: {character.health})
+                            </button>
+                        ))
+                        : enemies.map((enemy) => (
+                            <button
+                                key={enemy.id}
+                                className='nes-btn is-error'
+                                onClick={() => setSelectedTarget(enemy.id)}
+                            >
+                                {enemy.name} (HP: {enemy.health})
+                            </button>
+                        ))}
                 </div>
             </div>
             <div className='characters-info'>
@@ -52,6 +69,14 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
                                         null
                                     )
                                 ))}
+                                {selectedAbility && (
+                                    <button
+                                        className='nes-btn is-warning'
+                                        onClick={() => handleAttack(character.name, selectedAbility.name)}
+                                    >
+                                        Use {selectedAbility.name}
+                                    </button>
+                                )}
                             </div>
                         )}
                     </div>
@@ -63,7 +88,6 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
                     <div className='nes-text'>{battleLog[battleLog.length - 1]}</div>
                 )}
             </div>
-            
         </div>
     );
 };

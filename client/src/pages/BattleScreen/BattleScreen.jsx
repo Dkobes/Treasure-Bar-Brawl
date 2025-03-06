@@ -110,7 +110,7 @@ export const BattleScreen = () => {
         if (enemiesState.some(enemy => enemy.name === turnOrder[currentTurn]?.name)) {
             const enemy = turnOrder[currentTurn];
             const randomAbility = enemy.abilities[Math.floor(Math.random() * enemy.abilities.length)];
-            const randomTarget = charactersState[Math.floor(Math.random() * charactersState.length)];
+            const randomTarget = randomAbility.heal ? enemy : charactersState[Math.floor(Math.random() * charactersState.length)];
             
             const attackTimeout = setTimeout(() => {
                 handleAttack(enemy.name, randomAbility.name, randomTarget.id);
@@ -128,44 +128,61 @@ export const BattleScreen = () => {
             console.error('Invalid attacker:', attackerName);
             return;
         }
-
+    
         // Find the target enemy using the targetId
         const target = turnOrder.find(enemy => enemy.id === targetId);
         if (!target) {
             console.error('Invalid target:', targetId);
             return;
         }
-
+    
         // Get the ability used for the attack
         const ability = attacker.abilities.find(ability => ability.name === attackName);
-        const damage = ability ? ability.damage : 0;
-
-        // Log the attack in the battle log
-        setBattleLog(prevLog => [
-            ...prevLog,
-            `${attacker.name} used ${attackName} on ${target.name} for ${damage} damage`
-        ]);
-
-        // Reduce target's health
-        target.health -= damage;
-
+        if (!ability) {
+            console.error('Invalid ability:', attackName);
+            return;
+        }
+    
+        if (ability.damage) {
+            // Log the attack in the battle log
+            setBattleLog(prevLog => [
+                ...prevLog,
+                `${attacker.name} used ${attackName} on ${target.name} for ${ability.damage} damage`
+            ]);
+    
+            // Reduce target's health
+            target.health -= ability.damage;
+        } else if (ability.heal) {
+            // Calculate the actual heal amount
+            const healAmount = Math.min(ability.heal, target.stats.HP - target.health);
+            
+            // Log the heal in the battle log
+            setBattleLog(prevLog => [
+                ...prevLog,
+                `${attacker.name} used ${attackName} on ${target.name} and healed for ${healAmount} HP`
+            ]);
+    
+            // Increase target's health, ensuring it does not exceed max HP
+            target.health = Math.min(target.health + healAmount, target.stats.HP);
+        }
+    
         // Check if the battle is over
         const allCharactersDead = charactersState.every(character => character.health <= 0);
         const allEnemiesDead = enemiesState.every(enemy => enemy.health <= 0);
-
+    
         if (allCharactersDead || allEnemiesDead) {
             setBattleLog(prevLog => [
                 ...prevLog,
                 allCharactersDead ? "All characters are dead. Game Over." : "All enemies are dead. Victory!"
             ]);
-
+    
             if (allEnemiesDead) {
                 handleLevelUp(charactersState, enemiesState);
             }
             setBattleCompleted(true);
             return;
         }
-
+    
         // Move to the next turn
         const nextTurn = (currentTurn + 1) % turnOrder.length;
         setCurrentTurn(nextTurn);
