@@ -11,22 +11,34 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
         }
     };
 
-    const currentCharacter = characters.find(character => character.name === currentTurn);
-
     return (
         <div className='battle-interface nes-container is-rounded'>
-            {currentCharacter && (
-                <div className='character-info'>
-                    <div className='character-name nes-text is-primary'>{currentCharacter.name}</div>
-                    <div className='attack-options'>
-                        {currentCharacter.abilities.map((ability) => (
-                            <button key={ability.name} className='nes-btn is-primary' onClick={() => handleAttack(currentCharacter.name, ability.name)}>
-                                {ability.name}
-                            </button>
-                        ))}
+            <div className='characters-info'>
+                {characters.map((character) => (
+                    <div
+                        key={character.name}
+                        className={`character-info ${character.name === currentTurn ? 'current-turn' : ''}`}
+                    >
+                        <div className='character-name nes-text is-primary'>{character.name}</div>
+                        <div className='character-health nes-text'>
+                            Health: {character.health} / {character.stats.HP}
+                        </div>
+                        {character.name === currentTurn && (
+                            <div className='attack-options'>
+                                {character.abilities.map((ability) => (
+                                    <button
+                                        key={ability.name}
+                                        className='nes-btn is-primary'
+                                        onClick={() => handleAttack(character.name, ability.name)}
+                                    >
+                                        {ability.name}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
-                </div>
-            )}
+                ))}
+            </div>
             <div className='target-selection'>
                 <h3 className='nes-text is-error'>Select Target</h3>
                 <div className='target-options'>
