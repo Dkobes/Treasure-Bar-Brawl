@@ -119,7 +119,6 @@ export const BattleScreen = () => {
 
     const handleAttack = (attackerName, attackName, targetId) => {
         console.log('handleAttack called with:', { attackerName, attackName, targetId });
-        console.log(enemiesState)
         // Find the attacker
         const attacker = turnOrder.find(character => character.name === attackerName);
         if (!attacker) {
@@ -169,8 +168,12 @@ export const BattleScreen = () => {
     };
 
     const handleLevelUp = (characters, enemies) => {
-        const xpThresholds = [15, 30, 45, 60, 90, 140];
+        const xpThresholds = [15, 45, 90, 150, 180, 230];
         let enemyXP = enemies[0].xp + enemies[1].xp + enemies[2].xp;
+
+        if (enemies.length === 1) {
+            enemyXP = enemies[0].xp;
+        }
 
         const levelUp = (character) => {
             character.level++;
@@ -182,31 +185,27 @@ export const BattleScreen = () => {
             character.stats.Resist += character.level;
         };
     
-        const party = characters.forEach((character) => {
+        characters.forEach((character) => {
             character.experience += enemyXP;
             while (character.experience >= xpThresholds[character.level - 1]) {
                 levelUp(character);
             }
+            const updateCharacter = async () => {
+                try {
+                    await fetch(`/api/party/${username}/${character.name}`, {
+                        method: "PUT",
+                        headers: {
+                            Authorization: `Bearer: ${auth.getToken()}`,
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({level: character.level, stats: character.stats, experience: character.experience}),
+                    });
+                } catch (error) {
+                    console.error('Failed to update party:', error);
+                }
+            };
+            updateCharacter();
         });
-        console.log(charactersState)
-        console.log(characters)
-        console.log(party)
-        
-        const updateParty = async () => {
-            try {
-                await fetch(`/api/party/${username}`, {
-                    method: "PUT",
-                    headers: {
-                        Authorization: `Bearer: ${auth.getToken()}`,
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(party),
-                });
-            } catch (error) {
-                console.error('Failed to update party:', error);
-            }
-        };
-        updateParty();
     };
 
     return (
