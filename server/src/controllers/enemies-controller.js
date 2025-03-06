@@ -25,7 +25,7 @@ export const getSingleEnemy = async (req, res) => {
 export const updateEnemy = async (req, res) => {
     try {
         const user = await User.findOne({ username: req.params.username });
-        const enemy = await Enemy.findOneAndUpdate({ name: req.params.name, _id: { $in: user.enemies } }, { $set: req.body }, { runValidators: true, new: true });
+        const enemy = await Enemy.findOneAndUpdate({ alias: req.params.name, _id: { $in: user.enemies } }, { $set: req.body }, { runValidators: true, new: true });
         res.json(enemy);
     } catch (error) {
         console.error("Error updating enemy:", error);
