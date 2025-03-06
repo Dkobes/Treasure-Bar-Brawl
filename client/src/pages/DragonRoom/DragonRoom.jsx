@@ -50,8 +50,8 @@ export const DragonRoom = () => {
         }
 
         preload() {
+            this.load.image('dragonRoom-tilesets', '../src/assets/images/dragonRoom-tilesets.png');
             this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/dragonRoom.json');
-            this.load.image('dragonRoom', '../src/assets/images/dragonRoom-tileset.png');
             this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
             this.load.image('colton', '../src/assets/playerSprite/colton.png');
             this.load.image('danny', '../src/assets/playerSprite/danny.png');
@@ -60,9 +60,9 @@ export const DragonRoom = () => {
         
         create () {
             const tilemap = this.make.tilemap({ key: "tilemap" });
-            const tileset = tilemap.addTilesetImage("dragonRoom", "dragonRoom");
+            const tileset = tilemap.addTilesetImage("dragonRoom-tilesets", "dragonRoom-tilesets");
             const layerNames = [
-                "dragon-room-base", "dragon-room-objects"
+                "base", "objects"
             ];
 
             layerNames.forEach(layerName => {
