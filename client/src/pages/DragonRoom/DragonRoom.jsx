@@ -120,7 +120,7 @@ const DragonScene = class extends Phaser.Scene {
                 {
                     id: "dragon",
                     sprite: this.dragon,
-                    startPosition: { x: 3.5, y: 2.5 },
+                    startPosition: { x: 3, y: 2 },
                     offsetY: -4,
                 },
             ],
@@ -128,15 +128,25 @@ const DragonScene = class extends Phaser.Scene {
 
         this.gridEngine.create(tilemap, gridEngineConfig);
 
-            this.cameras.main.setScroll(-275, -175);
-            this.cameras.main.setZoom(2);
-            this.txt = this.add.text(80, 257, 'Press space to battle', { font: '"Press Start 2P"', color: '#000000' });
+        this.input.keyboard.on("keydown-SPACE", () => {
+            const selectedEnemyId = this.getSelectedEnemy();
+            if (this.txt.style.color === '#ffffff' && selectedEnemyId) {
+                window.location.assign(`/battle?enemyId=${selectedEnemyId}`);
+            }
+        });
     }
 
     update() {
         this.cursors = this.input.keyboard?.createCursorKeys();
         this.gridEngine.setSpeed("player", 3);
-        const pos = JSON.stringify(this.gridEngine.getPosition("player"));
+        const playerPosition = this.gridEngine.getPosition("player");
+        const dragonPosition = this.gridEngine.getPosition("dragon");
+
+        if (this.isNear(playerPosition, dragonPosition) && this.dragon.state === 'ALIVE') {
+            this.txt.setColor('#ffffff');
+        } else {
+            this.txt.setColor('#000000');
+        }
 
         if (this.cursors.left.isDown) {
             this.gridEngine.move("player", "left");
@@ -147,39 +157,23 @@ const DragonScene = class extends Phaser.Scene {
         } else if (this.cursors.down.isDown) {
             this.gridEngine.move("player", "down");
         }
-
-        if (pos === '{"x":3.5,"y":2.5}' && this.dragon.state === 'ALIVE') {
-            this.txt.setColor('#ffffff');
-        } else {
-            this.txt.setColor('#000000');
-        }
-
-        if (this.cursors.space.isDown && this.txt.style.color === '#ffffff') {
-            window.location.assign(`/battle?enemyId=dragon`);
-        }
     }
 
     getSelectedEnemy() {
-        // Implement logic to determine which enemy is near the player
         const playerPosition = this.gridEngine.getPosition("player");
-        
-        // Check each enemy's position
-        for (const enemy of ["dragon"]) {
-            const enemyPosition = this.gridEngine.getPosition(enemy);
-            if (this.isNear(playerPosition, enemyPosition)) {
-                return enemy; // Return the ID of the selected enemy
-            }
+        const dragonPosition = this.gridEngine.getPosition("dragon");
+        if (this.isNear(playerPosition, dragonPosition)) {
+            return "dragon";
         }
-        return null; // No enemy selected
+        return null;
     }
 
     isNear(playerPosition, enemyPosition) {
-        // Define what "near" means, e.g., within one tile distance
         return Math.abs(playerPosition.x - enemyPosition.x) <= 1 && Math.abs(playerPosition.y - enemyPosition.y) <= 1;
     }
 
     getEnemyState() {
-        const enemies = [this.skeleton, this.vampirate, this.elf, this.grandma, this.stan];
+        const enemies = [this.dragon];
         if (!enemies.find((enemy) => enemy.state === 'ALIVE')) {
             return true;
         }
