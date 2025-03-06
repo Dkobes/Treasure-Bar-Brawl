@@ -33,7 +33,7 @@ export const BattleScreen = () => {
                 });
     
                 const data = await response.json();
-                const party = data.map(character => ({ ...character, health: character.stats.HP }));
+                const party = data.map(character => ({ ...character, id: character.name.toLowerCase(), health: character.stats.HP }));
                 setCharactersState(party);
             } catch (error) {
                 console.error('Failed to fetch party:', error);

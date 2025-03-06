@@ -57,7 +57,7 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
                                         <button
                                             key={ability.name}
                                             className='nes-btn is-primary'
-                                            onClick={() => handleAttack(character.name, ability.name)}
+                                            onClick={() => setSelectedAbility(ability)}
                                         >
                                             {ability.name}
                                         </button>
