@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BattleScene } from "../BattleScreen/BattleScreen.jsx";
 import { GridEngine } from 'grid-engine';
-import './DragonRoom.css';
 import Phaser from 'phaser';
 import auth from '../../utils/auth.js';
 

@@ -481,10 +481,10 @@ export const BattleScene = class extends Phaser.Scene {
         this.gridEngine.create(tilemap, gridEngineConfig);
 
         const createdEnemies = enemySprite.map((sprite, index) => ({
+            ...enemies.find(enemy => enemy.alias === sprite.id.split("_")[0]),
             id: sprite.id,
             name: sprite.name,
             health: sprite.health,
-            ...enemies.find(enemy => enemy.alias === sprite.id.split("_")[0])
         }));
         console.log('createdEnemies:', createdEnemies);
         setEnemiesState(createdEnemies);
