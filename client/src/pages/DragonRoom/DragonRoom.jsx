@@ -53,10 +53,7 @@ const DragonScene = class extends Phaser.Scene {
         this.load.image('dragonRoom-tilesets', '../src/assets/images/dragonRoom-tilesets.png');
         this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/dragonRoom.json');
         this.load.image('dragon', '../src/assets/enemySprite/dragon.png');
-        this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
         this.load.image('colton', '../src/assets/playerSprite/colton.png');
-        this.load.image('danny', '../src/assets/playerSprite/danny.png');
-        this.load.image('tyler', '../src/assets/playerSprite/tyler.png');
     }
 
     create() {
@@ -77,10 +74,7 @@ const DragonScene = class extends Phaser.Scene {
             }
         });
 
-        this.baileigh = this.add.sprite(0, 0, 'baileigh').setScale(0.75).setVisible(false);
         this.colton = this.add.sprite(0, 0, 'colton').setScale(0.75).setVisible(true);
-        this.danny = this.add.sprite(0, 0, 'danny').setScale(0.75).setVisible(false);
-        this.tyler = this.add.sprite(0, 0, 'tyler').setScale(0.75).setVisible(false);
         this.dragon = this.add.sprite(0, 0, 'dragon').setScale(2).setState('ALIVE');
         this.player = this.colton;
 
@@ -88,9 +82,9 @@ const DragonScene = class extends Phaser.Scene {
         this.txt = this.add.text(80, 257, 'Press space to battle', { font: '"Press Start 2P"', color: '#000000' });
 
         const username = localStorage.getItem("username");
-        const getEnemies = async () => {
+        const getDragon = async () => {
             try {
-                const response = await fetch(`/api/enemy/${username}`, {
+                const response = await fetch(`/api/enemy/${username}/dragon`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer: ${auth.getToken()}`
@@ -98,15 +92,15 @@ const DragonScene = class extends Phaser.Scene {
                 });
 
                 const data = await response.json();
-                
-                if (data[0].alive === false) {
+                console.log(data)
+                if (data.alive === false) {
                     this.dragon.setState('DEAD');
                 }
             } catch (error) {
                 console.error('Error fetching enemies:', error);
             }
         }
-        getEnemies();
+        getDragon();
 
         const gridEngineConfig = {
             characters: [
@@ -132,8 +126,6 @@ const DragonScene = class extends Phaser.Scene {
         this.cursors = this.input.keyboard?.createCursorKeys();
         this.gridEngine.setSpeed("player", 3);
         const pos = JSON.stringify(this.gridEngine.getPosition("player"));
-        // const dragonPosition = this.gridEngine.getPosition("dragon");
-        // const playerPosition = this.gridEngine.getPosition("player");
 
         if (this.cursors.left.isDown) {
             this.gridEngine.move("player", "left");
@@ -152,35 +144,10 @@ const DragonScene = class extends Phaser.Scene {
         }
 
         this.cursors.space.once("down", () => {
-            const selectedEnemyId = this.getSelectedEnemy();
-            if (this.txt.style.color === '#ffffff' && selectedEnemyId) {
-                window.location.assign(`/battle?enemyId=${selectedEnemyId}`);
+            if (this.txt.style.color === '#ffffff') {
+                window.location.assign(`/battle?enemyId=dragon`);
             }
         });
-    }
-
-    getSelectedEnemy() {
-        const playerPosition = this.gridEngine.getPosition("player");
-        // Check each enemy's position
-        for (const enemy of ["dragon"]) {
-            const enemyPosition = this.gridEngine.getPosition(enemy);
-            if (this.isNear(playerPosition, enemyPosition)) {
-                return enemy; // Return the ID of the selected enemy
-            }
-        }
-        return null; // No enemy selected
-    }
-
-    isNear(playerPosition, enemyPosition) {
-        return Math.abs(playerPosition.x - enemyPosition.x) <= 1 && Math.abs(playerPosition.y - enemyPosition.y) <= 1;
-    }
-
-    getEnemyState() {
-        const enemies = [this.dragon];
-        if (!enemies.find((enemy) => enemy.state === 'ALIVE')) {
-            return true;
-        }
-        return false;
     }
 };
 

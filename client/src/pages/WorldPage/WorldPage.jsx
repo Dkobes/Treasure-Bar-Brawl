@@ -75,15 +75,9 @@ const WorldScene = class extends Phaser.Scene {
         tilemap.createLayer(1, "furniture", 0, 0);
 
         //player sprites
-        this.baileigh = this.add.sprite(0, 0, 'baileigh').setScale(0.75);
-        this.baileigh.setVisible(false);
         this.colton = this.add.sprite(0, 0, 'colton').setScale(0.75);
         this.colton.setVisible(true);
-        this.dany = this.add.sprite(0, 0, 'danny').setScale(0.75);
-        this.dany.setVisible(false);
-        this.tyler = this.add.sprite(0, 0, 'tyler').setScale(0.75);
-        this.tyler.setVisible(false);
-        this.player = this.colton; //Placeholder
+        this.player = this.colton;
 
         //enemy sprites
         this.skeleton = this.add.sprite(0, 0, 'skeleton').setScale(0.75).setState('ALIVE');

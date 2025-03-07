@@ -14,7 +14,7 @@ export const getAllEnemies = async (req, res) => {
 export const getSingleEnemy = async (req, res) => {
     try {
         const user = await User.findOne({ username: req.params.username });
-        const enemy = await Enemy.findOne({ name: req.params.name, _id: { $in: user.enemies } });
+        const enemy = await Enemy.findOne({ alias: req.params.name, _id: { $in: user.enemies } });
         res.json(enemy);
     } catch (error) {
         console.error("Error fetching enemy:", error);
