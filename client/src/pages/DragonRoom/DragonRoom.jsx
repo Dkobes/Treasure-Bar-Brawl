@@ -138,10 +138,8 @@ const DragonScene = class extends Phaser.Scene {
         }
 
         if (pos === '{"x":4,"y":5}' && this.dragon.state === 'ALIVE') {
-            this.txt.setColor('#ffffff')
-        } else {
-            this.txt.setColor('#000000');
-        }
+            this.txt.setText("Press space to pick up");
+            this.txt.setColor('#ffffff');
 
         this.cursors.space.once("down", () => {
             if (this.txt.style.color === '#ffffff') {
@@ -149,6 +147,26 @@ const DragonScene = class extends Phaser.Scene {
             }
         });
     }
-};
+
+    else if (pos === '{"x":4,"y":7}') {
+        if(this.dragon.state === 'DEAD') {
+        this.txt.setText('Press space to return');
+        this.txt.setColor('#ffffff');
+
+        this.input.keyboard.once("keydown-SPACE", () => {
+            console.log("Returning to world...");
+            window.location.assign('/world');
+        });
+    } else {
+        this.txt.setText("Defeat the dragon first!");
+        this.txt.setColor('#ff0000');
+    }}
+    else {
+        this.txt.setText("");
+        this.txt.setColor('#000000');
+    }
+    }
+}
+
 
 export default DragonRoom;
