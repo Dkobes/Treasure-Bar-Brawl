@@ -20,7 +20,7 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
                 <h5 className='nes-text is-error'>Select Target</h5>
                 <div className='target-options'>
                     {selectedAbility && selectedAbility.heal
-                        ? characters.map((character) => (
+                        ? characters.filter(character => character.health > 0).map((character) => (
                             <button
                                 key={character.id}
                                 className='nes-btn is-success'
@@ -29,7 +29,7 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
                                 {character.name} (HP: {character.health})
                             </button>
                         ))
-                        : enemies.map((enemy) => (
+                        : enemies.filter(enemy => enemy.health > 0).map((enemy) => (
                             <button
                                 key={enemy.id}
                                 className='nes-btn is-error'
