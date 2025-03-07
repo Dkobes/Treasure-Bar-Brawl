@@ -226,7 +226,7 @@ const dragon = {
         { name: "Fire Breath", damage: 50, cooldown: 0.5 },
         { name: "Amlug Roar", damage: 100, cooldown: 1 },
         { name: "Coin Fling", damage: 50, cooldown: 1 },
-        { name: "Dragons' Fury", damage: 200, cooldown: 2 },
+        { name: "Dragon's Fury", damage: 200, cooldown: 2 },
     ],
     alive: true
 };
