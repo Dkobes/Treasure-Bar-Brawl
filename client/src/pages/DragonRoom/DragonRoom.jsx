@@ -1,12 +1,11 @@
 import "nes.css/css/nes.min.css";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BattleScene } from "../BattleScreen/BattleScreen";
+import { BattleScene } from "../BattleScreen/BattleScreen.jsx";
 import { GridEngine } from 'grid-engine';
 import './DragonRoom.css';
 import Phaser from 'phaser';
 import auth from '../../utils/auth.js';
-
 
 export const DragonRoom = () => {   
     const navigate = useNavigate();
@@ -82,7 +81,7 @@ const DragonScene = class extends Phaser.Scene {
         this.colton = this.add.sprite(0, 0, 'colton').setScale(0.75).setVisible(true);
         this.danny = this.add.sprite(0, 0, 'danny').setScale(0.75).setVisible(false);
         this.tyler = this.add.sprite(0, 0, 'tyler').setScale(0.75).setVisible(false);
-        this.dragon = this.add.sprite(0, 0, 'dragon').setScale(2).setVisible(true);
+        this.dragon = this.add.sprite(0, 0, 'dragon').setScale(2).setState('ALIVE');
         this.player = this.colton;
 
         this.cameras.main.setScroll(-275, -175);
@@ -127,26 +126,14 @@ const DragonScene = class extends Phaser.Scene {
         };
 
         this.gridEngine.create(tilemap, gridEngineConfig);
-
-        this.input.keyboard.on("keydown-SPACE", () => {
-            const selectedEnemyId = this.getSelectedEnemy();
-            if (this.txt.style.color === '#ffffff' && selectedEnemyId) {
-                window.location.assign(`/battle?enemyId=${selectedEnemyId}`);
-            }
-        });
     }
 
     update() {
         this.cursors = this.input.keyboard?.createCursorKeys();
         this.gridEngine.setSpeed("player", 3);
-        const playerPosition = this.gridEngine.getPosition("player");
-        const dragonPosition = this.gridEngine.getPosition("dragon");
-
-        if (this.isNear(playerPosition, dragonPosition) && this.dragon.state === 'ALIVE') {
-            this.txt.setColor('#ffffff');
-        } else {
-            this.txt.setColor('#000000');
-        }
+        const pos = JSON.stringify(this.gridEngine.getPosition("player"));
+        // const dragonPosition = this.gridEngine.getPosition("dragon");
+        // const playerPosition = this.gridEngine.getPosition("player");
 
         if (this.cursors.left.isDown) {
             this.gridEngine.move("player", "left");
@@ -157,15 +144,31 @@ const DragonScene = class extends Phaser.Scene {
         } else if (this.cursors.down.isDown) {
             this.gridEngine.move("player", "down");
         }
+
+        if (pos === '{"x":1,"y":3}' && this.dragon.state === 'ALIVE') {
+            this.txt.setColor('#ffffff')
+        } else {
+            this.txt.setColor('#000000');
+        }
+
+        this.cursors.space.once("down", () => {
+            const selectedEnemyId = this.getSelectedEnemy();
+            if (this.txt.style.color === '#ffffff' && selectedEnemyId) {
+                window.location.assign(`/battle?enemyId=${selectedEnemyId}`);
+            }
+        });
     }
 
     getSelectedEnemy() {
         const playerPosition = this.gridEngine.getPosition("player");
-        const dragonPosition = this.gridEngine.getPosition("dragon");
-        if (this.isNear(playerPosition, dragonPosition)) {
-            return "dragon";
+        // Check each enemy's position
+        for (const enemy of ["dragon"]) {
+            const enemyPosition = this.gridEngine.getPosition(enemy);
+            if (this.isNear(playerPosition, enemyPosition)) {
+                return enemy; // Return the ID of the selected enemy
+            }
         }
-        return null;
+        return null; // No enemy selected
     }
 
     isNear(playerPosition, enemyPosition) {
