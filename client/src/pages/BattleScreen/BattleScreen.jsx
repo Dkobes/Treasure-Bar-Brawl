@@ -113,10 +113,10 @@ export const BattleScreen = () => {
 
         const game = new Phaser.Game(config);
 
-        game.scene.start('BattleScene', { enemyId, setEnemiesState });
+        game.scene.start('BattleScene', { enemyId, enemies, setEnemiesState });
 
         return () => game.destroy(true);
-    }, [enemyId]);
+    }, [enemies]);
 
     useEffect(() => {
         // Set active enemies based on enemyId
@@ -361,7 +361,7 @@ export const BattleScene = class extends Phaser.Scene {
     }
 
     create(data) {
-        const { enemyId, setEnemiesState } = data;
+        const { enemyId, enemies, setEnemiesState } = data;
 
         this.cameras.main.setZoom(.80);
         const tilemap = this.make.tilemap({ key: "tilemap" });
@@ -511,9 +511,7 @@ export const BattleScene = class extends Phaser.Scene {
             id: sprite.id,
             name: sprite.name,
             health: sprite.health,
-            xp: sprite.xp,
-            stats: { Speed: 10 }, // Example stats, adjust as needed
-            abilities: [{ name: 'Attack', damage: 10 }], // Example abilities, adjust as needed
+            ...enemies.find(enemy => enemy.alias === sprite.id.split("_")[0])
         }));
         console.log('createdEnemies:', createdEnemies);
         setEnemiesState(createdEnemies);
