@@ -60,23 +60,27 @@ const DragonScene = class extends Phaser.Scene {
         this.cameras.main.setZoom(2);
         const tilemap = this.make.tilemap({ key: "tilemap" });
         const tileset = tilemap.addTilesetImage("dragonRoom-tilesets", "dragonRoom-tilesets");
-        const layerNames = ["base", "objects"];
+        const baseLayer = tilemap.createLayer("base", tileset, 0, 0);
+        const objectsLayer = tilemap.createLayer("objects", tileset, 0, 0);
+        const collidableTiles = [3, 4, 5, 11, 12, 13];
+        objectsLayer.setCollision(collidableTiles);
 
-        layerNames.forEach(layerName => {
-            try {
-                console.log(`Creating layer: ${layerName}`);
-                const tilemapLayer = tilemap.createLayer(layerName, tileset, 0, 0);
-                if (!tilemapLayer) {
-                    throw new Error(`Layer '${layerName}' could not be created.`);
-                }
-            } catch (e) {
-                console.error(`Error initializing tilemap. ${e.message}`);
-            }
-        });
+        // layerNames.forEach(layerName => {
+        //     try {
+        //         console.log(`Creating layer: ${layerName}`);
+        //         const tilemapLayer = tilemap.createLayer(layerName, tileset, 0, 0);
+        //         if (!tilemapLayer) {
+        //             throw new Error(`Layer '${layerName}' could not be created.`);
+        //         }
+        //     } catch (e) {
+        //         console.error(`Error initializing tilemap. ${e.message}`);
+        //     }
+        // });
 
-        this.colton = this.add.sprite(0, 0, 'colton').setScale(0.75).setVisible(true);
-        this.dragon = this.add.sprite(0, 0, 'dragon').setScale(2).setState('ALIVE');
-        this.player = this.colton;
+        this.colton = this.add.sprite(128, 224, 'colton').setScale(0.75).setVisible(true);
+        this.physics.add.collider(this.colton, objectsLayer);
+        this.dragon = this.add.sprite(96, 64, 'dragon').setScale(2).setState('ALIVE');
+        // this.player = this.colton;
 
         this.cameras.main.setScroll(-275, -175);
         this.txt = this.add.text(80, 257, 'Press space to battle', { font: '"Press Start 2P"', color: '#000000' });
