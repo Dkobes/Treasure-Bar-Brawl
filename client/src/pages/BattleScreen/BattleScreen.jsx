@@ -322,6 +322,7 @@ export const BattleScene = class extends Phaser.Scene {
         this.load.image('grandma', '../src/assets/enemySprite/grandma.png');
         this.load.image('kitten', '../src/assets/enemySprite/kitten.png');
         this.load.image('stan', '../src/assets/enemySprite/battleStan.png');
+        this.load.image('dragon', '../src/assets/enemySprite/battleDragon.png');
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
         this.load.image('colton', '../src/assets/playerSprite/colton.png');
         this.load.image('danny', '../src/assets/playerSprite/danny.png');
@@ -457,6 +458,8 @@ export const BattleScene = class extends Phaser.Scene {
             createEnemy('kitten', 200, 20, 2);
         } else if (enemyId === 'stan') {
             createEnemy('stan', 1000, 30, 1);
+        } else if (enemyId === 'dragon') {
+            createEnemy('dragon', 1500, 50, 1);
         } else if (this.textures.exists(enemyId)) {
             createEnemy(enemyId, 100); // Default health for specific enemy
         } else {

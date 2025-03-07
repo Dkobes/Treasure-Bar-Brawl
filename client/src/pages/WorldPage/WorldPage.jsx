@@ -221,7 +221,7 @@ const WorldScene = class extends Phaser.Scene {
                 if (this.txt.style.color === '#ffffff' && selectedEnemyId) {
                     window.location.assign(`/battle?enemyId=${selectedEnemyId}`);
                 } else if (this.txt.style.color === '#ffffff' && allEnemiesDead) {
-                    window.location.assign('/dragon-room');
+                    window.location.assign('/dragonRoom');
                 }
             });
         }

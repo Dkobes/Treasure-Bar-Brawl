@@ -52,33 +52,6 @@ export const PartyMenu = () => {
         fetchParty();
     }, []);
 
-    useEffect(() => {
-        // This effect will run whenever the party state changes
-        const updatePartyData = async () => {
-            try {
-                const token = localStorage.getItem("id_token");
-                if (!token) throw new Error("No token found");
-
-                const username = localStorage.getItem("username");
-                const response = await fetch(`/api/party/${username}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                });
-                if (!response.ok) throw new Error("Failed to fetch updated party data");
-
-                const data = await response.json();
-                setParty(data);
-            } catch (error) {
-                console.error("Error updating party data:", error);
-                setError(error.message);
-            }
-        };
-
-        updatePartyData();
-    }, [party]);
-
     const handleSave = async () => {
         setSaving(true);
         setSaveMessage("");
@@ -123,8 +96,8 @@ export const PartyMenu = () => {
                             <img src={getSpriteUrl(character)} alt={character.name} className="sprite" />
                             <div className="character-info">
                                 <p><strong className="nes-text is-primary">{character?.name || "Unnamed"}</strong> </p>
-                                <p>(Level {character?.stats?.Level || 1})</p>
-                                <p>HP: {character?.stats?.HP || 0} | MP: {character?.stats?.MP || 0}</p>
+                                <p>(Level {character.level || 1})</p>
+                                <p>HP: {character?.stats?.HP || 0} </p>
                                 <p>STR: {character?.stats?.Attack || 0} | MAG: {character?.stats?.Magic || 0} | DEF: {character?.stats?.Defense || 0}</p>
                                 <p>RES: {character?.stats?.Resist || 0} | SPD: {character?.stats?.Speed || 0}</p>
                             </div>
