@@ -148,12 +148,23 @@ export const BattleScreen = () => {
     }, [enemiesState, charactersState]);
 
     useEffect(() => {
+        const currentCharacter = turnOrder[currentTurn];
+
+    // Check if the current character is alive
+    if (currentCharacter && currentCharacter.health <= 0) {
+        // Skip turn if the character is dead
+        setCurrentTurn((currentTurn + 1) % turnOrder.length);
+        return; // Exit early to prevent further execution
+    }
         // If it's an enemy's turn, make them attack after a delay
-        if (enemiesState.some(enemy => enemy.name === turnOrder[currentTurn]?.name)) {
-            if (turnOrder[currentTurn].health <= 0) {
+        const currentEnemy = turnOrder[currentTurn];
+        if (currentEnemy && enemiesState.some(enemy => enemy.name === currentEnemy.name)) {
+            if (currentEnemy.health <= 0) {
                 // Skip turn if the enemy is dead
                 setCurrentTurn((currentTurn + 1) % turnOrder.length);
-            } else {
+                return; // Exit early to prevent further execution
+            }
+
             const enemy = turnOrder[currentTurn];
             const randomAbility = enemy.abilities[Math.floor(Math.random() * enemy.abilities.length)];
             const randomTarget = randomAbility.heal ? enemy : charactersState[Math.floor(Math.random() * charactersState.length)];
@@ -163,7 +174,7 @@ export const BattleScreen = () => {
             }, 2000); // 1 second delay
 
             return () => clearTimeout(attackTimeout);
-        }
+        
     }
     }, [currentTurn, turnOrder]);
 
