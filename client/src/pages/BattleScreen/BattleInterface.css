@@ -138,3 +138,8 @@
 .battle-completion button:hover {
     background-color: #0056b3;
 }
+
+.attack-animation img {
+    position: absolute;
+    z-index: 10; /* Ensure it's rendered on top of other elements */
+  }

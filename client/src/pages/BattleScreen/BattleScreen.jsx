@@ -18,7 +18,7 @@ export const BattleScreen = () => {
     const [enemiesState, setEnemiesState] = useState([]);
     const [battleCompleted, setBattleCompleted] = useState(false);
     const [xpGain, setXpGain] = useState(0);
-    const [attackAnimation, setAttackAnimation] = useState(null);
+    const [attackImage, setAttackImage] = useState(null);
     const username = localStorage.getItem("username");
 
     useEffect(() => {
@@ -184,13 +184,18 @@ export const BattleScreen = () => {
             ]);
     
 
-            const attackImageKey = attackImages[attackName];
-        if (attackImageKey) {
-            setAttackAnimation({ attackName: attackImageKey, x: target.x, y: target.y });
-        } else {
-            console.error('No image found for attack:', attackName);
-        }
-
+            const imageName = attackImages[attackName];
+            if (imageName) {
+                console.log('Image name for attack:', imageName);
+                setAttackImage({ name: imageName, x: target.x, y: target.y });
+    
+                // Hide the image after 1 second
+                setTimeout(() => {
+                    setAttackImage(null);
+                }, 1000);
+            } else {
+                console.error('No image found for attack:', attackName);
+            }
 
             // Reduce target's health
             target.health -= ability.damage;
@@ -292,9 +297,9 @@ export const BattleScreen = () => {
                 battleLog={battleLog}
                 currentTurn={turnOrder[currentTurn]?.name}
             />
-            {attackAnimation && (
+            {attackImage && (
                 <div className="attack-animation">
-                    <img src={`/assets/attackAnimation/${attackAnimation.attackName}.png`} alt={attackAnimation.attackName} style={{ position: 'absolute', left: attackAnimation.x, top: attackAnimation.y }} />
+                  <img src={`/assets/attackAnimation/player/${attackImage.name}.png`} alt={attackImage.name} style={{ position: 'absolute', left: `${attackImage.x}px`, top: `${attackImage.y}px` }} />
                 </div>
             )}
             {battleCompleted && (
