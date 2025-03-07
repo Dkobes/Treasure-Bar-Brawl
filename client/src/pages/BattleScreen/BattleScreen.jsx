@@ -132,11 +132,20 @@ export const BattleScreen = () => {
     }, [enemyId]);
 
     useEffect(() => {
-        // Determine turn order based on speed
+        // Determine turn order based on speed and a random roll
         const allCharacters = [...charactersState, ...enemiesState];
-        allCharacters.sort((a, b) => b.stats.Speed - a.stats.Speed);
+    
+        allCharacters.forEach(character => {
+            character.initiative = character.stats.Speed + Math.floor(Math.random() * 100) + 1; // Random roll (1-100)
+        });
+    
+        // Sort based on initiative
+        allCharacters.sort((a, b) => b.initiative - a.initiative);
+    
+        console.log("Turn Order:", allCharacters.map(char => ({ name: char.name, initiative: char.initiative })));
+    
         setTurnOrder(allCharacters);
-    }, [enemiesState]);
+    }, [enemiesState, charactersState]);
 
     useEffect(() => {
         // If it's an enemy's turn, make them attack after a delay
