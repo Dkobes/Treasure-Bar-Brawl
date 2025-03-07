@@ -79,7 +79,7 @@ const DragonScene = class extends Phaser.Scene {
         this.player = this.colton;
 
         this.cameras.main.setScroll(-275, -175);
-        this.txt = this.add.text(80, 257, 'Press space to battle', { font: '"Press Start 2P"', color: '#000000' });
+        this.txt = this.add.text(80, 257, 'Press space to pick up', { font: '"Press Start 2P"', color: '#000000' });
 
         const username = localStorage.getItem("username");
         const getDragon = async () => {
@@ -137,7 +137,7 @@ const DragonScene = class extends Phaser.Scene {
             this.gridEngine.move("player", "down");
         }
 
-        if (pos === '{"x":1,"y":3}' && this.dragon.state === 'ALIVE') {
+        if (pos === '{"x":4,"y":5}' && this.dragon.state === 'ALIVE') {
             this.txt.setColor('#ffffff')
         } else {
             this.txt.setColor('#000000');
