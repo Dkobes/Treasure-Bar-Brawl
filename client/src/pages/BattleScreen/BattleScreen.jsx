@@ -299,7 +299,7 @@ export const BattleScreen = () => {
             />
             {attackImage && (
                 <div className="attack-animation">
-                  <img src={`../src/assets/attackAnimation/player/${attackImage.name}.png`} alt={attackImage.name} style={{
+                  <img src={`../src/assets/attackAnimation/${attackImage.isEnemy ? 'enemy' : 'player'}/${attackImage.name}.png`} alt={attackImage.name} style={{
                 position: 'absolute',
                 left: `${(window.innerWidth - 100) / 2}px`, 
                 top: `${(window.innerHeight - 100) / 2.5}px`, 
@@ -340,23 +340,23 @@ export const BattleScene = class extends Phaser.Scene {
         this.load.image('tyler', '../src/assets/playerSprite/tyler.png');
         this.load.image('tiles', '../src/assets/images/dungeon-tileset.png');
         this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/dungeon.json');
-        this.load.image('amlugRoar', '../src/assets/attackAnimation/enemy/amlugRoar.png');
-        this.load.image('attack', '../src/assets/attackAnimation/enemy/attack.png');
-        this.load.image('bite', '../src/assets/attackAnimation/enemy/bite.png');
-        this.load.image('coinFling', '../src/assets/attackAnimation/enemy/coinFling.png');
-        this.load.image('dragonsFury', '../src/assets/attackAnimation/enemy/dragonsFury.png');
-        this.load.image('eatMore', '../src/assets/attackAnimation/enemy/eatMore.png');
-        this.load.image('energyBreak', '../src/assets/attackAnimation/enemy/energyBreak.png');
-        this.load.image('felineFrenzy', '../src/assets/attackAnimation/enemy/felineFrenzy.png');
-        this.load.image('femurFling', '../src/assets/attackAnimation/enemy/femurFling.png');
-        this.load.image('fireBreath', '../src/assets/attackAnimation/enemy/fireBreath.png');
-        this.load.image('hook', '../src/assets/attackAnimation/enemy/hook.png');
-        this.load.image('iceArrow', '../src/assets/attackAnimation/enemy/iceArrow.png');
-        this.load.image('javaScriptSlash', '../src/assets/attackAnimation/enemy/javaScriptSlash.png');
-        this.load.image('maul', '../src/assets/attackAnimation/enemy/maul.png');
-        this.load.image('MERNder', '../src/assets/attackAnimation/enemy/MERNder.png');
-        this.load.image('scratch', '../src/assets/attackAnimation/enemy/scratch.png');
-        this.load.image('typescriptTornado', '../src/assets/attackAnimation/enemy/typescriptTornado.png');
+        this.load.image('amlugRoar', '../src/assets/attackAnimation/player/amlugRoar.png');
+        this.load.image('attack', '../src/assets/attackAnimation/player/attack.png');
+        this.load.image('bite', '../src/assets/attackAnimation/player/bite.png');
+        this.load.image('coinFling', '../src/assets/attackAnimation/player/coinFling.png');
+        this.load.image('dragonsFury', '../src/assets/attackAnimation/player/dragonsFury.png');
+        this.load.image('eatMore', '../src/assets/attackAnimation/player/eatMore.png');
+        this.load.image('energyBreak', '../src/assets/attackAnimation/player/energyBreak.png');
+        this.load.image('felineFrenzy', '../src/assets/attackAnimation/player/felineFrenzy.png');
+        this.load.image('femurFling', '../src/assets/attackAnimation/player/femurFling.png');
+        this.load.image('fireBreath', '../src/assets/attackAnimation/player/fireBreath.png');
+        this.load.image('hook', '../src/assets/attackAnimation/player/hook.png');
+        this.load.image('iceArrow', '../src/assets/attackAnimation/player/iceArrow.png');
+        this.load.image('javaScriptSlash', '../src/assets/attackAnimation/player/javaScriptSlash.png');
+        this.load.image('maul', '../src/assets/attackAnimation/player/maul.png');
+        this.load.image('MERNder', '../src/assets/attackAnimation/player/MERNder.png');
+        this.load.image('scratch', '../src/assets/attackAnimation/player/scratch.png');
+        this.load.image('typescriptTornado', '../src/assets/attackAnimation/player/typescriptTornado.png');
         this.load.image('eldritchBlast', '../src/assets/attackAnimation/player/eldritchBlast.png');
         this.load.image('fireball', '../src/assets/attackAnimation/player/fireball.png');
         this.load.image('fireBolt', '../src/assets/attackAnimation/player/fireBolt.png');
