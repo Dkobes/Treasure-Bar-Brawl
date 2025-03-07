@@ -5,7 +5,6 @@ body {
     font-family: 'Press Start 2P';
 }
 
-/* Main Container */
 .party-menu-container {
     width: 90%;
     max-width: 800px;
@@ -16,21 +15,18 @@ body {
     color: white;
 }
 
-/* Title Styling */
 .title {
     font-size: 1.5rem;
     text-align: center;
     color: #ffcc00;
 }
 
-/* Character Grid Container */
 .character-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
 
-/* Character Container */
 .character-container {
     display: flex;
     align-items: center;
@@ -51,13 +47,11 @@ body {
     margin-left: 20px;
 }
 
-/* Stats Styling */
 .character-container p {
     font-size: 0.8rem;
     margin: 5px 0;
 }
 
-/* Button Container */
 .button-container {
     display: flex;
     justify-content: space-around;
@@ -82,7 +76,6 @@ body {
     border: 2px solid white;
 }
 
-/* Retro Pixel Effect */
 .party-menu-container, .nes-btn, .character-container {
     box-shadow: 4px 4px 0px #000;
 }

@@ -50,7 +50,6 @@ const WorldScene = class extends Phaser.Scene {
     }
 
     preload () {
-        // add in correct items to load
         this.load.image('skeleton', '../src/assets/enemySprite/skeleton.png');
         this.load.image('vampirate', '../src/assets/enemySprite/vampirate.png');
         this.load.image('iceElf', '../src/assets/enemySprite/iceElf.png');
@@ -66,7 +65,6 @@ const WorldScene = class extends Phaser.Scene {
     }
 
     create() {
-        //bar
         this.cameras.main.setZoom(2);
         const tilemap = this.make.tilemap({ key: "tilemap" });
         tilemap.addTilesetImage("base", "baseTiles");
@@ -74,12 +72,10 @@ const WorldScene = class extends Phaser.Scene {
         tilemap.createLayer(0, "base", 0, 0);
         tilemap.createLayer(1, "furniture", 0, 0);
 
-        //player sprites
         this.colton = this.add.sprite(0, 0, 'colton').setScale(0.75);
         this.colton.setVisible(true);
         this.player = this.colton;
 
-        //enemy sprites
         this.skeleton = this.add.sprite(0, 0, 'skeleton').setScale(0.75).setState('ALIVE');
         this.vampirate = this.add.sprite(0, 0, 'vampirate').setScale(0.75).setState('ALIVE');
         this.elf = this.add.sprite(0, 0, 'iceElf').setScale(0.75).setState('ALIVE');
@@ -89,7 +85,6 @@ const WorldScene = class extends Phaser.Scene {
         this.cameras.main.setScroll(-275, -175);
         this.txt = this.add.text(80, 257, 'Press space to battle', { font: '"Press Start 2P"', color: '#000000' });
         
-        // Fetches enemies and sets the enemy npcs' state
         const username = localStorage.getItem("username");
         const getEnemies = async () => {
             try {
@@ -123,7 +118,6 @@ const WorldScene = class extends Phaser.Scene {
         }
         getEnemies();
 
-        //creates tilemap
         const gridEngineConfig = {
             characters: [
                 {
@@ -169,7 +163,6 @@ const WorldScene = class extends Phaser.Scene {
     }
 
     update() {
-        //arrow key input for movement
         this.cursors = this.input.keyboard?.createCursorKeys();
         this.gridEngine.setSpeed("player", 3);
         const pos = JSON.stringify(this.gridEngine.getPosition("player"));
@@ -221,21 +214,18 @@ const WorldScene = class extends Phaser.Scene {
         }
     
         getSelectedEnemy() {
-            // Implement logic to determine which enemy is near the player
             const playerPosition = this.gridEngine.getPosition("player");
             
-            // Check each enemy's position
             for (const enemy of ["skeleton", "vampirate", "iceElf", "grandma", "stan"]) {
                 const enemyPosition = this.gridEngine.getPosition(enemy);
                 if (this.isNear(playerPosition, enemyPosition)) {
-                    return enemy; // Return the ID of the selected enemy
+                    return enemy; 
                 }
             }
-            return null; // No enemy selected
+            return null; 
         }
         
         isNear(playerPosition, enemyPosition) {
-            // Define what "near" means, e.g., within one tile distance
             return Math.abs(playerPosition.x - enemyPosition.x) <= 1 && Math.abs(playerPosition.y - enemyPosition.y) <= 1;
         }
 

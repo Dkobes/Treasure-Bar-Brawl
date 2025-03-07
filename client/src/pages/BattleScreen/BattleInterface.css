@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative; /* Added for positioning the battle completion message */
+    position: relative; 
 }
 
 .characters-info {
@@ -102,17 +102,17 @@
 }
 
 .battle-completion {
-    position: absolute; /* Positioning the battle completion message */
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust for true center */
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
     text-align: center;
-    background-color: #333; /* Match the battle log background */
-    color: #fff; /* Match the battle log text color */
+    background-color: #333; 
+    color: #fff; 
     padding: 10px;
     border: 2px solid #ccc;
     border-radius: 5px;
-    z-index: 10; /* Ensure it appears above other elements */
+    z-index: 10; 
 }
 
 .battle-completion h3 {
@@ -141,5 +141,5 @@
 
 .attack-animation img {
     position: absolute;
-    z-index: 10; /* Ensure it's rendered on top of other elements */
+    z-index: 10; 
   }

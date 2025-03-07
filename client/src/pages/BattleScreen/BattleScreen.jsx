@@ -119,7 +119,6 @@ export const BattleScreen = () => {
     }, [enemies]);
 
     useEffect(() => {
-        // Set active enemies based on enemyId
         const activeEnemies = enemies.filter(enemy => enemy.name.toLowerCase().includes(enemyId.toLowerCase()));
         const enemiesWithIds = activeEnemies.flatMap((enemy, index) => {
             return Array.from({ length: enemy.count || 1 }, (_, i) => ({
@@ -132,14 +131,12 @@ export const BattleScreen = () => {
     }, [enemyId]);
 
     useEffect(() => {
-        // Determine turn order based on speed and a random roll
         const allCharacters = [...charactersState, ...enemiesState];
     
         allCharacters.forEach(character => {
-            character.initiative = character.stats.Speed + Math.floor(Math.random() * 100) + 1; // Random roll (1-100)
+            character.initiative = character.stats.Speed + Math.floor(Math.random() * 100) + 1; 
         });
     
-        // Sort based on initiative
         allCharacters.sort((a, b) => b.initiative - a.initiative);
     
         console.log("Turn Order:", allCharacters.map(char => ({ name: char.name, initiative: char.initiative })));
@@ -150,19 +147,15 @@ export const BattleScreen = () => {
     useEffect(() => {
         const currentCharacter = turnOrder[currentTurn];
 
-    // Check if the current character is alive
     if (currentCharacter && currentCharacter.health <= 0) {
-        // Skip turn if the character is dead
         setCurrentTurn((currentTurn + 1) % turnOrder.length);
-        return; // Exit early to prevent further execution
+        return; 
     }
-        // If it's an enemy's turn, make them attack after a delay
         const currentEnemy = turnOrder[currentTurn];
         if (currentEnemy && enemiesState.some(enemy => enemy.name === currentEnemy.name)) {
             if (currentEnemy.health <= 0) {
-                // Skip turn if the enemy is dead
                 setCurrentTurn((currentTurn + 1) % turnOrder.length);
-                return; // Exit early to prevent further execution
+                return; 
             }
 
             const enemy = turnOrder[currentTurn];
@@ -171,7 +164,7 @@ export const BattleScreen = () => {
             
             const attackTimeout = setTimeout(() => {
                 handleAttack(enemy.name, randomAbility.name, randomTarget.id);
-            }, 2000); // 1 second delay
+            }, 2000); 
 
             return () => clearTimeout(attackTimeout);
         
@@ -180,20 +173,17 @@ export const BattleScreen = () => {
 
     const handleAttack = (attackerName, attackName, targetId) => {
         console.log('handleAttack called with:', { attackerName, attackName, targetId });
-        // Find the attacker
         const attacker = turnOrder.find(character => character.name === attackerName);
         if (!attacker || attacker.health <= 0) {
             return; 
         }
     
-        // Find the target enemy using the targetId
         const target = turnOrder.find(enemy => enemy.id === targetId);
         if (!target) {
             console.error('Invalid target:', targetId);
             return;
         }
     
-        // Get the ability used for the attack
         const ability = attacker.abilities.find(ability => ability.name === attackName);
         if (!ability) {
             console.error('Invalid ability:', attackName);
@@ -201,25 +191,20 @@ export const BattleScreen = () => {
         }
     
         if (ability.damage) {
-            // Log the attack in the battle log
             setBattleLog(prevLog => [
                 ...prevLog,
                 `${attacker.name} used ${attackName} on ${target.name} for ${ability.damage} damage`
             ]);
 
-            // Reduce target's health
             target.health -= ability.damage;
         } else if (ability.heal) {
-            // Calculate the actual heal amount
             const healAmount = Math.min(ability.heal, target.stats.HP - target.health);
             
-            // Log the heal in the battle log
             setBattleLog(prevLog => [
                 ...prevLog,
                 `${attacker.name} used ${attackName} on ${target.name} and healed for ${healAmount} HP`
             ]);
     
-            // Increase target's health, ensuring it does not exceed max HP
             target.health = Math.min(target.health + healAmount, target.stats.HP);
         }
         const imageName = attackImages[attackName];
@@ -227,14 +212,12 @@ export const BattleScreen = () => {
             console.log('Image name for attack:', imageName);
             setAttackImage({ name: imageName, x: target.x, y: target.y });
 
-            // Hide the image after 1 second
             setTimeout(() => {
                 setAttackImage(null);
             }, 1000);
         } else {
             console.error('No image found for attack:', attackName);
         }
-        // Check if the battle is over
         const allCharactersDead = charactersState.every(character => character.health <= 0);
         const allEnemiesDead = enemiesState.every(enemy => enemy.health <= 0);
     
@@ -261,7 +244,6 @@ export const BattleScreen = () => {
             return;
         }
     
-        // Move to the next turn
         const nextTurn = (currentTurn + 1) % turnOrder.length;
         setCurrentTurn(nextTurn);
     };
@@ -346,7 +328,6 @@ export const BattleScene = class extends Phaser.Scene {
     }
 
     preload() {
-        // add in correct items to load
         this.load.image('skeleton', '../src/assets/enemySprite/skeleton.png');
         this.load.image('vampirate', '../src/assets/enemySprite/vampirate.png');
         this.load.image('iceElf', '../src/assets/enemySprite/iceElf.png');
@@ -403,7 +384,6 @@ export const BattleScene = class extends Phaser.Scene {
 
         const tileset = tilemap.addTilesetImage("32x32 Dungeon", "tiles");
 
-        // Create layers using layer names
         const floorLayer = tilemap.createLayer('Floor', tileset, 0, 0);
         const wallLayer = tilemap.createLayer('Walls', tileset, 0, 0);
         const wallsidesLayer = tilemap.createLayer('Side Walls and Pillars', tileset, 0, 0);
@@ -412,7 +392,6 @@ export const BattleScene = class extends Phaser.Scene {
 
         
 
-        // Player sprite
         const sprites = {
             baileigh: this.add.sprite(0, 0, 'baileigh').setScale(2),
             colton: this.add.sprite(0, 0, 'colton').setScale(2),
@@ -423,9 +402,9 @@ export const BattleScene = class extends Phaser.Scene {
         const enemySprite = [];
 
         const enemyPositions = [
-            { x: 8, y: 10 }, // Position for the first enemy
-            { x: 5, y: 13 }, // Position for the second enemy
-            { x: 5, y: 7 }, // Position for the third enemy
+            { x: 8, y: 10 }, 
+            { x: 5, y: 13 }, 
+            { x: 5, y: 7 }, 
         ];
 
         const createEnemy = (spriteKey, health, xp, count = 1) => {
@@ -433,8 +412,8 @@ export const BattleScene = class extends Phaser.Scene {
                 console.log(`Creating enemy: ${spriteKey} ${i + 1}`);
                 const sprite = this.add.sprite(0, 0, spriteKey).setScale(2.5);
                 enemySprite.push(sprite);
-                sprite.id = `${spriteKey}_${i}`; //for assigning a unique id to each enemy
-                sprite.name = `${spriteKey.charAt(0).toUpperCase() + spriteKey.slice(1)} ${i + 1}`; // Name like "Skeleton 1", "Skeleton 2", etc.
+                sprite.id = `${spriteKey}_${i}`; 
+                sprite.name = `${spriteKey.charAt(0).toUpperCase() + spriteKey.slice(1)} ${i + 1}`; 
                 sprite.health = health;
                 sprite.xp = xp;
                 sprite.x = enemyPositions[i].x;
@@ -457,13 +436,11 @@ export const BattleScene = class extends Phaser.Scene {
         } else if (enemyId === 'dragon') {
             createEnemy('dragon', 1500, 50, 1);
         } else if (this.textures.exists(enemyId)) {
-            createEnemy(enemyId, 100); // Default health for specific enemy
+            createEnemy(enemyId, 100); 
         } else {
-            console.error(`Enemy ID "${enemyId}" does not exist!`); // Handle invalid enemyId
+            console.error(`Enemy ID "${enemyId}" does not exist!`); 
         }
         
-
-        // Creates tilemap
         const gridEngineConfig = {
             characters: [
                 {
@@ -494,7 +471,7 @@ export const BattleScene = class extends Phaser.Scene {
         };
         enemySprite.forEach((sprite, index) => {
             gridEngineConfig.characters.push({
-                id: `enemy${index + 1}`, // Unique ID for each enemy
+                id: `enemy${index + 1}`, 
                 sprite: sprite,
                 startPosition: enemyPositions[index],
                 offsetY: -4,

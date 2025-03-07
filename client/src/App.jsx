@@ -3,9 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 import TitleScreen from './pages/TitleScreen/TitleScreen'
 import StartMenu from './pages/StartMenu/StartMenu'
-// import BattleScreen from './pages/BattleScreen/BattleScreen'
 import PartyMenu from './pages/PartyMenu/PartyMenu'
-// import WorldScene from './pages/WorldPage/WorldPage'
 import DragonRoom from './pages/DragonRoom/DragonRoom'
 
 

@@ -7,9 +7,9 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
 
     const handleAttack = (characterName, attackName) => {
         if (onAttack && selectedTarget) {
-            onAttack(characterName, attackName, selectedTarget); // Trigger attack event
-            setSelectedTarget(null); // Reset target after attack
-            setSelectedAbility(null); // Reset ability after attack
+            onAttack(characterName, attackName, selectedTarget); 
+            setSelectedTarget(null); 
+            setSelectedAbility(null); 
         }
     };
 

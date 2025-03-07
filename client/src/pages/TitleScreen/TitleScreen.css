@@ -30,7 +30,6 @@ body {
     left: -300px;
 }
 
-/* Media Queries */
 
 @media (max-width: 1024px) {
     .title-screen button {
