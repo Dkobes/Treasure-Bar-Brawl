@@ -132,9 +132,18 @@ export const BattleScreen = () => {
     }, [enemyId]);
 
     useEffect(() => {
-        // Determine turn order based on speed
-        const allCharacters = [...charactersState, ...enemiesState].filter(character => character.health > 0);;
-        allCharacters.sort((a, b) => b.stats.Speed - a.stats.Speed);
+        // Determine turn order based on speed and a random roll
+        const allCharacters = [...charactersState, ...enemiesState];
+    
+        allCharacters.forEach(character => {
+            character.initiative = character.stats.Speed + Math.floor(Math.random() * 100) + 1; // Random roll (1-100)
+        });
+    
+        // Sort based on initiative
+        allCharacters.sort((a, b) => b.initiative - a.initiative);
+    
+        console.log("Turn Order:", allCharacters.map(char => ({ name: char.name, initiative: char.initiative })));
+    
         setTurnOrder(allCharacters);
     }, [enemiesState, charactersState]);
 
