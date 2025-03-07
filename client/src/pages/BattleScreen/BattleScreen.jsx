@@ -182,20 +182,6 @@ export const BattleScreen = () => {
                 ...prevLog,
                 `${attacker.name} used ${attackName} on ${target.name} for ${ability.damage} damage`
             ]);
-    
-
-            const imageName = attackImages[attackName];
-            if (imageName) {
-                console.log('Image name for attack:', imageName);
-                setAttackImage({ name: imageName, x: target.x, y: target.y });
-    
-                // Hide the image after 1 second
-                setTimeout(() => {
-                    setAttackImage(null);
-                }, 1000);
-            } else {
-                console.error('No image found for attack:', attackName);
-            }
 
             // Reduce target's health
             target.health -= ability.damage;
@@ -212,7 +198,18 @@ export const BattleScreen = () => {
             // Increase target's health, ensuring it does not exceed max HP
             target.health = Math.min(target.health + healAmount, target.stats.HP);
         }
-    
+        const imageName = attackImages[attackName];
+        if (imageName) {
+            console.log('Image name for attack:', imageName);
+            setAttackImage({ name: imageName, x: target.x, y: target.y });
+
+            // Hide the image after 1 second
+            setTimeout(() => {
+                setAttackImage(null);
+            }, 1000);
+        } else {
+            console.error('No image found for attack:', attackName);
+        }
         // Check if the battle is over
         const allCharactersDead = charactersState.every(character => character.health <= 0);
         const allEnemiesDead = enemiesState.every(enemy => enemy.health <= 0);
