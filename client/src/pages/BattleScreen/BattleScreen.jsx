@@ -151,7 +151,7 @@ export const BattleScreen = () => {
 
             return () => clearTimeout(attackTimeout);
         }
-    }, [currentTurn]);
+    }, [currentTurn, turnOrder]);
 
     const handleAttack = (attackerName, attackName, targetId) => {
         console.log('handleAttack called with:', { attackerName, attackName, targetId });
@@ -391,42 +391,6 @@ export const BattleScene = class extends Phaser.Scene {
             colton: this.add.sprite(0, 0, 'colton').setScale(2),
             danny: this.add.sprite(0, 0, 'danny').setScale(2),
             tyler: this.add.sprite(0, 0, 'tyler').setScale(2),
-        };
-
-        const characterLevels = {
-            // these are just placeholders for now, will be updated with actual values
-            baileigh: [
-                { level: 1, maxHealth: 150 },
-                { level: 2, maxHealth: 200 },
-                { level: 3, maxHealth: 250 },
-                { level: 4, maxHealth: 300 },
-                { level: 5, maxHealth: 350 },
-                { level: 6, maxHealth: 400 }
-            ],
-            colton: [
-                { level: 1, maxHealth: 150 },
-                { level: 2, maxHealth: 200 },
-                { level: 3, maxHealth: 250 },
-                { level: 4, maxHealth: 300 },
-                { level: 5, maxHealth: 350 },
-                { level: 6, maxHealth: 400 }
-            ],
-            danny: [
-                { level: 1, maxHealth: 150 },
-                { level: 2, maxHealth: 200 },
-                { level: 3, maxHealth: 250 },
-                { level: 4, maxHealth: 300 },
-                { level: 5, maxHealth: 350 },
-                { level: 6, maxHealth: 400 }
-            ],
-            tyler: [
-                { level: 1, maxHealth: 150 },
-                { level: 2, maxHealth: 200 },
-                { level: 3, maxHealth: 250 },
-                { level: 4, maxHealth: 300 },
-                { level: 5, maxHealth: 350 },
-                { level: 6, maxHealth: 400 }
-            ],
         };
 
         const enemySprite = [];
