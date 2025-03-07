@@ -132,24 +132,19 @@ export const BattleScreen = () => {
     }, [enemyId]);
 
     useEffect(() => {
-        // Determine turn order based on speed and a random roll
-        const allCharacters = [...charactersState, ...enemiesState];
-    
-        allCharacters.forEach(character => {
-            character.initiative = character.stats.Speed + Math.floor(Math.random() * 100) + 1; // Random roll (1-100)
-        });
-    
-        // Sort based on initiative
-        allCharacters.sort((a, b) => b.initiative - a.initiative);
-    
-        console.log("Turn Order:", allCharacters.map(char => ({ name: char.name, initiative: char.initiative })));
-    
+        // Determine turn order based on speed
+        const allCharacters = [...charactersState, ...enemiesState].filter(character => character.health > 0);;
+        allCharacters.sort((a, b) => b.stats.Speed - a.stats.Speed);
         setTurnOrder(allCharacters);
     }, [enemiesState, charactersState]);
 
     useEffect(() => {
         // If it's an enemy's turn, make them attack after a delay
         if (enemiesState.some(enemy => enemy.name === turnOrder[currentTurn]?.name)) {
+            if (turnOrder[currentTurn].health <= 0) {
+                // Skip turn if the enemy is dead
+                setCurrentTurn((currentTurn + 1) % turnOrder.length);
+            } else {
             const enemy = turnOrder[currentTurn];
             const randomAbility = enemy.abilities[Math.floor(Math.random() * enemy.abilities.length)];
             const randomTarget = randomAbility.heal ? enemy : charactersState[Math.floor(Math.random() * charactersState.length)];
@@ -160,15 +155,15 @@ export const BattleScreen = () => {
 
             return () => clearTimeout(attackTimeout);
         }
+    }
     }, [currentTurn, turnOrder]);
 
     const handleAttack = (attackerName, attackName, targetId) => {
         console.log('handleAttack called with:', { attackerName, attackName, targetId });
         // Find the attacker
         const attacker = turnOrder.find(character => character.name === attackerName);
-        if (!attacker) {
-            console.error('Invalid attacker:', attackerName);
-            return;
+        if (!attacker || attacker.health <= 0) {
+            return; 
         }
     
         // Find the target enemy using the targetId
