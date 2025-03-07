@@ -244,7 +244,7 @@ export const BattleScreen = () => {
 
     const handleLevelUp = (characters, enemies) => {
         const xpThresholds = [15, 45, 90, 150, 180, 230];
-        let enemyXP = enemies.reduce((acc, enemy) => acc + enemy.xp, 0);
+        let enemyXP = enemies.reduce((acc, enemy) => acc + enemy.experience, 0);
         setXpGain(enemyXP);
 
         const levelUp = (character) => {
@@ -328,7 +328,7 @@ export const BattleScene = class extends Phaser.Scene {
         this.load.image('iceElf', '../src/assets/enemySprite/iceElf.png');
         this.load.image('iceBear', '../src/assets/enemySprite/iceBear.png');
         this.load.image('grandma', '../src/assets/enemySprite/grandma.png');
-        this.load.image('kitten', '../src/assets/enemySprite/kitten.png');
+        this.load.image('kitty', '../src/assets/enemySprite/kitten.png');
         this.load.image('stan', '../src/assets/enemySprite/battleStan.png');
         this.load.image('dragon', '../src/assets/enemySprite/battleDragon.png');
         this.load.image('baileigh', '../src/assets/playerSprite/baileigh.png');
@@ -427,7 +427,7 @@ export const BattleScene = class extends Phaser.Scene {
             createEnemy('iceElf', 300, 15, 2);
         } else if (enemyId === 'grandma') {
             createEnemy('grandma', 500, 20, 1);
-            createEnemy('kitten', 200, 20, 2);
+            createEnemy('kitty', 200, 20, 2);
         } else if (enemyId === 'stan') {
             createEnemy('stan', 1000, 30, 1);
         } else if (enemyId === 'dragon') {
