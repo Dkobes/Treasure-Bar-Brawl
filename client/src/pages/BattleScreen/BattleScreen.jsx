@@ -299,7 +299,13 @@ export const BattleScreen = () => {
             />
             {attackImage && (
                 <div className="attack-animation">
-                  <img src={`/assets/attackAnimation/player/${attackImage.name}.png`} alt={attackImage.name} style={{ position: 'absolute', left: `${attackImage.x}px`, top: `${attackImage.y}px` }} />
+                  <img src={`../src/assets/attackAnimation/player/${attackImage.name}.png`} alt={attackImage.name} style={{
+                position: 'absolute',
+                left: `${(window.innerWidth - 100) / 2}px`, 
+                top: `${(window.innerHeight - 100) / 2.5}px`, 
+                zIndex: 100, 
+                transform: 'scale(2)'
+            }} />
                 </div>
             )}
             {battleCompleted && (
