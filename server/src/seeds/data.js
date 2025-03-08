@@ -11,9 +11,9 @@ const tyler = {
         HP: 150,
     },
     abilities: [
-        { name: "Prayer", heal: 100, cooldown: 0.5, level: 1 },
-        { name: "Holy Bolt", damage: 100, cooldown: 1, level: 3 },
-        { name: "Holy Blade", damage: 200, cooldown: 2, level: 5 }
+        { name: "Prayer", heal: 100, level: 1 },
+        { name: "Holy Bolt", damage: 100, level: 3 },
+        { name: "Holy Blade", damage: 200, level: 5 }
     ]
 };
 
@@ -30,9 +30,9 @@ const danny = {
         HP: 150,
     },
     abilities: [
-        { name: "Sneak Attack", damage: 50, cooldown: 0.5, level: 1 },
-        { name: "Poison", damage: 100, cooldown: 1, level: 3 },
-        { name: "Shadow Strike", damage: 200, cooldown: 2, level: 5 }
+        { name: "Sneak Attack", damage: 50, level: 1 },
+        { name: "Poison", damage: 100, level: 3 },
+        { name: "Shadow Strike", damage: 200, level: 5 }
     ]
 };
 
@@ -49,9 +49,9 @@ const baileigh = {
         HP: 150,
     },
     abilities: [
-        { name: "Eldritch Blast", damage: 50, cooldown: 0.5, level: 1 },
-        { name: "Shatter", damage: 100, cooldown: 1, level: 3 },
-        { name: "Shadow Curse", damage: 200, cooldown: 2, level: 5 }
+        { name: "Eldritch Blast", damage: 50, level: 1 },
+        { name: "Shatter", damage: 100, level: 3 },
+        { name: "Shadow Curse", damage: 200, level: 5 }
     ]
 };
 
@@ -68,9 +68,9 @@ const colton = {
         HP: 150,
     },
     abilities: [
-        { name: "Fire Bolt", damage: 50, cooldown: 0.5, level: 1 },
-        { name: "Fireball", damage: 100, cooldown: 1, level: 3 },
-        { name: "Meteor Shower", damage: 200, cooldown: 2, level: 5 }
+        { name: "Fire Bolt", damage: 50, level: 1 },
+        { name: "Fireball", damage: 100, level: 3 },
+        { name: "Meteor Shower", damage: 200, level: 5 }
     ]
 };
 
@@ -87,8 +87,8 @@ const skeleton = {
     },
     experience: 5,
     abilities: [
-        { name: "Attack", damage: 50, cooldown: 0.5 },
-        { name: "Femur Fling", damage: 100, cooldown: 2 }
+        { name: "Attack", damage: 50 },
+        { name: "Femur Fling", damage: 100 }
     ],
     alive: true
 };
@@ -106,9 +106,9 @@ const vampirate = {
     },
     experience: 10,
     abilities: [
-        { name: "Attack", damage: 50, cooldown: 0.5 },
-        { name: "Bite", damage: 100, heal: 25, cooldown: 1 },
-        { name: "Hook", damage: 150, cooldown: 2 }
+        { name: "Attack", damage: 25 },
+        { name: "Bite", damage: 75},
+        { name: "Hook", damage: 100}
     ],
     alive: true
 };
@@ -126,8 +126,8 @@ const iceElf = {
     },
     experience: 15,
     abilities: [
-        { name: "Attack", damage: 50, cooldown: 0.5 },
-        { name: "Ice Arrow", damage: 100, cooldown: 1 },
+        { name: "Attack", damage: 50},
+        { name: "Ice Arrow", damage: 100},
     ],
     alive: true
 };
@@ -164,8 +164,8 @@ const grandma = {
     },
     experience: 20,
     abilities: [
-        { name: "Attack", damage: 50, cooldown: 0.5 },
-        { name: "Eat More", damage: 100, cooldown: 1 },
+        { name: "Attack", damage: 10},
+        { name: "Eat More", damage: 200},
     ],
     alive: true
 };
@@ -183,8 +183,8 @@ const kitty = {
     },
     experience: 20,
     abilities: [
-        { name: "Attack", damage: 50, cooldown: 0.5 },
-        { name: "Feline Frenzy", damage: 100, cooldown: 2 },
+        { name: "Attack", damage: 50},
+        { name: "Feline Frenzy", damage: 100},
     ],
     alive: true
 };
@@ -198,14 +198,14 @@ const stanTheSorcerer = {
         Defense: 10,
         Resist: 10,
         Magic: 10,
-        HP: 400,
+        HP: 1000,
     },
-    experience: 30,
+    experience: 100,
     abilities: [
-        { name: "JavaScript Slash", damage: 50, cooldown: 0.5 },
-        { name: "Typescript Tornado", damage: 100, cooldown: 1 },
-        { name: "Energy Break", heal: 50, cooldown: 1 },
-        { name: "MERNder", damage: 300, cooldown: 3 },
+        { name: "JavaScript Slash", damage: 100 },
+        { name: "Typescript Tornado", damage: 150},
+        { name: "Energy Break", heal: 300 },
+        { name: "MERNder", damage: 300 },
     ],
     alive: true
 };
@@ -219,14 +219,14 @@ const dragon = {
         Defense: 10,
         Resist: 10,
         Magic: 10,
-        HP: 500,
+        HP: 1500,
     },
-    experience: 50,
+    experience: 500,
     abilities: [
-        { name: "Fire Breath", damage: 50, cooldown: 0.5 },
-        { name: "Amlug Roar", damage: 100, cooldown: 1 },
-        { name: "Coin Fling", damage: 50, cooldown: 1 },
-        { name: "Dragon's Fury", damage: 200, cooldown: 2 },
+        { name: "Fire Breath", damage: 50},
+        { name: "Amlug Roar", damage: 100},
+        { name: "Coin Fling", damage: 10},
+        { name: "Dragon's Fury", damage: 300},
     ],
     alive: true
 };
