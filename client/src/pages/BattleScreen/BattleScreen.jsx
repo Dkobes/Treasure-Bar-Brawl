@@ -160,7 +160,8 @@ export const BattleScreen = () => {
 
             const enemy = turnOrder[currentTurn];
             const randomAbility = enemy.abilities[Math.floor(Math.random() * enemy.abilities.length)];
-            const randomTarget = randomAbility.heal ? enemy : charactersState[Math.floor(Math.random() * charactersState.length)];
+            const characters = charactersState.filter(character => character.health > 0);
+            const randomTarget = randomAbility.heal ? enemy : characters[Math.floor(Math.random() * characters.length)];
             
             const attackTimeout = setTimeout(() => {
                 handleAttack(enemy.name, randomAbility.name, randomTarget.id);
@@ -196,7 +197,7 @@ export const BattleScreen = () => {
                 `${attacker.name} used ${attackName} on ${target.name} for ${ability.damage} damage`
             ]);
 
-            target.health -= ability.damage;
+            target.health = Math.max(target.health - ability.damage, 0);
         } else if (ability.heal) {
             const healAmount = Math.min(ability.heal, target.stats.HP - target.health);
             
