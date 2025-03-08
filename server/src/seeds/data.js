@@ -122,7 +122,7 @@ const iceElf = {
         Defense: 10,
         Resist: 10,
         Magic: 10,
-        HP: 200
+        HP: 300
     },
     experience: 15,
     abilities: [
@@ -141,7 +141,7 @@ const iceBear = {
         Defense: 10,
         Resist: 10,
         Magic: 10,
-        HP: 250,
+        HP: 350,
     },
     experience: 15,
     abilities: [
@@ -160,11 +160,11 @@ const grandma = {
         Defense: 10,
         Resist: 10,
         Magic: 10,
-        HP: 300,
+        HP: 500,
     },
     experience: 20,
     abilities: [
-        { name: "Attack", damage: 10},
+        { name: "Attack", damage: 25},
         { name: "Eat More", damage: 200},
     ],
     alive: true
@@ -179,7 +179,7 @@ const kitty = {
         Defense: 10,
         Resist: 10,
         Magic: 10,
-        HP: 250,
+        HP: 200,
     },
     experience: 20,
     abilities: [
