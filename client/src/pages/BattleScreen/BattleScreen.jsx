@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GridEngine } from 'grid-engine';
 import auth from '../../utils/auth.js';
@@ -20,6 +20,8 @@ export const BattleScreen = () => {
     const [xpGain, setXpGain] = useState(0);
     const [attackImage, setAttackImage] = useState(null);
     const username = localStorage.getItem("username");
+
+    const phaserGameRef = useRef(null); // Create a ref to hold the Phaser game instance
 
     useEffect(() => {
         const getParty = async () => {
@@ -111,11 +113,11 @@ export const BattleScreen = () => {
             scene: [BattleScene],
         };
 
-        const game = new Phaser.Game(config);
+        phaserGameRef.current = new Phaser.Game(config);
 
-        game.scene.start('BattleScene', { enemyId, enemies, setEnemiesState });
+        phaserGameRef.current.scene.start('BattleScene', { enemyId, enemies, setEnemiesState });
 
-        return () => game.destroy(true);
+        return () => phaserGameRef.current.destroy(true);
     }, [enemies]);
 
     useEffect(() => {
@@ -171,6 +173,29 @@ export const BattleScreen = () => {
         
     }
     }, [currentTurn, turnOrder]);
+    const handleCharacterDeath = (character) => {
+        const sprite = phaserGameRef.current.scene.getScene('BattleScene').children.getByName(character.id); 
+        if (sprite) {
+            // Apply death effect (e.g., rotate or scale down)
+            sprite.setAngle(90); // Rotate the sprite to indicate death
+            sprite.setAlpha(0.5); // Make the sprite semi-transparent
+            console.log(`Character ${character.id} is dead. Visual effect applied.`);
+        } else {
+            console.log(`Sprite not found for character: ${character.id}`);
+        }
+    };
+    
+    const handleEnemyDeath = (enemy) => {
+        const sprite = phaserGameRef.current.scene.getScene('BattleScene').children.getByName(enemy.id); 
+        if (sprite) {
+            // Apply death effect (e.g., rotate or scale down)
+            sprite.setAngle(90); // Rotate the sprite to indicate death
+            sprite.setAlpha(0.5); // Make the sprite semi-transparent
+            console.log(`Enemy ${enemy.id} is dead. Visual effect applied.`);
+        } else {
+            console.log(`Sprite not found for enemy: ${enemy.id}`);
+        }
+    };
 
     const handleAttack = (attackerId, attackName, targetId) => {
         console.log('handleAttack called with:', { attackerId, attackName, targetId });
@@ -219,6 +244,17 @@ export const BattleScreen = () => {
         } else {
             console.error('No image found for attack:', attackName);
         }
+
+        if (target.health <= 0) {
+            if (target.type === 'enemy') {
+                handleEnemyDeath(target); // Call the death handler for enemies
+                
+            } else {
+                handleCharacterDeath(target); // Call the death handler for characters
+                
+            }
+        }
+        
         const allCharactersDead = charactersState.every(character => character.health <= 0);
         const allEnemiesDead = enemiesState.every(enemy => enemy.health <= 0);
     
@@ -248,6 +284,11 @@ export const BattleScreen = () => {
         const nextTurn = (currentTurn + 1) % turnOrder.length;
         setCurrentTurn(nextTurn);
     };
+   
+   
+    
+    useEffect(() => {
+    }, [charactersState, enemiesState]); 
 
     const handleLevelUp = (characters, enemies) => {
         const xpThresholds = [15, 45, 90, 150, 180, 230];
@@ -300,7 +341,9 @@ export const BattleScreen = () => {
                 onAttack={handleAttack}
                 battleLog={battleLog}
                 currentTurn={turnOrder[currentTurn]?.name}
+            
             />
+
             {attackImage && (
                 <div className="attack-animation">
                   <img src={`../src/assets/attackAnimation/${attackImage.isEnemy ? 'enemy' : 'player'}/${attackImage.name}.png`} alt={attackImage.name} style={{
@@ -408,6 +451,15 @@ export const BattleScene = class extends Phaser.Scene {
             { x: 5, y: 7 }, 
         ];
 
+        const removeEnemySprite = (sprite) => {
+            if (sprite) {
+                sprite.destroy(); // This removes the sprite from the scene
+                console.log(`Destroying enemy sprite: ${sprite.name}`);
+            } else {
+                console.log(`Sprite not found for destruction.`);
+            }
+        };
+
         const createEnemy = (spriteKey, health, xp, count = 1) => {
             for (let i = 0; i < count; i++) {
                 console.log(`Creating enemy: ${spriteKey} ${i + 1}`);
@@ -419,6 +471,10 @@ export const BattleScene = class extends Phaser.Scene {
                 sprite.xp = xp;
                 sprite.x = enemyPositions[i].x;
                 sprite.y = enemyPositions[i].y;
+
+                if (sprite.health <= 0) {
+                    removeEnemySprite(sprite);
+                }
             }
         };
 
