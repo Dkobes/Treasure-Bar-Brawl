@@ -174,27 +174,16 @@ export const BattleScreen = () => {
     }
     }, [currentTurn, turnOrder]);
 
-    const handleCharacterDeath = (character) => {
-        const sprite = phaserGameRef.current.scene.getScene('BattleScene').children.getByName(character.id); 
+    const handleDeath = (target) => {
+        console.log('handleDeath called with target:', target); 
+        const sprite = phaserGameRef.current.scene.getScene('BattleScene').children.getByName(target.id); 
         if (sprite) {
             // Apply death effect (e.g., rotate or scale down)
             sprite.setAngle(90); // Rotate the sprite to indicate death
             sprite.setAlpha(0.5); // Make the sprite semi-transparent
-            console.log(`Character ${character.id} is dead. Visual effect applied.`);
+            console.log(`${target.name} is dead. Visual effect applied.`);
         } else {
-            console.log(`Sprite not found for character: ${character.id}`);
-        }
-    };
-    
-    const handleEnemyDeath = (enemy) => {
-        const sprite = phaserGameRef.current.scene.getScene('BattleScene').children.getByName(enemy.id); 
-        if (sprite) {
-            // Apply death effect (e.g., rotate or scale down)
-            sprite.setAngle(90); // Rotate the sprite to indicate death
-            sprite.setAlpha(0.5); // Make the sprite semi-transparent
-            console.log(`Enemy ${enemy.id} is dead. Visual effect applied.`);
-        } else {
-            console.log(`Sprite not found for enemy: ${enemy.id}`);
+            console.log(`Sprite not found for ${target.name}`);
         }
     };
 
@@ -247,13 +236,7 @@ export const BattleScreen = () => {
         }
 
         if (target.health <= 0) {
-            if (target.type === 'enemy') {
-                handleEnemyDeath(target); // Call the death handler for enemies
-                
-            } else {
-                handleCharacterDeath(target); // Call the death handler for characters
-                
-            }
+                handleDeath(target); // Call the death handler for enemies   
         }
         
         const allCharactersDead = charactersState.every(character => character.health <= 0);
@@ -472,6 +455,7 @@ export const BattleScene = class extends Phaser.Scene {
                 sprite.xp = xp;
                 sprite.x = enemyPositions[i].x;
                 sprite.y = enemyPositions[i].y;
+                sprite.setName(sprite.id); 
 
                 if (sprite.health <= 0) {
                     removeEnemySprite(sprite);
