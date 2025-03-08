@@ -177,6 +177,8 @@ export const BattleScreen = () => {
     const handleDeath = (target) => {
         console.log('handleDeath called with target:', target); 
         const sprite = phaserGameRef.current.scene.getScene('BattleScene').children.getByName(target.id); 
+
+        
         if (sprite) {
             // Apply death effect (e.g., rotate or scale down)
             sprite.setAngle(90); // Rotate the sprite to indicate death
@@ -421,11 +423,12 @@ export const BattleScene = class extends Phaser.Scene {
         
 
         const sprites = {
-            baileigh: this.add.sprite(0, 0, 'baileigh').setScale(2),
-            colton: this.add.sprite(0, 0, 'colton').setScale(2),
-            danny: this.add.sprite(0, 0, 'danny').setScale(2),
-            tyler: this.add.sprite(0, 0, 'tyler').setScale(2),
+            baileigh: this.add.sprite(0, 0, 'baileigh').setScale(2).setName('baileigh'),
+            colton: this.add.sprite(0, 0, 'colton').setScale(2).setName('colton'),
+            danny: this.add.sprite(0, 0, 'danny').setScale(2).setName('danny'),
+            tyler: this.add.sprite(0, 0, 'tyler').setScale(2).setName('tyler'),
         };
+        
 
         const enemySprite = [];
 
