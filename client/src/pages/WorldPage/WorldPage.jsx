@@ -84,7 +84,9 @@ const WorldScene = class extends Phaser.Scene {
 
         this.cameras.main.setScroll(-275, -175);
         this.txt = this.add.text(80, 257, 'Press space to battle', { font: '"Press Start 2P"', color: '#000000' });
-        
+        this.boardTxt = this.add.text(-5, 257, 'An old adventurers board, a relic of journeys long since taken', { font: '"Press Start 2P"', color: '#ffffff' });
+        this.boardTxt.setVisible(false);
+
         const username = localStorage.getItem("username");
         const getEnemies = async () => {
             try {
@@ -178,6 +180,16 @@ const WorldScene = class extends Phaser.Scene {
             this.gridEngine.move("player", "down");
         }
 
+        if (pos === '{"x":5,"y":0}') {
+            this.boardTxt.setText('An old adventurers board, a relic of journeys long since taken');
+            this.boardTxt.setVisible(true);
+        } else if (pos === '{"x":6,"y":0}') {
+            this.boardTxt.setText('An old adventurers board, a relic of journeys long since taken');
+            this.boardTxt.setVisible(true);
+        } else {
+            this.boardTxt.setVisible(false);
+        }
+
         if (pos === '{"x":1,"y":3}' && this.skeleton.state === 'ALIVE') {
             this.txt.setColor('#ffffff');
         } else if (pos === '{"x":3,"y":3}' && this.vampirate.state === 'ALIVE') {
@@ -201,7 +213,7 @@ const WorldScene = class extends Phaser.Scene {
             this.txt.setColor('#ffffff');
         } else {
             this.txt.setColor('#000000');
-        }
+        } 
 
             this.cursors.space.once("down", () => {
                 const selectedEnemyId = this.getSelectedEnemy();
