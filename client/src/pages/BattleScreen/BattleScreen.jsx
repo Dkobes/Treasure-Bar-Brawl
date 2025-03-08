@@ -386,7 +386,7 @@ export const BattleScene = class extends Phaser.Scene {
         this.load.image('danny', '../src/assets/playerSprite/danny.png');
         this.load.image('tyler', '../src/assets/playerSprite/tyler.png');
         this.load.image('tiles', '../src/assets/images/dungeon-tileset.png');
-        this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/dungeon.json');
+        this.load.tilemapTiledJSON('tilemap', '../src/assets/maps/Dungeon.json');
         this.load.image('amlugRoar', '../src/assets/attackAnimation/player/amlugRoar.png');
         this.load.image('attack', '../src/assets/attackAnimation/player/attack.png');
         this.load.image('bite', '../src/assets/attackAnimation/player/bite.png');
