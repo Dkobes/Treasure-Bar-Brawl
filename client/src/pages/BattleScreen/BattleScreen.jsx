@@ -139,7 +139,7 @@ export const BattleScreen = () => {
     
         allCharacters.sort((a, b) => b.initiative - a.initiative);
     
-        console.log("Turn Order:", allCharacters.map(char => ({ name: char.name, initiative: char.initiative })));
+        console.log("Turn Order:", allCharacters.map(char => ({ name: char.id, initiative: char.initiative })));
     
         setTurnOrder(allCharacters);
     }, [enemiesState, charactersState]);
@@ -164,7 +164,7 @@ export const BattleScreen = () => {
             const randomTarget = randomAbility.heal ? enemy : characters[Math.floor(Math.random() * characters.length)];
             
             const attackTimeout = setTimeout(() => {
-                handleAttack(enemy.name, randomAbility.name, randomTarget.id);
+                handleAttack(enemy.id, randomAbility.name, randomTarget.id);
             }, 2000); 
 
             return () => clearTimeout(attackTimeout);
@@ -172,9 +172,9 @@ export const BattleScreen = () => {
     }
     }, [currentTurn, turnOrder]);
 
-    const handleAttack = (attackerName, attackName, targetId) => {
-        console.log('handleAttack called with:', { attackerName, attackName, targetId });
-        const attacker = turnOrder.find(character => character.name === attackerName);
+    const handleAttack = (attackerId, attackName, targetId) => {
+        console.log('handleAttack called with:', { attackerId, attackName, targetId });
+        const attacker = turnOrder.find(character => character.id === attackerId);
         if (!attacker || attacker.health <= 0) {
             return; 
         }
@@ -482,10 +482,10 @@ export const BattleScene = class extends Phaser.Scene {
         this.gridEngine.create(tilemap, gridEngineConfig);
 
         const createdEnemies = enemySprite.map((sprite, index) => ({
-            ...enemies.find(enemy => enemy.alias === sprite.id.split("_")[0]),
             id: sprite.id,
             name: sprite.name,
             health: sprite.health,
+            ...enemies.find(enemy => enemy.alias === sprite.id.split("_")[0]),
         }));
         console.log('createdEnemies:', createdEnemies);
         setEnemiesState(createdEnemies);

@@ -68,7 +68,7 @@ const BattleInterface = ({ characters, enemies, onAttack, battleLog, currentTurn
                                 {selectedAbility && (
                                     <button
                                         className='nes-btn is-warning'
-                                        onClick={() => handleAttack(character.name, selectedAbility.name)}
+                                        onClick={() => handleAttack(character.id, selectedAbility.name)}
                                     >
                                         Use {selectedAbility.name}
                                     </button>
