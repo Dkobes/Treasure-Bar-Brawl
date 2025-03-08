@@ -444,41 +444,43 @@ export const BattleScene = class extends Phaser.Scene {
             }
         };
 
-        const createEnemy = (spriteKey, health, xp, count = 1) => {
-            for (let i = 0; i < count; i++) {
-                console.log(`Creating enemy: ${spriteKey} ${i + 1}`);
-                const sprite = this.add.sprite(0, 0, spriteKey).setScale(2.5);
-                enemySprite.push(sprite);
-                sprite.id = `${spriteKey}_${i}`; 
-                sprite.name = `${spriteKey.charAt(0).toUpperCase() + spriteKey.slice(1)} ${i + 1}`; 
-                sprite.health = health;
-                sprite.xp = xp;
-                sprite.x = enemyPositions[i].x;
-                sprite.y = enemyPositions[i].y;
-                sprite.setName(sprite.id); 
+        const createEnemy = (spriteKey, count = 1) => {
+            const enemyData = enemies.find(enemy => enemy.alias === spriteKey);
 
-                if (sprite.health <= 0) {
-                    removeEnemySprite(sprite);
-                }
+            for (let i = 0; i < count; i++) {
+            console.log(`Creating enemy: ${spriteKey} ${i + 1}`);
+            const sprite = this.add.sprite(0, 0, spriteKey).setScale(2.5);
+            enemySprite.push(sprite);
+            sprite.id = `${spriteKey}_${i}`; 
+            sprite.name = `${spriteKey.charAt(0).toUpperCase() + spriteKey.slice(1)} ${i + 1}`; 
+            sprite.health = enemyData.stats.HP;
+            sprite.xp = enemyData.experience;
+            sprite.x = enemyPositions[i].x;
+            sprite.y = enemyPositions[i].y;
+            sprite.setName(sprite.id); 
+
+            if (sprite.health <= 0) {
+                removeEnemySprite(sprite);
+            }
             }
         };
 
         if (enemyId === 'skeleton') {
-            createEnemy('skeleton', 100, 5, 3);
+            createEnemy('skeleton', 3);
         } else if (enemyId === 'vampirate') {
-            createEnemy('vampirate', 200, 10, 3);
+            createEnemy('vampirate', 3);
         } else if (enemyId === 'iceElf') {
-            createEnemy('iceBear', 300, 15, 1);
-            createEnemy('iceElf', 300, 15, 2);
+            createEnemy('iceBear', 1);
+            createEnemy('iceElf', 2);
         } else if (enemyId === 'grandma') {
-            createEnemy('grandma', 500, 20, 1);
-            createEnemy('kitty', 200, 20, 2);
+            createEnemy('grandma', 1);
+            createEnemy('kitty', 2);
         } else if (enemyId === 'stan') {
-            createEnemy('stan', 1000, 30, 1);
+            createEnemy('stan', 1);
         } else if (enemyId === 'dragon') {
-            createEnemy('dragon', 1500, 50, 1);
+            createEnemy('dragon', 1);
         } else if (this.textures.exists(enemyId)) {
-            createEnemy(enemyId, 100); 
+            createEnemy(enemyId, 1); 
         } else {
             console.error(`Enemy ID "${enemyId}" does not exist!`); 
         }
