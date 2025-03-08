@@ -11,7 +11,7 @@ import { authenticateToken } from '../../middleware/auth.js';
 
 router.route('/').get(authenticateToken, getUsers).post(createUser);
 
-router.route('/:username').get(authenticateToken, getSingleUser);
+router.route('/:username').get(getSingleUser);
 
 router.route('/login').post(login);
 

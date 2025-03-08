@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import auth from '../../utils/auth';
 import "nes.css/css/nes.min.css";
 import './StartMenu.css';
@@ -15,10 +15,30 @@ const StartMenu = () => {
 
     const handleSignup = () => setShowSignup(true);
     const handleLogin = () => setShowLogin(true);
+    
+    const checkUsername = async () => {
+        try {
+            const response = await fetch(`/api/users/${username}`, {
+                'Content-Type': 'application/json',
+            });
+
+            if (response.ok) {
+                setMessage('That username is already taken');
+                setStyle({visibility: 'visible'});
+            } else if (!response.ok) {
+                setMessage('');
+                setStyle({visibility: 'hidden'});
+            }
+        } catch (error) {
+            console.error('Failed to fetch user:', error);
+        }
+    }
 
     const signUp = async () => {
         if (username && password !== '') {
             try {
+                checkUsername();
+
                 const response = await fetch('/api/users', {
                     method: 'POST',
                     headers: {
@@ -29,30 +49,24 @@ const StartMenu = () => {
 
                 const data = await response.json();
 
-                console.log('Character successfully created!');
-
                 auth.login(data.token);
-
-                setUsername('');
-                setPassword('');
-                setStyle({visibility: 'hidden'});
 
                 if (response.ok) {
                     localStorage.setItem('username', username);
-                    console.log('Successfully logged in!');
+                    console.log('User successfully created!');
                     Navigate('/world');
                 }
             } catch(err) {
                 console.error('Failed to create user: ', err);
             }
         } else if (!username && !password) {
-            setMessage('username and password');
+            setMessage('Please enter a username and password');
             setStyle({visibility: 'visible'});
         } else if (!username) {
-            setMessage('username');
+            setMessage('Please enter a username');
             setStyle({visibility: 'visible'});
         } else if (!password) {
-            setMessage('password');
+            setMessage('Please enter a password');
             setStyle({visibility: 'visible'});
         }
     }
@@ -77,7 +91,7 @@ const StartMenu = () => {
                 setStyle({visibility: 'hidden'});
 
                 if (!response.ok) {
-                    setMessage('a valid username and password');
+                    setMessage('Please enter a valid username and password');
                     setStyle({visibility: 'visible'})
                 }
 
@@ -90,13 +104,13 @@ const StartMenu = () => {
                 console.error('Failed to fetch user info: ', err);
             }
         } else if (!username && !password) {
-            setMessage('username and password');
+            setMessage('Please enter a username and password');
             setStyle({visibility: 'visible'});
         } else if (!username) {
-            setMessage('username');
+            setMessage('Please enter a username');
             setStyle({visibility: 'visible'});
         } else if (!password) {
-            setMessage('password');
+            setMessage('Please enter a password');
             setStyle({visibility: 'visible'});
         }
     }
@@ -115,7 +129,7 @@ const StartMenu = () => {
                 {showSignup && (
                     <div>
                         <p>Sign Up</p>
-                        <p style={style}>Please enter a {message}</p>
+                        <p style={style}>{message}</p>
                         <input
                             id='name_field'
                             className="nes-input"
@@ -141,7 +155,7 @@ const StartMenu = () => {
                 {showLogin && (
                     <div>
                         <p>Log In</p>
-                        <p style={style}>Please enter {message}</p>
+                        <p style={style}>{message}</p>
                         <input
                             className="nes-input"
                             name='username'
