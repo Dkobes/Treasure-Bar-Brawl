@@ -173,6 +173,7 @@ export const BattleScreen = () => {
         
     }
     }, [currentTurn, turnOrder]);
+
     const handleCharacterDeath = (character) => {
         const sprite = phaserGameRef.current.scene.getScene('BattleScene').children.getByName(character.id); 
         if (sprite) {
