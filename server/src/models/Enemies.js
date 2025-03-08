@@ -15,7 +15,6 @@ const abilitySchema = new Schema({
     name: { type: String, required: true },
     damage: { type: Number},
     heal: { type: Number },
-    cooldown: { type: Number, required: true }
 });
 
 // Define the schema for each character
