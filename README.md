@@ -2,7 +2,7 @@
 
 ![Title Screen](client/public/src/assets/images/titleScreen.png)
 ![Battle Screen Example](client/public/src/assets/images/battleScreenExample.png)
-![World Map Example](client\public\src\assets\images\worldMapExample.png)
+![World Map Example](client/public/src/assets/images/worldMapExample.png)
 
   # Table of Contents
   1. [Description](#description)
