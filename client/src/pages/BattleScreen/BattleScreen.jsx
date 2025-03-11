@@ -277,7 +277,7 @@ export const BattleScreen = () => {
     }, [charactersState, enemiesState]); 
 
     const handleLevelUp = (characters, enemies) => {
-        const xpThresholds = [15, 45, 90, 150, 180, 230];
+        const xpThresholds = [15, 45, 90, 150, 250, 750];
         let enemyXP = enemies.reduce((acc, enemy) => acc + enemy.experience, 0);
         setXpGain(enemyXP);
 
