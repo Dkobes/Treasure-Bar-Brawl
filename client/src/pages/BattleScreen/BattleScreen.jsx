@@ -79,7 +79,7 @@ export const BattleScreen = () => {
         "Maul": "maul",
         "MERNder": "MERNder",
         "Scratch": "scratch",
-        "TypeScript Tornado": "typescriptTornado",
+        "Typescript Tornado": "typescriptTornado",
         "Eldritch Blast": "eldritchBlast",
         "Fireball": "fireball",
         "Fire Bolt": "fireBolt",
