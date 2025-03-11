@@ -219,13 +219,13 @@ const dragon = {
         Defense: 10,
         Resist: 10,
         Magic: 10,
-        HP: 1500,
+        HP: 2000,
     },
     experience: 500,
     abilities: [
         { name: "Fire Breath", damage: 50},
         { name: "Amlug Roar", damage: 100},
-        { name: "Coin Fling", damage: 10},
+        { name: "Coin Fling", heal: 500},
         { name: "Dragon's Fury", damage: 300},
     ],
     alive: true
